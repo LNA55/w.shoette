@@ -1,0 +1,28 @@
+# MIME types for web-app assets (served correctly on this OVH/Apache host)
+AddType application/manifest+json .webmanifest
+AddType image/svg+xml .svg
+AddType image/x-icon .ico
+
+# Protect the waitlist data file: never serve it over the web.
+# (Retrieve it via FTP only.)
+<FilesMatch "\.csv$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# Any URL that doesn't map to a real file or directory -> redirect to the homepage.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ https://w.shoette.com/ [R=302,L]
+</IfModule>
+
+# Fallback if mod_rewrite is unavailable: send 404s to the homepage.
+ErrorDocument 404 https://w.shoette.com/

@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is wrong with me — Le journal de santé IA à qui vous parlez</title>
+<meta name="description" content="What is wrong with me, le journal de santé IA à qui vous parlez. Par la voix, par photo et via les applis que vous utilisez déjà, il relie des centaines de signaux — symptômes, sommeil, météo, analyses, humeur — à la science médicale et à votre propre historique, jusqu'à ce que le schéma apparaisse.">
+<meta name="theme-color" content="#F04848">
+<meta property="og:type" content="website">
+<meta property="og:title" content="What is wrong with me — Le journal de santé IA à qui vous parlez">
+<meta property="og:description" content="Dictez tout — voix, photos, résultats d'analyses, applis connectées. Il relie des centaines de signaux pour trouver les schémas multi-facteurs que la médecine traditionnelle a manqués. Confidentiel par conception, conforme au RGPD.">
+<meta property="og:url" content="https://w.shoette.com/fr/">
+<!-- Favicons (chemins absolus : résolus depuis la racine) -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#F04848;
+    --red-bright:#FF8472;
+    --red-deep:#C92E4E;
+    --red-700:#A8243F;
+    --grad:linear-gradient(135deg,#FF8472 0%,#F04848 50%,#C92E4E 100%);
+    --ink:#190F12;
+    --ink-soft:#2C2023;
+    --paper:#ffffff;
+    --cream:#FFF4F1;
+    --cream-2:#FCE4DE;
+    --line:rgba(25,15,18,.10);
+    --shadow:0 30px 60px -20px rgba(25,15,18,.32);
+    --shadow-soft:0 18px 40px -18px rgba(25,15,18,.20);
+    --maxw:1180px;
+    --r:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--ink);background:var(--paper);
+    line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk','Inter',sans-serif;line-height:1.02;letter-spacing:-.02em;font-weight:700}
+  .brandname{font-family:'Space Grotesk','Inter',sans-serif;font-weight:600;letter-spacing:-.01em}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{font-family:'Inter';font-weight:800;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;opacity:.9}
+
+  .logo{width:40px;height:40px;flex:0 0 auto;filter:drop-shadow(0 6px 14px rgba(0,0,0,.20))}
+  .mini-w{width:28px;height:28px;flex:0 0 auto}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+    font-family:'Inter';font-weight:700;font-size:1rem;border:none;cursor:pointer;
+    padding:15px 26px;border-radius:999px;transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease;
+    white-space:nowrap;text-align:center}
+  .btn:active{transform:translateY(1px)}
+  .btn--light{background:#fff;color:var(--red-deep);box-shadow:0 10px 30px -10px rgba(0,0,0,.35)}
+  .btn--light:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px rgba(0,0,0,.45)}
+  .btn--dark{background:var(--ink);color:#fff}
+  .btn--dark:hover{transform:translateY(-2px);background:#000}
+
+  header.nav{position:sticky;top:0;z-index:50;background:var(--red);transition:box-shadow .25s ease}
+  header.nav.scrolled{box-shadow:0 10px 30px -16px rgba(0,0,0,.5)}
+  .nav__in{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-family:'Space Grotesk'}
+  .brand b{font-size:1.02rem;letter-spacing:-.01em}
+  .nav__links{display:flex;align-items:center;gap:26px}
+  .nav__links a{color:rgba(255,255,255,.92);font-weight:600;font-size:.95rem;transition:opacity .15s}
+  .nav__links a:hover{opacity:.7}
+  .nav__cta{background:#fff;color:var(--red-deep);padding:10px 20px;border-radius:999px;font-weight:700;font-size:.92rem;transition:transform .15s}
+  .nav__cta:hover{transform:translateY(-1px)}
+
+  .hero{position:relative;background:var(--red);color:#fff;overflow:hidden;padding:70px 0 90px}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 80% at 82% -10%,rgba(255,170,150,.30),transparent 55%),
+               radial-gradient(90% 70% at 0% 115%,rgba(120,15,45,.34),transparent 60%)}
+  .hero__w{position:absolute;right:-10%;bottom:-26%;width:72vw;height:72vw;opacity:.07;pointer-events:none;user-select:none}
+  .hero__grid{position:relative;display:grid;grid-template-columns:1.08fr .92fr;gap:40px;align-items:center}
+  .hero__eyebrow{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.25);padding:8px 15px;border-radius:999px;font-size:.74rem;
+    font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px;backdrop-filter:blur(4px)}
+  .hero__eyebrow .dot{width:7px;height:7px;border-radius:50%;background:#fff;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero h1{font-size:clamp(2.3rem,5.4vw,4.05rem);margin-bottom:22px;letter-spacing:-.03em}
+  .hero p.lede{font-size:clamp(1.05rem,1.7vw,1.3rem);max-width:36ch;color:rgba(255,255,255,.92);font-weight:450;margin-bottom:30px}
+  .hero p.lede b{font-weight:700;color:#fff}
+
+  .waitlist{display:flex;gap:10px;max-width:440px;flex-wrap:wrap}
+  .waitlist input[type=email]{flex:1;min-width:200px;border:none;border-radius:999px;padding:15px 22px;
+    font-family:'Inter';font-size:1rem;color:var(--ink);background:#fff;outline:none;box-shadow:0 10px 30px -14px rgba(0,0,0,.4)}
+  .waitlist input::placeholder{color:#9a8f8d}
+  .waitlist .btn{flex:0 0 auto}
+  .form-note{margin-top:13px;font-size:.83rem;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:7px}
+  .form-success{display:none;align-items:center;gap:11px;background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.3);padding:15px 20px;border-radius:16px;max-width:440px;font-weight:600}
+  .form-success svg{flex:0 0 auto}
+  .is-done .waitlist{display:none}
+  .is-done .form-note{display:none}
+  .is-done .form-success{display:flex}
+
+  .hero__phone{justify-self:center;position:relative}
+  .hero__badge{position:absolute;z-index:5;background:#fff;color:var(--ink);border-radius:14px;
+    padding:12px 15px;box-shadow:var(--shadow);font-size:.8rem;line-height:1.3;max-width:215px}
+  .hero__badge .k{font-weight:800;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:3px}
+  .hero__badge.b1{top:14px;left:-48px}
+  .hero__badge.b2{bottom:46px;right:-44px}
+
+  section{padding:96px 0}
+  .sec-head{max-width:740px;margin-bottom:54px}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .sec-head .eyebrow{color:var(--red);margin-bottom:16px;display:block}
+  .sec-head h2{font-size:clamp(2rem,4.4vw,3.2rem);margin-bottom:18px}
+  .sec-head p{font-size:1.12rem;color:var(--ink-soft);opacity:.82}
+
+  .problem{background:var(--ink);color:#fff}
+  .problem .eyebrow{color:var(--red-bright)}
+  .problem h2{font-size:clamp(2rem,4.4vw,3.3rem);max-width:18ch;margin-bottom:46px}
+  .qgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:46px}
+  .qcard{border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:26px;
+    font-family:'Space Grotesk';font-weight:600;font-size:clamp(1.15rem,2.2vw,1.6rem);letter-spacing:-.02em;
+    display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.03);transition:border-color .2s,background .2s}
+  .qcard:hover{border-color:var(--red);background:rgba(240,72,72,.08)}
+  .qcard span{color:var(--red-bright);font-size:1.5em;line-height:0}
+  .problem .punch{font-size:1.2rem;max-width:64ch;color:rgba(255,255,255,.82)}
+  .problem .punch b{color:#fff}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .step{padding:34px 30px;border-radius:22px;background:var(--cream);border:1px solid var(--line);position:relative;overflow:hidden}
+  .step:hover{box-shadow:var(--shadow-soft)}
+  .step__n{font-family:'Space Grotesk';font-weight:700;font-size:3.4rem;color:var(--red);opacity:.22;line-height:1;margin-bottom:14px}
+  .step h3{font-size:1.45rem;margin-bottom:10px}
+  .step p{color:var(--ink-soft);opacity:.85;font-size:1.02rem}
+
+  #sources{background:var(--cream)}
+  .sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .source-card{padding:28px 26px;border-radius:20px;border:1px solid var(--line);background:#fff;transition:transform .2s,box-shadow .2s}
+  .source-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-soft)}
+  .source-ic{width:50px;height:50px;border-radius:14px;background:var(--cream);color:var(--red);display:grid;place-items:center;margin-bottom:18px}
+  .source-card h3{font-size:1.18rem;margin-bottom:9px}
+  .source-card p{font-size:.97rem;color:var(--ink-soft);opacity:.86}
+  .source-card em{font-style:normal;font-weight:700;color:var(--red-deep)}
+  .sources-note{text-align:center;margin:52px auto 0;font-family:'Space Grotesk';font-weight:600;
+    font-size:clamp(1.25rem,2.8vw,1.8rem);letter-spacing:-.02em;color:var(--ink);line-height:1.18;max-width:26em}
+  .sources-note b{color:var(--red-deep)}
+
+  .showcase{background:#fff}
+  .feature-row{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center;margin-bottom:96px}
+  .feature-row:last-child{margin-bottom:0}
+  .feature-row:nth-child(even) .feature-row__media{order:-1}
+  .feature-row__copy .tag{display:inline-block;font-weight:800;font-size:.74rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--red);background:var(--cream);border:1px solid var(--cream-2);padding:6px 13px;border-radius:999px;margin-bottom:18px}
+  .feature-row__copy h3{font-size:clamp(1.6rem,3.2vw,2.3rem);margin-bottom:14px}
+  .feature-row__copy p{font-size:1.1rem;color:var(--ink-soft);opacity:.85;max-width:44ch}
+  .feature-row__media{display:flex;justify-content:center}
+
+  .phone{width:300px;height:610px;background:#0c0a0a;border-radius:46px;padding:11px;
+    box-shadow:var(--shadow),inset 0 0 0 2px rgba(255,255,255,.06);position:relative;flex:0 0 auto}
+  .phone__screen{position:relative;width:100%;height:100%;background:#fff;border-radius:36px;overflow:hidden;display:flex;flex-direction:column}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:96px;height:27px;background:#0c0a0a;border-radius:999px;z-index:20}
+  .statusbar{height:50px;flex:0 0 auto;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 22px 7px;font-size:.74rem;font-weight:700;color:var(--ink);font-family:'Inter'}
+  .statusbar .icons{display:flex;align-items:center;gap:5px}
+  .float{animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+  .app{flex:1;display:flex;flex-direction:column;min-height:0;background:#fff}
+  .app__top{padding:6px 18px 12px;display:flex;align-items:center;justify-content:space-between;flex:0 0 auto}
+  .app__top .ttl{font-family:'Space Grotesk';font-weight:700;font-size:1.25rem;letter-spacing:-.02em}
+  .app__top .sub{font-size:.72rem;color:#9a8f8d;font-weight:600}
+  .app__body{flex:1;min-height:0;overflow:hidden;padding:4px 16px 16px}
+
+  .chat{display:flex;flex-direction:column;gap:11px;height:100%}
+  .bubble{max-width:88%;padding:11px 14px;border-radius:18px;font-size:.83rem;line-height:1.4}
+  .bubble.bot{background:#F1EEEE;color:var(--ink);border-bottom-left-radius:5px;align-self:flex-start}
+  .bubble.me{background:var(--red);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+  .bubble.me.voice{display:flex;align-items:center;gap:9px}
+  .wave{display:flex;align-items:center;gap:2px;height:18px}
+  .wave i{width:2px;background:rgba(255,255,255,.85);border-radius:2px;display:block}
+  .logged{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;align-self:flex-start;max-width:95%;box-shadow:var(--shadow-soft)}
+  .logged .lh{font-size:.63rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:7px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-size:.71rem;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--cream);color:var(--ink-soft);border:1px solid var(--cream-2)}
+  .chip.alert{background:#FFE7E7;color:#C9322E;border-color:#ffd2d2}
+  .chip.sync{background:#EAF6EF;color:#1f8a4c;border-color:#cfe9d9}
+  .logged-more{margin-top:9px;font-size:.68rem;font-weight:600;color:#9a8f8d}
+  .composer{margin-top:auto;display:flex;align-items:center;gap:10px;padding-top:6px}
+  .composer .pill{flex:1;height:42px;border-radius:999px;background:#F1EEEE;display:flex;align-items:center;padding:0 16px;color:#9a8f8d;font-size:.8rem}
+  .mic{width:46px;height:46px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:0 0 auto;box-shadow:0 10px 22px -8px rgba(240,72,72,.8);position:relative}
+  .mic::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(240,72,72,.35);animation:ring 2s infinite}
+  @keyframes ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.4);opacity:0}}
+
+  .insight-card{border-radius:16px;padding:15px;margin-bottom:12px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-soft)}
+  .insight-card.hero-find{background:var(--grad);color:#fff;border:none}
+  .ic-top{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+  .ic-badge{font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.24);color:#fff}
+  .insight-card.lead .ic-badge{background:#FFE7E7;color:#C9322E}
+  .ic-scan{margin-left:auto;font-size:.56rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.2);color:#fff;padding:4px 8px;border-radius:999px}
+  .ic-title{font-family:'Space Grotesk';font-weight:700;font-size:.96rem;line-height:1.25}
+  .insight-card.lead .ic-title{color:var(--ink)}
+  .factors{margin-top:12px;display:flex;flex-direction:column;gap:9px}
+  .factor .frow{display:flex;justify-content:space-between;gap:8px;font-size:.71rem;font-weight:700;margin-bottom:4px;color:#fff}
+  .factor .fbar{height:6px;border-radius:999px;background:rgba(255,255,255,.25);overflow:hidden}
+  .factor .fbar i{display:block;height:100%;background:#fff;border-radius:999px}
+  .ic-foot{margin-top:13px;font-size:.69rem;font-weight:700;color:rgba(255,255,255,.95);border-top:1px solid rgba(255,255,255,.25);padding-top:10px}
+  .corr{margin-top:11px}
+  .corr .bar{height:7px;border-radius:999px;background:#F1EEEE;overflow:hidden}
+  .corr .bar i{display:block;height:100%;border-radius:999px;background:var(--red)}
+  .corr .lbl{display:flex;justify-content:space-between;font-size:.65rem;font-weight:700;color:var(--ink-soft);margin-top:6px}
+
+  .tl{position:relative;padding-left:24px;height:100%;overflow:hidden}
+  .tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--cream-2)}
+  .tl-day{position:relative;margin-bottom:16px}
+  .tl-day::before{content:"";position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--red)}
+  .tl-day.muted::before{border-color:#d8cfcd}
+  .tl-date{font-size:.69rem;font-weight:800;letter-spacing:.03em;color:#9a8f8d;text-transform:uppercase;margin-bottom:7px}
+  .tl-card{border:1px solid var(--line);border-radius:13px;padding:10px 11px;background:#fff;box-shadow:var(--shadow-soft)}
+
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+  .metric{background:var(--cream);border:1px solid var(--cream-2);border-radius:13px;padding:11px 9px}
+  .metric .v{font-family:'Space Grotesk';font-weight:700;font-size:1.1rem;line-height:1}
+  .metric .l{font-size:.58rem;font-weight:700;color:#9a8f8d;text-transform:uppercase;letter-spacing:.03em;margin-top:5px}
+  .metric .v small{font-size:.6rem;font-weight:700}
+  .up{color:#1f9d55}.down{color:var(--red)}
+  .chart-card{border:1px solid var(--line);border-radius:16px;padding:14px 14px 10px;box-shadow:var(--shadow-soft)}
+  .chart-card .ct{font-size:.73rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px}
+  .chart-card .cs{font-size:.65rem;color:#9a8f8d;margin-bottom:8px}
+  .legend{display:flex;gap:14px;margin-top:8px;font-size:.63rem;font-weight:600;color:var(--ink-soft)}
+  .legend i{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:middle}
+
+  #why{background:var(--cream)}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .why-card{padding:30px 26px;border-radius:20px;border:1px solid var(--line);background:#fff;transition:transform .2s,box-shadow .2s}
+  .why-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-soft)}
+  .why-ic{width:50px;height:50px;border-radius:14px;background:var(--cream);color:var(--red);display:grid;place-items:center;margin-bottom:18px}
+  .why-card h3{font-size:1.18rem;margin-bottom:9px}
+  .why-card p{font-size:.95rem;color:var(--ink-soft);opacity:.85}
+
+  .security{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+  .security::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 50% at 85% 0%,rgba(240,72,72,.18),transparent 60%);pointer-events:none}
+  .security .wrap{position:relative}
+  .security .eyebrow{color:var(--red-bright)}
+  .security .sec-head h2{color:#fff}
+  .security .sec-head p{color:rgba(255,255,255,.72);opacity:1}
+  .law-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .law-card{border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:26px 24px;background:rgba(255,255,255,.035);
+    display:flex;flex-direction:column;transition:border-color .2s,background .2s}
+  .law-card:hover{border-color:rgba(240,72,72,.6);background:rgba(240,72,72,.06)}
+  .law-ic{width:44px;height:44px;border-radius:12px;background:rgba(240,72,72,.16);color:var(--red-bright);display:grid;place-items:center;margin-bottom:16px}
+  .law-card h3{font-size:1.16rem;margin-bottom:10px}
+  .law-card p{font-size:.92rem;line-height:1.5;color:rgba(255,255,255,.74);flex:1}
+  .law-refs{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+  .ref{font-family:'Inter';font-size:.63rem;font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.85);
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);padding:4px 9px;border-radius:7px}
+  .compliance-banner{margin-top:34px;display:flex;align-items:center;gap:20px;
+    border:1px solid rgba(240,72,72,.4);background:linear-gradient(120deg,rgba(240,72,72,.14),rgba(201,46,78,.08));
+    border-radius:20px;padding:26px 30px}
+  .compliance-banner .shield{flex:0 0 auto;width:48px;height:48px;color:var(--red-bright)}
+  .compliance-banner p{font-size:1rem;line-height:1.55;color:rgba(255,255,255,.84)}
+  .compliance-banner p b{color:#fff}
+
+  .cta{background:var(--grad);color:#fff;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 50% -20%,rgba(255,255,255,.22),transparent 60%)}
+  .cta__in{position:relative;max-width:700px;margin:0 auto}
+  .cta h2{font-size:clamp(2rem,4.6vw,3.3rem);margin-bottom:18px}
+  .cta p{font-size:1.2rem;color:rgba(255,255,255,.94);margin-bottom:32px}
+  .cta .waitlist,.cta .form-success{margin:0 auto}
+  .cta .form-note{justify-content:center}
+
+  footer{background:var(--ink);color:#fff;padding:60px 0 40px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap}
+  .foot .brand{margin-bottom:14px}
+  .foot p{color:rgba(255,255,255,.6);max-width:36ch;font-size:.95rem}
+  .foot__links{display:flex;gap:40px;flex-wrap:wrap}
+  .foot__col h4{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;font-family:'Inter';font-weight:800}
+  .foot__col a{display:block;color:rgba(255,255,255,.8);font-size:.95rem;margin-bottom:9px;transition:color .15s}
+  .foot__col a:hover{color:#fff}
+  .foot__bottom{margin-top:46px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:rgba(255,255,255,.5);font-size:.85rem}
+
+  .js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .js .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:900px){
+    .hero__grid{grid-template-columns:1fr;gap:50px}
+    .hero{padding:46px 0 70px}
+    .hero p.lede{max-width:48ch}
+    .hero__badge{display:none}
+    .nav__links{display:none}
+    .feature-row{grid-template-columns:1fr;gap:34px}
+    .feature-row:nth-child(even) .feature-row__media{order:0}
+    .feature-row__copy{text-align:center}
+    .feature-row__copy p{margin-left:auto;margin-right:auto}
+    .steps{grid-template-columns:1fr}
+    .sources-grid{grid-template-columns:repeat(2,1fr)}
+    .why-grid{grid-template-columns:repeat(2,1fr)}
+    .law-grid{grid-template-columns:repeat(2,1fr)}
+    .qgrid{grid-template-columns:1fr}
+    .compliance-banner{flex-direction:column;text-align:center;align-items:center}
+    section{padding:72px 0}
+  }
+  @media(max-width:540px){
+    .sources-grid{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr}
+    .law-grid{grid-template-columns:1fr}
+    .waitlist{flex-direction:column}
+    .waitlist .btn{width:100%}
+    .foot{flex-direction:column}
+    .phone{width:270px;height:550px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important}
+    html{scroll-behavior:auto}
+    .js .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- marques logo réutilisables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="wgrad" x1="0.08" y1="0" x2="0.92" y2="1">
+      <stop offset="0" stop-color="#FF8472"/>
+      <stop offset="0.5" stop-color="#F04848"/>
+      <stop offset="1" stop-color="#C92E4E"/>
+    </linearGradient>
+    <symbol id="wmark" viewBox="0 0 512 512">
+      <rect width="512" height="512" rx="116" fill="url(#wgrad)"/>
+      <path d="M120 164 L196 354 L256 258 L316 354 L392 164" fill="none" stroke="#fff" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="wmarkRed" viewBox="0 0 512 512">
+      <rect width="512" height="512" rx="116" fill="#fff"/>
+      <path d="M120 164 L196 354 L256 258 L316 354 L392 164" fill="none" stroke="url(#wgrad)" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<header class="nav" id="top">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top">
+      <svg class="logo" aria-hidden="true"><use href="#wmarkRed"/></svg>
+      <b>What is wrong with me</b>
+    </a>
+    <nav class="nav__links">
+      <a href="#how">Comment ça marche</a>
+      <a href="#sources">Ce qu'il capte</a>
+      <a href="#app">L'application</a>
+      <a href="#security">Sécurité</a>
+    </nav>
+    <a href="#waitlist" class="nav__cta">Rejoindre la liste</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero__w" viewBox="0 0 512 512" aria-hidden="true"><path d="M120 164 L196 354 L256 258 L316 354 L392 164" fill="none" stroke="#fff" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <span class="hero__eyebrow"><span class="dot"></span> Le journal de santé IA à qui vous parlez</span>
+      <h1>Qu'est-ce qui ne va pas chez&nbsp;moi&nbsp;?</h1>
+      <p class="lede">Dites-lui tout — par la voix, en photo, via les applis que vous utilisez déjà. Il relie <b>des centaines de signaux</b> à la science médicale et à votre propre historique, jour après jour, jusqu'à ce que le schéma finisse par apparaître.</p>
+
+      <form class="waitlist" id="form-hero" novalidate>
+        <input type="email" name="email" placeholder="votre@email.com" aria-label="Adresse email" required>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <button class="btn btn--light" type="submit">Rejoindre la liste</button>
+      </form>
+      <div class="form-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+        Soyez parmi les premiers au lancement. Jamais de spam.
+      </div>
+      <div class="form-success">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+        Vous êtes sur la liste. On vous écrit bientôt.
+      </div>
+    </div>
+
+    <div class="hero__phone">
+      <div class="hero__badge b1"><span class="k">Schéma détecté</span>La raideur des mains apparaît après un dîner laitier — les jours humides et pluvieux.</div>
+      <div class="hero__badge b2"><span class="k">Tout au même endroit</span>Des centaines par jour — voix, applis, photos, analyses, humeur.</div>
+      <div class="phone float">
+        <div class="island"></div>
+        <div class="phone__screen">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="icons">
+              <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+              <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 2.2c2.1 0 4 .8 5.4 2.2l1.3-1.3A9.4 9.4 0 0 0 8 .3 9.4 9.4 0 0 0 1.3 3.1l1.3 1.3A7.6 7.6 0 0 1 8 2.2Z"/><path d="M8 5.6c1.2 0 2.3.5 3.1 1.3l1.3-1.3A6 6 0 0 0 8 3.8a6 6 0 0 0-4.4 1.8l1.3 1.3A4.4 4.4 0 0 1 8 5.6Z"/><circle cx="8" cy="9.2" r="1.6"/></svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg>
+            </span>
+          </div>
+          <div class="app">
+            <div class="app__top">
+              <div>
+                <div class="ttl">Aujourd'hui</div>
+                <div class="sub">Lundi · Point du matin</div>
+              </div>
+              <svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg>
+            </div>
+            <div class="app__body chat">
+              <div class="bubble bot">Bonjour ☀️ Comment vont vos mains aujourd'hui&nbsp;?</div>
+              <div class="bubble me voice">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                <span class="wave">
+                  <i style="height:5px"></i><i style="height:11px"></i><i style="height:17px"></i><i style="height:9px"></i><i style="height:14px"></i><i style="height:6px"></i><i style="height:12px"></i><i style="height:16px"></i><i style="height:7px"></i>
+                </span>
+                <span style="font-size:.7rem;opacity:.85">0:11</span>
+              </div>
+              <div class="bubble bot" style="max-width:92%">«&nbsp;Encore raides. Pâtes à la crème hier soir, et il a plu toute la journée.&nbsp;» Noté 👇</div>
+              <div class="logged">
+                <div class="lh">Noté à l'instant</div>
+                <div class="chips">
+                  <span class="chip alert">Raideur des mains · légère</span>
+                  <span class="chip">Laitier · dîner</span>
+                  <span class="chip sync">Pluie · auto</span>
+                  <span class="chip sync">Sommeil 6h · sync</span>
+                </div>
+                <div class="logged-more">+ 300 autres signaux synchronisés depuis vos applis aujourd'hui</div>
+              </div>
+              <div class="composer">
+                <span class="pill">Touchez pour parler…</span>
+                <span class="mic">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLÈME -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Ça vous parle&nbsp;?</span>
+      <h2>Votre corps essaie de vous dire quelque chose.</h2>
+    </div>
+    <div class="qgrid reveal">
+      <div class="qcard"><span>·</span>Pourquoi je ne dors pas&nbsp;?</div>
+      <div class="qcard"><span>·</span>Pourquoi mon dos me fait encore mal&nbsp;?</div>
+      <div class="qcard"><span>·</span>Pourquoi mon poids ne bouge pas&nbsp;?</div>
+      <div class="qcard"><span>·</span>Pourquoi ça revient sans cesse&nbsp;?</div>
+    </div>
+    <p class="punch reveal">Les examens reviennent <b>«&nbsp;normaux&nbsp;».</b> Mais vous savez que quelque chose cloche. La réponse tient rarement à une seule cause — ce sont <b>des centaines</b> de petites choses qui s'alignent, que personne n'a jamais eu le temps, ni les données, de relier. <b>Jusqu'à maintenant.</b></p>
+  </div>
+</section>
+
+<!-- COMMENT ÇA MARCHE -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Comment ça marche</span>
+      <h2>De l'intuition à la découverte.</h2>
+      <p>Trois étapes. Sans formulaire, sans jargon médical, sans effort.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step__n">01</div>
+        <h3>Parlez</h3>
+        <p>Dites simplement ce qui se passe — symptômes, sommeil, humeur, stress, même le cauchemar d'hier. Photographiez un résultat d'analyse ou votre lecteur de glycémie. Il entend même dans votre voix quand quelque chose ne va pas.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">02</div>
+        <h3>Connectez</h3>
+        <p>Reliez les applis que vous utilisez déjà — météo, pas, sommeil, agenda, cycle. Il agrège des centaines de signaux et les structure proprement, dans toutes les langues.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">03</div>
+        <h3>Comprenez</h3>
+        <p>Il confronte l'ensemble à la recherche médicale et à votre propre passé, et révèle les schémas multi-facteurs qu'aucune consultation de 15 minutes ne pourrait voir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section id="sources">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Un seul outil, tous les signaux</span>
+      <h2>Donnez-lui tout. Il en tire du sens.</h2>
+      <p>La plupart des applis suivent une seule chose. <span class="brandname">What is wrong with me</span> capte des centaines de signaux, issus de tous les recoins de votre vie — et transforme le chaos en données claires et comparables qu'aucun cerveau humain ne pourrait retenir.</p>
+    </div>
+    <div class="sources-grid">
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg></div>
+        <h3>Votre voix</h3>
+        <p>Dictez symptômes, sommeil, humeur, sources de stress, un mauvais rêve. Vous préférez écrire&nbsp;? Ça marche aussi.</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M6 8v8"/><path d="M10 4v16"/><path d="M14 7v10"/><path d="M18 9v6"/><path d="M22 11v2"/></svg></div>
+        <h3>Votre ton, décrypté</h3>
+        <p>Il entend <em>comment</em> vous le dites. «&nbsp;Votre voix semble tendue aujourd'hui — un souci à noter&nbsp;?&nbsp;»</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07l-1.41 1.41"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.41-1.41"/></svg></div>
+        <h3>Les applis que vous avez déjà</h3>
+        <p>Météo, pas, applis de sommeil, votre agenda (ce dîner tardif, cette réunion stressante), cycle menstruel, et toute appli santé.</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+        <h3>Une photo suffit</h3>
+        <p>Photographiez votre lecteur de glycémie, votre tensiomètre, une bandelette ou un compte-rendu — il lit les chiffres pour vous.</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></div>
+        <h3>Tout document, toute langue</h3>
+        <p>Résultats, ordonnances, examens — en image, audio, flux de données ou texte. Structurés proprement, quelle que soit la langue.</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-12 2 6h6"/></svg></div>
+        <h3>Le lien corps-esprit</h3>
+        <p>Stress, cortisol, adrénaline, sommeil haché — il sait que votre humeur agit sur la chimie de votre corps, et la suit.</p>
+      </div>
+    </div>
+    <p class="sources-note reveal">Un médecin vous voit 15 minutes par an. <span class="brandname">What is wrong with me</span> lit <b>des centaines de signaux chaque jour</b> — et n'en oublie aucun.</p>
+  </div>
+</section>
+
+<!-- APPLICATION -->
+<section class="showcase" id="app">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Dans l'application</span>
+      <h2>Enfin une vision complète de vous.</h2>
+      <p>Un premier aperçu de <span class="brandname">What is wrong with me</span>.</p>
+    </div>
+
+    <!-- rangée 1 : conversation -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Conversation</span>
+        <h3>Il écoute — et entend comment vous allez.</h3>
+        <p>Parlez librement de tout&nbsp;: symptômes, journée difficile, nuit blanche. Il détecte même quand votre voix est tendue et prend de vos nouvelles — puis classe chaque détail en données propres.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Aujourd'hui</div><div class="sub">Point du soir</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body chat">
+                <div class="bubble bot" style="max-width:92%">Votre voix semble un peu tendue aujourd'hui — quelque chose à noter&nbsp;?</div>
+                <div class="bubble me voice">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                  <span class="wave"><i style="height:6px"></i><i style="height:13px"></i><i style="height:18px"></i><i style="height:8px"></i><i style="height:15px"></i><i style="height:5px"></i><i style="height:11px"></i></span>
+                  <span style="font-size:.7rem;opacity:.85">0:14</span>
+                </div>
+                <div class="bubble bot" style="max-width:93%">«&nbsp;Le boulot est éreintant, à peine dormi.&nbsp;» Noté 👇 — je surveille le lien entre votre stress et vos symptômes.</div>
+                <div class="logged">
+                  <div class="lh">Capturé</div>
+                  <div class="chips"><span class="chip alert">Stress · élevé</span><span class="chip alert">Humeur · basse</span><span class="chip sync">Agenda · 6 réunions</span><span class="chip sync">Sommeil 5h · sync</span></div>
+                  <div class="logged-more">+ analyse du ton · 200+ signaux fusionnés depuis vos sources</div>
+                </div>
+                <div class="composer"><span class="pill">Touchez pour parler…</span><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- rangée 2 : analyses -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Analyses &amp; corrélations</span>
+        <h3>Des schémas, pas des suppositions.</h3>
+        <p>Quand des centaines de petits signaux s'alignent dans toute votre vie, vous le voyez — preuves à l'appui. Il pèse tous les facteurs à la fois et classe les pistes réelles, multi-signaux, selon ce qu'elles expliquent de votre état.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Analyses</div><div class="sub">3 nouvelles pistes cette semaine</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="insight-card hero-find">
+                  <div class="ic-top"><span class="ic-badge">Schéma détecté</span><span class="ic-scan">300+ signaux</span></div>
+                  <div class="ic-title">La raideur des mains s'aggrave avec les laitages — mais seulement les jours humides.</div>
+                  <div class="factors">
+                    <div class="factor"><div class="frow"><span>Laitages au dîner</span><span>86%</span></div><div class="fbar"><i style="width:86%"></i></div></div>
+                    <div class="factor"><div class="frow"><span>Humidité &gt; 75% · météo</span><span>79%</span></div><div class="fbar"><i style="width:79%"></i></div></div>
+                    <div class="factor"><div class="frow"><span>Sommeil &lt; 6h</span><span>44%</span></div><div class="fbar"><i style="width:44%"></i></div></div>
+                  </div>
+                  <div class="ic-foot">84% de confiance · 11 poussées sur 13 expliquées · 9 sources</div>
+                </div>
+                <div class="insight-card lead">
+                  <div class="ic-top"><span class="ic-badge">Piste possible</span></div>
+                  <div class="ic-title">Vos coups de barre de l'après-midi suivent quatre signaux à la fois.</div>
+                  <div class="chips" style="margin-top:10px"><span class="chip">Sommeil court</span><span class="chip">Petit-déj sauté</span><span class="chip">5+ réunions</span><span class="chip alert">Caféine après 16h</span></div>
+                  <div class="corr"><div class="bar"><i style="width:81%"></i></div><div class="lbl"><span>Signal combiné</span><span>r = 0,81</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- rangée 3 : journal -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Journal quotidien</span>
+        <h3>Chaque jour, consigné.</h3>
+        <p>Un journal vivant de votre corps — interrogeable et relié, qui réunit vos notes vocales et vos données synchronisées dans un même fil. Remontez des semaines, des mois&nbsp;; plus rien de ce que vous remarquez ne se perd.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Journal</div><div class="sub">Cette semaine</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="tl">
+                  <div class="tl-day">
+                    <div class="tl-date">Aujourd'hui · Lun</div>
+                    <div class="tl-card"><div class="chips"><span class="chip alert">Raideur des mains</span><span class="chip">Dîner laitier</span><span class="chip sync">Pluie</span><span class="chip sync">Sommeil 6h</span></div></div>
+                  </div>
+                  <div class="tl-day">
+                    <div class="tl-date">Dim</div>
+                    <div class="tl-card"><div class="chips"><span class="chip sync">Sommeil 7h20</span><span class="chip sync">8 400 pas</span><span class="chip">Sans laitage</span></div></div>
+                  </div>
+                  <div class="tl-day muted">
+                    <div class="tl-date">Sam</div>
+                    <div class="tl-card"><div class="chips"><span class="chip alert">Mal de dos</span><span class="chip sync">Longue route</span><span class="chip">Cycle · j24</span></div></div>
+                  </div>
+                  <div class="tl-day muted">
+                    <div class="tl-date">Ven</div>
+                    <div class="tl-card"><div class="chips"><span class="chip">Énergie · élevée</span><span class="chip sync">Glycémie · photo</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- rangée 4 : tendances -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Tableau de tendances</span>
+        <h3>Voyez les facteurs s'aligner.</h3>
+        <p>Sommeil, douleur, énergie, météo, cycle et humeur — suivis dans le temps pour que les liens sautent aux yeux. La vue d'ensemble de votre santé, tirée de toutes vos sources à la fois.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Tendances</div><div class="sub">14 derniers jours</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="metrics">
+                  <div class="metric"><div class="v">300+</div><div class="l">Signaux / jour</div></div>
+                  <div class="metric"><div class="v down">4</div><div class="l">Jours de poussée</div></div>
+                  <div class="metric"><div class="v">Laitages</div><div class="l">Facteur clé</div></div>
+                </div>
+                <div class="chart-card">
+                  <div class="ct">Raideur × humidité</div>
+                  <div class="cs">Les poussées montent avec l'humidité</div>
+                  <svg width="100%" height="118" viewBox="0 0 240 118" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04848" stop-opacity=".28"/><stop offset="1" stop-color="#F04848" stop-opacity="0"/></linearGradient>
+                    </defs>
+                    <line x1="0" y1="30" x2="240" y2="30" stroke="#eee" stroke-width="1"/>
+                    <line x1="0" y1="64" x2="240" y2="64" stroke="#eee" stroke-width="1"/>
+                    <line x1="0" y1="98" x2="240" y2="98" stroke="#eee" stroke-width="1"/>
+                    <path d="M0,72 L34,60 L68,76 L102,40 L136,52 L170,30 L204,46 L240,34 L240,118 L0,118 Z" fill="url(#g1)"/>
+                    <path d="M0,72 L34,60 L68,76 L102,40 L136,52 L170,30 L204,46 L240,34" fill="none" stroke="#F04848" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0,82 L34,70 L68,84 L102,50 L136,60 L170,40 L204,54 L240,44" fill="none" stroke="#15100F" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>
+                    <circle cx="170" cy="30" r="3.4" fill="#F04848"/>
+                    <circle cx="170" cy="40" r="3.4" fill="#15100F"/>
+                  </svg>
+                  <div class="legend"><span><i style="background:#F04848"></i>Raideur</span><span><i style="background:#15100F;opacity:.5"></i>Humidité</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI -->
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Pourquoi c'est différent</span>
+      <h2>Conçu pour vraiment trouver des réponses.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg></div>
+        <h3>La voix d'abord</h3>
+        <p>Quelques secondes suffisent, pas une discipline de fer. Parlez — l'appli fait le reste.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2a.3.3 0 0 0-.2.3Z"/><path d="M8 2v6a4 4 0 0 1-8 0V2"/><path d="M6 14a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg></div>
+        <h3>Ancré dans la médecine</h3>
+        <p>Chaque signal est confronté à un vrai savoir médical — pas à de vagues conseils bien-être.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-12 2 6h6"/></svg></div>
+        <h3>Des centaines de signaux à la fois</h3>
+        <p>Il pèse des centaines de signaux ensemble — des liens qu'aucun examen isolé, ni aucune consultation de 15 minutes, ne peut voir.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Confidentiel par conception</h3>
+        <p>Vos données sont chiffrées, rien qu'à vous, et jamais vendues. C'est votre histoire — elle vous appartient.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SÉCURITÉ & CONFORMITÉ -->
+<section class="security" id="security">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Sécurité &amp; conformité</span>
+      <h2>Vos données de santé, sous clé et sous la loi.</h2>
+      <p>Les données de santé sont les plus sensibles qui soient — une «&nbsp;catégorie particulière&nbsp;» au sens du RGPD (art.&nbsp;9). Nous les traitons comme telles&nbsp;: tout est conçu pour une stricte conformité au droit européen et français, dès la conception — et pensé pour aller au-delà de ce que la loi exige.</p>
+    </div>
+
+    <div class="law-grid">
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg></div>
+        <h3>Collecte — minimisée &amp; anonymisée</h3>
+        <p>Nous ne collectons que les données strictement nécessaires à une analyse, et les pseudonymisons dès leur arrivée. L'analyse s'effectue sur des données dépersonnalisées — et toujours avec votre consentement explicite, opt-in, révocable à tout moment.</p>
+        <div class="law-refs"><span class="ref">RGPD art. 9</span><span class="ref">art. 5(1)(c)</span><span class="ref">art. 25</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3>Conservation — limitée, insights seulement</h3>
+        <p>Nous n'accumulons pas les données brutes. Les entrées ne sont gardées que le temps d'en tirer des enseignements — ensuite nous ne conservons que les insights dépersonnalisés. Rien ne traîne «&nbsp;au cas où&nbsp;».</p>
+        <div class="law-refs"><span class="ref">RGPD art. 5(1)(e)</span><span class="ref">Limitation de conservation</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><path d="M12 16v2"/></svg></div>
+        <h3>Transmission — chiffrée de bout en bout</h3>
+        <p>Chaque octet circule en TLS 1.3 et repose en AES-256. Pseudonymisation et chiffrement appliqués par défaut — exactement les mesures techniques que la loi cite pour sécuriser le traitement.</p>
+        <div class="law-refs"><span class="ref">RGPD art. 32</span><span class="ref">TLS 1.3</span><span class="ref">AES-256</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.5 12.5 9-9"/><path d="m17 6 2.5 2.5"/><path d="m14 9 2.5 2.5"/></svg></div>
+        <h3>Chiffrement &amp; clés — isolés, renouvelés</h3>
+        <p>AES-256-GCM au repos, avec des clés propres à chaque utilisateur, séparées des données qu'elles protègent et renouvelées régulièrement. Confidentialité, intégrité, disponibilité et résilience testées en continu.</p>
+        <div class="law-refs"><span class="ref">RGPD art. 32</span><span class="ref">Isolement des clés</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg></div>
+        <h3>Où vivent vos données — centres de données UE certifiés</h3>
+        <p>Vos données restent dans l'UE, sur une infrastructure conforme à la norme HDS (<em>Hébergeur de Données de Santé</em>) requise pour héberger des données de santé en France — un référentiel fondé sur l'ISO&nbsp;27001 et supervisé par l'Agence du Numérique en Santé.</p>
+        <div class="law-refs"><span class="ref">Code de la santé publique L.1111-8</span><span class="ref">HDS</span><span class="ref">ISO 27001</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Vos droits — toujours les vôtres</h3>
+        <p>Accéder, rectifier, exporter dans un format portable, ou tout effacer — en un geste, honoré sans délai injustifié. Et nous menons une analyse d'impact (AIPD) avant même de lancer.</p>
+        <div class="law-refs"><span class="ref">RGPD art. 15-20</span><span class="ref">art. 17</span><span class="ref">art. 35</span></div>
+      </div>
+    </div>
+
+    <div class="compliance-banner reveal">
+      <svg class="shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      <p><b>Conçu pour respecter le RGPD (Règlement (UE) 2016/679) et la loi Informatique et Libertés — et pour aller plus loin.</b> Vos données ne sont jamais vendues, jamais utilisées pour entraîner l'IA de qui que ce soit, et jamais partagées sans votre accord explicite. Ici, la confidentialité n'est pas une option — c'est l'architecture.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta" id="waitlist">
+  <div class="wrap cta__in">
+    <div class="reveal">
+      <h2>Lancez votre quête honnête à 360°.</h2>
+      <p>Rejoignez la liste d'attente et soyez parmi les premiers à découvrir ce qui se passe vraiment.</p>
+      <form class="waitlist" id="form-cta" novalidate>
+        <input type="email" name="email" placeholder="votre@email.com" aria-label="Adresse email" required>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <button class="btn btn--dark" type="submit">Rejoindre la liste</button>
+      </form>
+      <div class="form-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+        Accès anticipé · zéro spam · désinscription à tout moment.
+      </div>
+      <div class="form-success">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+        Vous êtes sur la liste. On vous écrit bientôt.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="brand"><svg class="logo" aria-hidden="true"><use href="#wmark"/></svg><b>What is wrong with me</b></div>
+        <p>Le journal de santé propulsé par l'IA à qui vous parlez. Votre quête honnête à 360° pour enfin comprendre votre corps.</p>
+      </div>
+      <div class="foot__links">
+        <div class="foot__col">
+          <h4>Produit</h4>
+          <a href="#how">Comment ça marche</a>
+          <a href="#sources">Ce qu'il capte</a>
+          <a href="#app">L'application</a>
+          <a href="#why">Pourquoi c'est différent</a>
+          <a href="#security">Sécurité</a>
+        </div>
+        <div class="foot__col">
+          <h4>Commencer</h4>
+          <a href="#waitlist">Rejoindre la liste</a>
+        </div>
+        <div class="foot__col">
+          <h4>Langue</h4>
+          <a href="/">English</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <span>© <span id="year">2026</span> <span class="brandname">What is wrong with me</span></span>
+      <span>Pas un dispositif médical. Un outil numérique conçu pour fournir des informations aux particuliers et à leurs professionnels de santé. Ne fournit pas de diagnostic.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var nav = document.querySelector('header.nav');
+  var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  function wireForm(id){
+    var f = document.getElementById(id);
+    if(!f) return;
+    var email = f.querySelector('input[type=email]');
+    var btn = f.querySelector('button');
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      if(!email.value || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)){
+        email.focus(); email.style.boxShadow='0 0 0 3px rgba(0,0,0,.22)'; return;
+      }
+      var reveal = function(){ f.closest('.hero__copy, .cta__in, .reveal').classList.add('is-done'); };
+      var original = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Inscription…';
+      var data = new FormData(f);
+      data.append('lang', document.documentElement.lang || 'en');
+      fetch('/subscribe.php', { method:'POST', body:data })
+        .then(function(r){ return r.ok ? r.json().catch(function(){ return {ok:true}; }) : {ok:false}; })
+        .then(function(res){
+          if(res && res.ok){ reveal(); }
+          else { btn.disabled=false; btn.textContent=original; email.style.boxShadow='0 0 0 3px rgba(0,0,0,.25)'; }
+        })
+        .catch(function(){ btn.disabled=false; btn.textContent=original; email.style.boxShadow='0 0 0 3px rgba(0,0,0,.25)'; });
+    });
+    email.addEventListener('input', function(){ this.style.boxShadow=''; });
+  }
+  wireForm('form-hero');
+  wireForm('form-cta');
+</script>
+</body>
+</html>

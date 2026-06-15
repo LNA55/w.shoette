@@ -1,0 +1,9 @@
+# User data — NEVER commit (contains real waitlist signup emails).
+# Lives only on the server; retrieve via FTP.
+waitlist.csv
+**/waitlist.csv
+
+# Local agent / editor / OS
+.claude/
+.DS_Store
+*.log
