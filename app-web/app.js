@@ -257,21 +257,35 @@
   }
 
   /* ---------------- Analyse de corrélations (manuelle) ---------------- */
+  /* Fenêtre glissante 3 jours : un trigger J0 co-occure si un symptôme apparaît J0, J+1 ou J+2 */
   function computeInsights(){
-    var since=Date.now()-14*864e5, recent=S.store.entries.filter(function(e){return e.createdAt>=since;});
+    var DAY=864e5;
+    var since=Date.now()-14*DAY, recent=S.store.entries.filter(function(e){return e.createdAt>=since;});
     var dayMap={};
-    recent.forEach(function(e){ var d=new Date(e.createdAt), key=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
-      dayMap[key]=dayMap[key]||{flag:false,trig:{}};
+    recent.forEach(function(e){
+      var d=new Date(e.createdAt);
+      var ts=new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();
+      dayMap[ts]=dayMap[ts]||{flag:false,trig:{}};
       (e.signals||[]).forEach(function(s){
-        if(s.category==='pain'||s.category==='symptom'||s.category==='brain_fog') dayMap[key].flag=true;
-        if(s.category==='food'||s.category==='environment'){ dayMap[key].trig[(s.value||s.label).toLowerCase()]=(s.value||s.label); } }); });
+        if(s.category==='pain'||s.category==='symptom'||s.category==='brain_fog') dayMap[ts].flag=true;
+        if(s.category==='food'||s.category==='environment'){ dayMap[ts].trig[(s.value||s.label).toLowerCase()]=(s.value||s.label); }
+      });
+    });
+    var flagDays={};
+    Object.keys(dayMap).forEach(function(ts){ if(dayMap[ts].flag) flagDays[+ts]=true; });
     var triggerDays={}, coOccur={};
-    Object.keys(dayMap).forEach(function(k){ var d=dayMap[k]; Object.keys(d.trig).forEach(function(low){
-      triggerDays[low]=triggerDays[low]||{n:0,label:d.trig[low]}; triggerDays[low].n++; if(d.flag){ coOccur[low]=(coOccur[low]||0)+1; } }); });
+    Object.keys(dayMap).forEach(function(ts){
+      var tsN=+ts, d=dayMap[ts];
+      Object.keys(d.trig).forEach(function(low){
+        triggerDays[low]=triggerDays[low]||{n:0,label:d.trig[low]};
+        triggerDays[low].n++;
+        if(flagDays[tsN]||flagDays[tsN+DAY]||flagDays[tsN+2*DAY]){ coOccur[low]=(coOccur[low]||0)+1; }
+      });
+    });
     return Object.keys(coOccur).filter(function(low){return coOccur[low]>=2;}).map(function(low){
       var n=coOccur[low], td=triggerDays[low].n, band=n>=6?'strong':(n>=4?'moderate':'weak');
-      return {label:triggerDays[low].label, incidents:n, days:td, band:band, ratio:td?n/td:0}; })
-      .sort(function(a,b){return b.incidents-a.incidents;}).slice(0,6);
+      return {label:triggerDays[low].label, incidents:n, days:td, band:band, ratio:td?n/td:0};
+    }).sort(function(a,b){return b.incidents-a.incidents;}).slice(0,6);
   }
   function runAnalysis(){ S.store.insights=computeInsights(); S.store.lastAnalysisAt=Date.now(); persistStore(); render(); toast(t('analysisDone')); }
 
