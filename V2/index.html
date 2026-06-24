@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What works for me — Why won't the weight move?</title>
+<meta name="description" content="What works for me is the AI weight-loss investigator you talk to. Log your whole life by voice; it connects hundreds of signals — meals, sleep, stress, your GLP-1 — against medical science and your own history to find why your weight is stuck. Join Cohort 0.">
+<meta name="theme-color" content="#F04848">
+<meta property="og:type" content="website">
+<meta property="og:title" content="What works for me — Why won't the weight move?">
+<meta property="og:description" content="The AI weight-loss investigator you talk to. It connects hundreds of signals to find why your weight is stuck — and tests the leads with you. On Mounjaro and stalled? Cohort 0 is now recruiting.">
+<meta property="og:url" content="https://w.shoette.com/V2/">
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#F04848;
+    --red-bright:#FF8472;
+    --red-deep:#C92E4E;
+    --red-700:#A8243F;
+    --grad:linear-gradient(135deg,#FF8472 0%,#F04848 50%,#C92E4E 100%);
+    --ink:#190F12;
+    --ink-soft:#2C2023;
+    --paper:#ffffff;
+    --cream:#FFF4F1;
+    --cream-2:#FCE4DE;
+    --line:rgba(25,15,18,.10);
+    --shadow:0 30px 60px -20px rgba(25,15,18,.32);
+    --shadow-soft:0 18px 40px -18px rgba(25,15,18,.20);
+    --maxw:1180px;
+    --r:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--ink);background:var(--paper);
+    line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk','Inter',sans-serif;line-height:1.02;letter-spacing:-.02em;font-weight:700}
+  /* brand wordmark: render the product name in the header typeface wherever it appears in body copy */
+  .brandname{font-family:'Space Grotesk','Inter',sans-serif;font-weight:600;letter-spacing:-.01em}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{font-family:'Inter';font-weight:800;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;opacity:.9}
+
+  /* logo mark */
+  .logo{width:40px;height:40px;flex:0 0 auto;filter:drop-shadow(0 6px 14px rgba(0,0,0,.20))}
+  .mini-w{width:28px;height:28px;flex:0 0 auto}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+    font-family:'Inter';font-weight:700;font-size:1rem;border:none;cursor:pointer;
+    padding:15px 26px;border-radius:999px;transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease;
+    white-space:nowrap;text-align:center}
+  .btn:active{transform:translateY(1px)}
+  .btn--light{background:#fff;color:var(--red-deep);box-shadow:0 10px 30px -10px rgba(0,0,0,.35)}
+  .btn--light:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px rgba(0,0,0,.45)}
+  .btn--dark{background:var(--ink);color:#fff}
+  .btn--dark:hover{transform:translateY(-2px);background:#000}
+  .btn--red{background:var(--red);color:#fff;box-shadow:0 14px 30px -12px rgba(240,72,72,.7)}
+  .btn--red:hover{transform:translateY(-2px);background:var(--red-deep)}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:var(--red);transition:box-shadow .25s ease}
+  header.nav.scrolled{box-shadow:0 10px 30px -16px rgba(0,0,0,.5)}
+  .nav__in{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-family:'Space Grotesk'}
+  .brand b{font-size:1.02rem;letter-spacing:-.01em}
+  .nav__links{display:flex;align-items:center;gap:28px}
+  .nav__links a{color:rgba(255,255,255,.92);font-weight:600;font-size:.95rem;transition:opacity .15s}
+  .nav__links a:hover{opacity:.7}
+  .nav__cta{background:#fff;color:var(--red-deep);padding:10px 20px;border-radius:999px;font-weight:700;font-size:.92rem;transition:transform .15s}
+  .nav__cta:hover{transform:translateY(-1px)}
+
+  /* hero */
+  .hero{position:relative;background:var(--red);color:#fff;overflow:hidden;padding:70px 0 90px}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 80% at 82% -10%,rgba(255,170,150,.30),transparent 55%),
+               radial-gradient(90% 70% at 0% 115%,rgba(120,15,45,.34),transparent 60%)}
+  .hero__w{position:absolute;right:-10%;bottom:-26%;width:72vw;height:72vw;opacity:.07;pointer-events:none;user-select:none}
+  .hero__grid{position:relative;display:grid;grid-template-columns:1.08fr .92fr;gap:40px;align-items:center}
+  .hero__eyebrow{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.25);padding:8px 15px;border-radius:999px;font-size:.74rem;
+    font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px;backdrop-filter:blur(4px)}
+  .hero__eyebrow .dot{width:7px;height:7px;border-radius:50%;background:#fff;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero h1{font-size:clamp(2.7rem,6.4vw,5rem);margin-bottom:22px;letter-spacing:-.035em}
+  .hero h1 .q{display:block}
+  .hero p.lede{font-size:clamp(1.05rem,1.7vw,1.3rem);max-width:40ch;color:rgba(255,255,255,.92);font-weight:450;margin-bottom:30px}
+  .hero p.lede b{font-weight:700;color:#fff}
+
+  .waitlist{display:flex;gap:10px;max-width:480px;flex-wrap:wrap}
+  .waitlist input[type=email],.waitlist input[type=text].fld{flex:1;min-width:180px;border:none;border-radius:999px;padding:15px 22px;
+    font-family:'Inter';font-size:1rem;color:var(--ink);background:#fff;outline:none;box-shadow:0 10px 30px -14px rgba(0,0,0,.4)}
+  .waitlist input::placeholder{color:#9a8f8d}
+  .waitlist .btn{flex:0 0 auto}
+  .form-note{margin-top:13px;font-size:.83rem;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:7px}
+  .form-success{display:none;align-items:center;gap:11px;background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.3);padding:15px 20px;border-radius:16px;max-width:480px;font-weight:600}
+  .form-success svg{flex:0 0 auto}
+  .is-done .waitlist{display:none}
+  .is-done .applyform{display:none}
+  .is-done .form-note{display:none}
+  .is-done .form-success{display:flex}
+
+  .hero__phone{justify-self:center;position:relative}
+  .hero__badge{position:absolute;z-index:5;background:#fff;color:var(--ink);border-radius:14px;
+    padding:12px 15px;box-shadow:var(--shadow);font-size:.8rem;line-height:1.3;max-width:212px}
+  .hero__badge .k{font-weight:800;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:3px}
+  .hero__badge.b1{top:14px;left:-48px}
+  .hero__badge.b2{bottom:46px;right:-44px}
+
+  /* section base */
+  section{padding:96px 0}
+  .sec-head{max-width:720px;margin-bottom:54px}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .sec-head .eyebrow{color:var(--red);margin-bottom:16px;display:block}
+  .sec-head h2{font-size:clamp(2rem,4.4vw,3.3rem);margin-bottom:18px}
+  .sec-head p{font-size:1.12rem;color:var(--ink-soft);opacity:.82}
+
+  /* GLP-1 / Cohort 0 band */
+  .glp1{background:var(--grad);color:#fff;position:relative;overflow:hidden}
+  .glp1::before{content:"";position:absolute;inset:0;background:radial-gradient(75% 90% at 82% -10%,rgba(255,255,255,.18),transparent 60%);pointer-events:none}
+  .glp1 .wrap{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  .glp1 .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#fff;margin-bottom:16px}
+  .glp1 .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:#fff;animation:pulse 2s infinite}
+  .glp1 h2{font-size:clamp(1.9rem,4.2vw,3rem);margin-bottom:18px;max-width:16ch}
+  .glp1 p{font-size:1.1rem;color:rgba(255,255,255,.94);max-width:52ch;margin-bottom:18px}
+  .glp1 p b{color:#fff}
+  .glp1 .micro{font-size:.78rem;line-height:1.5;color:rgba(255,255,255,.74);margin-top:18px;max-width:60ch}
+  .cohort-card{background:#fff;color:var(--ink);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
+  .cohort-card .k{font-weight:800;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:6px}
+  .cohort-card h3{font-size:1.5rem;margin-bottom:18px}
+  .cohort-card ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:22px}
+  .cohort-card li{display:flex;gap:11px;align-items:flex-start;font-size:.97rem;color:var(--ink-soft)}
+  .cohort-card li svg{flex:0 0 auto;margin-top:2px;color:var(--red)}
+  .cohort-card .price-line{display:flex;align-items:baseline;gap:8px;margin-bottom:18px;padding-top:16px;border-top:1px solid var(--line)}
+  .cohort-card .price-line .free{font-family:'Space Grotesk';font-weight:700;font-size:1.5rem;color:var(--ink)}
+  .cohort-card .price-line small{font-size:.85rem;color:#9a8f8d}
+  .cohort-card .btn{width:100%}
+
+  /* problem */
+  .problem{background:var(--ink);color:#fff}
+  .problem .eyebrow{color:var(--red-bright)}
+  .problem h2{font-size:clamp(2.1rem,4.6vw,3.5rem);max-width:18ch;margin-bottom:46px}
+  .qgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:46px}
+  .qcard{border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:26px;
+    font-family:'Space Grotesk';font-weight:600;font-size:clamp(1.2rem,2.3vw,1.7rem);letter-spacing:-.02em;
+    display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.03);transition:border-color .2s,background .2s}
+  .qcard:hover{border-color:var(--red);background:rgba(240,72,72,.08)}
+  .qcard span{color:var(--red-bright);font-size:1.5em;line-height:0}
+  .problem .punch{font-size:1.2rem;max-width:64ch;color:rgba(255,255,255,.82)}
+  .problem .punch b{color:#fff}
+
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .step{padding:34px 30px;border-radius:22px;background:var(--cream);border:1px solid var(--line);position:relative;overflow:hidden}
+  .step:hover{box-shadow:var(--shadow-soft)}
+  .step__n{font-family:'Space Grotesk';font-weight:700;font-size:3.4rem;color:var(--red);opacity:.22;line-height:1;margin-bottom:14px}
+  .step h3{font-size:1.45rem;margin-bottom:10px}
+  .step p{color:var(--ink-soft);opacity:.85;font-size:1.02rem}
+
+  /* sources / inputs */
+  #sources{background:var(--cream)}
+  .sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .source-card{padding:28px 26px;border-radius:20px;border:1px solid var(--line);background:#fff;transition:transform .2s,box-shadow .2s}
+  .source-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-soft)}
+  .source-ic{width:50px;height:50px;border-radius:14px;background:var(--cream);color:var(--red);display:grid;place-items:center;margin-bottom:18px}
+  .source-card h3{font-size:1.18rem;margin-bottom:9px}
+  .source-card p{font-size:.97rem;color:var(--ink-soft);opacity:.86}
+  .source-card em{font-style:normal;font-weight:700;color:var(--red-deep)}
+  .sources-note{text-align:center;max-width:30ch;margin:52px auto 0;font-family:'Space Grotesk';font-weight:600;
+    font-size:clamp(1.25rem,2.8vw,1.8rem);letter-spacing:-.02em;color:var(--ink);line-height:1.18;max-width:26em}
+  .sources-note b{color:var(--red-deep)}
+
+  /* showcase */
+  .showcase{background:#fff}
+  .feature-row{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center;margin-bottom:96px}
+  .feature-row:last-child{margin-bottom:0}
+  .feature-row:nth-child(even) .feature-row__media{order:-1}
+  .feature-row__copy .tag{display:inline-block;font-weight:800;font-size:.74rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--red);background:var(--cream);border:1px solid var(--cream-2);padding:6px 13px;border-radius:999px;margin-bottom:18px}
+  .feature-row__copy h3{font-size:clamp(1.6rem,3.2vw,2.3rem);margin-bottom:14px}
+  .feature-row__copy p{font-size:1.1rem;color:var(--ink-soft);opacity:.85;max-width:42ch}
+  .feature-row__media{display:flex;justify-content:center}
+
+  /* phone */
+  .phone{width:300px;height:610px;background:#0c0a0a;border-radius:46px;padding:11px;
+    box-shadow:var(--shadow),inset 0 0 0 2px rgba(255,255,255,.06);position:relative;flex:0 0 auto}
+  .phone__screen{position:relative;width:100%;height:100%;background:#fff;border-radius:36px;overflow:hidden;display:flex;flex-direction:column}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:96px;height:27px;background:#0c0a0a;border-radius:999px;z-index:20}
+  .statusbar{height:50px;flex:0 0 auto;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 22px 7px;font-size:.74rem;font-weight:700;color:var(--ink);font-family:'Inter'}
+  .statusbar .icons{display:flex;align-items:center;gap:5px}
+  .float{animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+  .app{flex:1;display:flex;flex-direction:column;min-height:0;background:#fff}
+  .app__top{padding:6px 18px 12px;display:flex;align-items:center;justify-content:space-between;flex:0 0 auto}
+  .app__top .ttl{font-family:'Space Grotesk';font-weight:700;font-size:1.25rem;letter-spacing:-.02em}
+  .app__top .sub{font-size:.72rem;color:#9a8f8d;font-weight:600}
+  .app__body{flex:1;min-height:0;overflow:hidden;padding:4px 16px 16px}
+
+  /* chat */
+  .chat{display:flex;flex-direction:column;gap:11px;height:100%}
+  .bubble{max-width:86%;padding:11px 14px;border-radius:18px;font-size:.85rem;line-height:1.4}
+  .bubble.bot{background:#F1EEEE;color:var(--ink);border-bottom-left-radius:5px;align-self:flex-start}
+  .bubble.me{background:var(--red);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+  .bubble.me.voice{display:flex;align-items:center;gap:9px}
+  .wave{display:flex;align-items:center;gap:2px;height:18px}
+  .wave i{width:2px;background:rgba(255,255,255,.85);border-radius:2px;display:block}
+  .logged{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;align-self:flex-start;max-width:94%;box-shadow:var(--shadow-soft)}
+  .logged .lh{font-size:.64rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:7px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-size:.72rem;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--cream);color:var(--ink-soft);border:1px solid var(--cream-2)}
+  .chip.alert{background:#FFE7E7;color:#C9322E;border-color:#ffd2d2}
+  .chip.sync{background:#EAF6EF;color:#1f8a4c;border-color:#cfe9d9}
+  .logged-more{margin-top:9px;font-size:.69rem;font-weight:600;color:#9a8f8d}
+  .composer{margin-top:auto;display:flex;align-items:center;gap:10px;padding-top:6px}
+  .composer .pill{flex:1;height:42px;border-radius:999px;background:#F1EEEE;display:flex;align-items:center;padding:0 16px;color:#9a8f8d;font-size:.82rem}
+  .mic{width:46px;height:46px;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:0 0 auto;box-shadow:0 10px 22px -8px rgba(240,72,72,.8);position:relative}
+  .mic::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(240,72,72,.35);animation:ring 2s infinite}
+  @keyframes ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.4);opacity:0}}
+
+  /* insights */
+  .insight-card{border-radius:16px;padding:15px;margin-bottom:12px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-soft)}
+  .insight-card.hero-find{background:var(--grad);color:#fff;border:none}
+  .ic-top{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+  .ic-badge{font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.24);color:#fff}
+  .insight-card.lead .ic-badge{background:#FFE7E7;color:#C9322E}
+  .ic-scan{margin-left:auto;font-size:.58rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.2);color:#fff;padding:4px 8px;border-radius:999px}
+  .ic-title{font-family:'Space Grotesk';font-weight:700;font-size:.98rem;line-height:1.25}
+  .insight-card.lead .ic-title{color:var(--ink)}
+  .factors{margin-top:12px;display:flex;flex-direction:column;gap:9px}
+  .factor .frow{display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;margin-bottom:4px;color:#fff}
+  .factor .fbar{height:6px;border-radius:999px;background:rgba(255,255,255,.25);overflow:hidden}
+  .factor .fbar i{display:block;height:100%;background:#fff;border-radius:999px}
+  .ic-foot{margin-top:13px;font-size:.7rem;font-weight:700;color:rgba(255,255,255,.95);border-top:1px solid rgba(255,255,255,.25);padding-top:10px}
+  .corr{margin-top:11px}
+  .corr .bar{height:7px;border-radius:999px;background:#F1EEEE;overflow:hidden}
+  .corr .bar i{display:block;height:100%;border-radius:999px;background:var(--red)}
+  .corr .lbl{display:flex;justify-content:space-between;font-size:.66rem;font-weight:700;color:var(--ink-soft);margin-top:6px}
+
+  /* timeline */
+  .tl{position:relative;padding-left:24px;height:100%;overflow:hidden}
+  .tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--cream-2)}
+  .tl-day{position:relative;margin-bottom:16px}
+  .tl-day::before{content:"";position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--red)}
+  .tl-day.muted::before{border-color:#d8cfcd}
+  .tl-date{font-size:.7rem;font-weight:800;letter-spacing:.04em;color:#9a8f8d;text-transform:uppercase;margin-bottom:7px}
+  .tl-card{border:1px solid var(--line);border-radius:13px;padding:10px 11px;background:#fff;box-shadow:var(--shadow-soft)}
+
+  /* dashboard */
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+  .metric{background:var(--cream);border:1px solid var(--cream-2);border-radius:13px;padding:11px 10px}
+  .metric .v{font-family:'Space Grotesk';font-weight:700;font-size:1.12rem;line-height:1}
+  .metric .l{font-size:.6rem;font-weight:700;color:#9a8f8d;text-transform:uppercase;letter-spacing:.05em;margin-top:5px}
+  .metric .v small{font-size:.6rem;font-weight:700}
+  .up{color:#1f9d55}.down{color:var(--red)}
+  .chart-card{border:1px solid var(--line);border-radius:16px;padding:14px 14px 10px;box-shadow:var(--shadow-soft)}
+  .chart-card .ct{font-size:.74rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px}
+  .chart-card .cs{font-size:.66rem;color:#9a8f8d;margin-bottom:8px}
+  .legend{display:flex;gap:14px;margin-top:8px;font-size:.64rem;font-weight:600;color:var(--ink-soft)}
+  .legend i{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:middle}
+
+  /* program */
+  #program{background:#fff}
+  .program-disclaim{margin-top:42px;display:flex;align-items:center;gap:18px;
+    border:1px solid var(--cream-2);background:var(--cream);border-radius:20px;padding:24px 28px}
+  .program-disclaim svg{flex:0 0 auto;color:var(--red)}
+  .program-disclaim p{font-size:1.05rem;color:var(--ink-soft);line-height:1.5}
+  .program-disclaim p b{color:var(--ink)}
+
+  /* pricing */
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:54px}
+  .price-card{border:1px solid var(--line);border-radius:22px;padding:30px 28px;background:#fff;display:flex;flex-direction:column}
+  .price-card.feature{background:var(--ink);color:#fff;border-color:transparent;box-shadow:var(--shadow)}
+  .price-card .pk{font-weight:800;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+  .price-card.feature .pk{color:var(--red-bright)}
+  .price-card .amt{font-family:'Space Grotesk';font-weight:700;font-size:2.4rem;line-height:1;letter-spacing:-.02em;margin-bottom:6px}
+  .price-card .amt small{font-size:.9rem;font-weight:600;color:#9a8f8d}
+  .price-card.feature .amt small{color:rgba(255,255,255,.7)}
+  .price-card .pdesc{font-size:.98rem;color:var(--ink-soft);opacity:.86;margin-top:10px}
+  .price-card.feature .pdesc{color:rgba(255,255,255,.82);opacity:1}
+  .price-card .ptag{margin-top:16px;align-self:flex-start;font-size:.72rem;font-weight:700;color:var(--red-deep);background:var(--cream);border:1px solid var(--cream-2);padding:5px 12px;border-radius:999px}
+  .price-card.feature .ptag{color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22)}
+
+  /* why grid */
+  #why{background:var(--cream)}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .why-card{padding:30px 26px;border-radius:20px;border:1px solid var(--line);background:#fff;transition:transform .2s,box-shadow .2s}
+  .why-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-soft)}
+  .why-ic{width:50px;height:50px;border-radius:14px;background:var(--cream);color:var(--red);display:grid;place-items:center;margin-bottom:18px}
+  .why-card h3{font-size:1.2rem;margin-bottom:9px}
+  .why-card p{font-size:.96rem;color:var(--ink-soft);opacity:.85}
+
+  /* security & compliance */
+  .security{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+  .security::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 50% at 85% 0%,rgba(240,72,72,.18),transparent 60%);pointer-events:none}
+  .security .wrap{position:relative}
+  .security .eyebrow{color:var(--red-bright)}
+  .security .sec-head h2{color:#fff}
+  .security .sec-head p{color:rgba(255,255,255,.72);opacity:1}
+  .law-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .law-card{border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:26px 24px;background:rgba(255,255,255,.035);
+    display:flex;flex-direction:column;transition:border-color .2s,background .2s}
+  .law-card:hover{border-color:rgba(240,72,72,.6);background:rgba(240,72,72,.06)}
+  .law-card.highlight{border-color:rgba(240,72,72,.5);background:rgba(240,72,72,.08)}
+  .law-ic{width:44px;height:44px;border-radius:12px;background:rgba(240,72,72,.16);color:var(--red-bright);display:grid;place-items:center;margin-bottom:16px}
+  .law-card h3{font-size:1.18rem;margin-bottom:10px}
+  .law-card p{font-size:.93rem;line-height:1.5;color:rgba(255,255,255,.74);flex:1}
+  .law-refs{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+  .ref{font-family:'Inter';font-size:.64rem;font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.85);
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);padding:4px 9px;border-radius:7px}
+  .compliance-banner{margin-top:34px;display:flex;align-items:center;gap:20px;
+    border:1px solid rgba(240,72,72,.4);background:linear-gradient(120deg,rgba(240,72,72,.14),rgba(201,46,78,.08));
+    border-radius:20px;padding:26px 30px}
+  .compliance-banner .shield{flex:0 0 auto;width:48px;height:48px;color:var(--red-bright)}
+  .compliance-banner p{font-size:1rem;line-height:1.55;color:rgba(255,255,255,.84)}
+  .compliance-banner p b{color:#fff}
+
+  /* final cta / apply */
+  .cta{background:var(--grad);color:#fff;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 50% -20%,rgba(255,255,255,.22),transparent 60%)}
+  .cta__in{position:relative;max-width:680px;margin:0 auto}
+  .cta h2{font-size:clamp(2.1rem,4.8vw,3.5rem);margin-bottom:18px}
+  .cta p{font-size:1.2rem;color:rgba(255,255,255,.94);margin-bottom:32px}
+  .cta .form-success{margin:0 auto}
+  .cta .form-note{justify-content:center}
+  .applyform{display:flex;flex-direction:column;gap:12px;max-width:470px;margin:0 auto;text-align:left}
+  .applyform .row2{display:flex;gap:12px}
+  .applyform .row2 .fld{flex:1;min-width:0}
+  .applyform .fld{width:100%;border:none;border-radius:14px;padding:15px 18px;font-family:'Inter';font-size:1rem;
+    color:var(--ink);background:#fff;outline:none;box-shadow:0 10px 30px -14px rgba(0,0,0,.4)}
+  .applyform select.fld{appearance:none;-webkit-appearance:none;cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239a8f8d' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+  .applyform input::placeholder{color:#9a8f8d}
+  .applyform .btn{width:100%;margin-top:4px}
+
+  /* footer */
+  footer{background:var(--ink);color:#fff;padding:60px 0 40px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap}
+  .foot .brand{margin-bottom:14px}
+  .foot p{color:rgba(255,255,255,.6);max-width:34ch;font-size:.95rem}
+  .stores{display:flex;gap:11px;flex-wrap:wrap;margin-top:20px}
+  .store{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+    color:#fff;border-radius:13px;padding:9px 15px}
+  .store svg{flex:0 0 auto}
+  .store .st{display:flex;flex-direction:column;line-height:1.12}
+  .store .st small{font-size:.58rem;font-weight:600;opacity:.72;letter-spacing:.03em}
+  .store .st b{font-family:'Space Grotesk';font-size:.95rem;font-weight:700}
+  .foot__links{display:flex;gap:40px;flex-wrap:wrap}
+  .foot__col h4{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;font-family:'Inter';font-weight:800}
+  .foot__col a{display:block;color:rgba(255,255,255,.8);font-size:.95rem;margin-bottom:9px;transition:color .15s}
+  .foot__col a:hover{color:#fff}
+  .foot__bottom{margin-top:46px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);
+    display:flex;flex-direction:column;gap:12px;color:rgba(255,255,255,.5);font-size:.85rem}
+  .foot__bottom .legal{max-width:none}
+
+  /* reveal */
+  .js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .js .reveal.in{opacity:1;transform:none}
+
+  /* responsive */
+  @media(max-width:900px){
+    .hero__grid{grid-template-columns:1fr;gap:50px}
+    .hero{padding:46px 0 70px}
+    .hero p.lede{max-width:46ch}
+    .hero__badge{display:none}
+    .nav__links{display:none}
+    .glp1 .wrap{grid-template-columns:1fr;gap:34px}
+    .feature-row{grid-template-columns:1fr;gap:34px}
+    .feature-row:nth-child(even) .feature-row__media{order:0}
+    .feature-row__copy{text-align:center}
+    .feature-row__copy p{margin-left:auto;margin-right:auto}
+    .steps{grid-template-columns:1fr}
+    .sources-grid{grid-template-columns:repeat(2,1fr)}
+    .pricing{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:repeat(2,1fr)}
+    .law-grid{grid-template-columns:repeat(2,1fr)}
+    .qgrid{grid-template-columns:1fr}
+    .compliance-banner{flex-direction:column;text-align:center;align-items:center}
+    .program-disclaim{flex-direction:column;text-align:center}
+    section{padding:72px 0}
+  }
+  @media(max-width:540px){
+    .sources-grid{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr}
+    .law-grid{grid-template-columns:1fr}
+    .waitlist{flex-direction:column}
+    .waitlist .btn{width:100%}
+    .applyform .row2{flex-direction:column}
+    .foot{flex-direction:column}
+    .phone{width:270px;height:550px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important}
+    html{scroll-behavior:auto}
+    .js .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- reusable logo marks -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="wgrad" x1="0.08" y1="0" x2="0.92" y2="1">
+      <stop offset="0" stop-color="#FF8472"/>
+      <stop offset="0.5" stop-color="#F04848"/>
+      <stop offset="1" stop-color="#C92E4E"/>
+    </linearGradient>
+    <symbol id="wmark" viewBox="0 0 512 512">
+      <rect width="512" height="512" rx="116" fill="url(#wgrad)"/>
+      <path d="M120 164 L196 354 L256 258 L316 354 L392 164" fill="none" stroke="#fff" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="wmarkRed" viewBox="0 0 512 512">
+      <rect width="512" height="512" rx="116" fill="#fff"/>
+      <path d="M120 164 L196 354 L256 258 L316 354 L392 164" fill="none" stroke="url(#wgrad)" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<header class="nav" id="top">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top">
+      <svg class="logo" aria-hidden="true"><use href="#wmarkRed"/></svg>
+      <b>What works for me</b>
+    </a>
+    <nav class="nav__links">
+      <a href="#how">How it works</a>
+      <a href="#sources">What it tracks</a>
+      <a href="#program">The program</a>
+      <a href="#security">Security</a>
+    </nav>
+    <a href="#apply" class="nav__cta">Apply to Cohort 0</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero__w" viewBox="0 0 512 512" aria-hidden="true"><path d="M120 164 L196 354 L256 258 L316 354 L392 164" fill="none" stroke="#fff" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <span class="hero__eyebrow"><span class="dot"></span> The AI weight-loss investigator you talk to</span>
+      <h1><span class="q">Why won't</span><span class="q">the weight move?</span></h1>
+      <p class="lede">You've eaten clean, trained, maybe even started a treatment — and the scale barely budges. <span class="brandname">What works for me</span> logs your whole life by voice and connects <b>hundreds of signals</b> against medical science and your own history, until the real reason finally shows up.</p>
+
+      <form class="waitlist" id="form-hero" novalidate>
+        <input type="text" name="name" class="fld" placeholder="First name" aria-label="First name" required>
+        <input type="email" name="email" placeholder="your@email.com" aria-label="Email address" required>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <button class="btn btn--light" type="submit">Apply to Cohort 0</button>
+      </form>
+      <div class="form-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+        Invitation only · we review every application · no spam, ever.
+      </div>
+      <div class="form-success">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+        Application received. We'll be in touch about Cohort 0.
+      </div>
+    </div>
+
+    <div class="hero__phone">
+      <div class="hero__badge b1"><span class="k">Pattern found</span>The scale stalls on weeks with late-night sugar and under 6h of sleep.</div>
+      <div class="hero__badge b2"><span class="k">Every signal, one place</span>Weight, meals, sleep, stress, your treatment days.</div>
+      <!-- phone: chat -->
+      <div class="phone float">
+        <div class="island"></div>
+        <div class="phone__screen">
+          <div class="statusbar">
+            <span>9:41</span>
+            <span class="icons">
+              <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+              <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 2.2c2.1 0 4 .8 5.4 2.2l1.3-1.3A9.4 9.4 0 0 0 8 .3 9.4 9.4 0 0 0 1.3 3.1l1.3 1.3A7.6 7.6 0 0 1 8 2.2Z"/><path d="M8 5.6c1.2 0 2.3.5 3.1 1.3l1.3-1.3A6 6 0 0 0 8 3.8a6 6 0 0 0-4.4 1.8l1.3 1.3A4.4 4.4 0 0 1 8 5.6Z"/><circle cx="8" cy="9.2" r="1.6"/></svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg>
+            </span>
+          </div>
+          <div class="app">
+            <div class="app__top">
+              <div>
+                <div class="ttl">Today</div>
+                <div class="sub">Monday · Morning check-in</div>
+              </div>
+              <svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg>
+            </div>
+            <div class="app__body chat">
+              <div class="bubble bot">Good morning ☀️ How did the cravings go yesterday?</div>
+              <div class="bubble me voice">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                <span class="wave">
+                  <i style="height:5px"></i><i style="height:11px"></i><i style="height:17px"></i><i style="height:9px"></i><i style="height:14px"></i><i style="height:6px"></i><i style="height:12px"></i><i style="height:16px"></i><i style="height:7px"></i>
+                </span>
+                <span style="font-size:.7rem;opacity:.85">0:13</span>
+              </div>
+              <div class="bubble bot" style="max-width:90%">"Rough — caved on sugar after dinner, slept badly." Logged 👇</div>
+              <div class="logged">
+                <div class="lh">Logged just now</div>
+                <div class="chips">
+                  <span class="chip alert">Sugar craving · evening</span>
+                  <span class="chip">Injection · day 3</span>
+                  <span class="chip sync">Sleep 5h40 · synced</span>
+                  <span class="chip sync">Weight 78.4kg · synced</span>
+                </div>
+                <div class="logged-more">+ 300 more signals synced from your apps today</div>
+              </div>
+              <div class="composer">
+                <span class="pill">Tap to talk…</span>
+                <span class="mic">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLP-1 / COHORT 0 BAND -->
+<section class="glp1" id="cohort0">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow"><span class="dot"></span> Cohort 0 · now recruiting</span>
+      <h2>On Mounjaro — and the weight stopped moving?</h2>
+      <p>You started the injections. The first months worked. Then it stalled — and the hunger and cravings crept back, <b>sugar most of all</b>. You're not doing it wrong.</p>
+      <p><b>Cohort 0</b> is our founding study: people on <b>Mounjaro 15&nbsp;mg</b> whose weight has plateaued, with no real drop in appetite. Together — with the same tool, around the same question — we investigate why your body is holding on, and run the leads that actually shift it.</p>
+      <p class="micro">Mounjaro® is a registered trademark of Eli Lilly and Company. <span class="brandname">What works for me</span> is an independent tool and is not affiliated with, endorsed by, or sponsored by Eli Lilly. This is not medical advice, provides no diagnosis, and is not a guarantee of weight loss.</p>
+    </div>
+    <div class="cohort-card reveal">
+      <span class="k">The founding cohort</span>
+      <h3>Cohort 0</h3>
+      <ul>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>On Mounjaro 15&nbsp;mg, with weight loss plateaued</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Hunger &amp; cravings have crept back — sugar especially</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>One shared question, investigated together</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Limited places · applicants reviewed</li>
+      </ul>
+      <div class="price-line">
+        <span class="free">Free</span>
+        <small>for the founding cohort — first 2 months free thereafter</small>
+      </div>
+      <a href="#apply" class="btn btn--red">Apply to Cohort 0</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Sound familiar?</span>
+      <h2>You're doing everything. The weight isn't listening.</h2>
+    </div>
+    <div class="qgrid reveal">
+      <div class="qcard"><span>·</span>Why has the scale stalled?</div>
+      <div class="qcard"><span>·</span>Why am I always craving sugar?</div>
+      <div class="qcard"><span>·</span>Why does it pile back on the moment I stop?</div>
+      <div class="qcard"><span>·</span>Why does it work for everyone but me?</div>
+    </div>
+    <p class="punch reveal">The diet "worked" for a while, then stopped. The tests come back <b>"normal."</b> But the weight won't move — and the reason is rarely one thing. It's <b>hundreds</b> of small things lining up: sleep, stress and cortisol, meal timing, dairy, your gut, your treatment — that no one ever had the time, or the data, to connect. <b>Until now.</b></p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>From "I'm stuck" to "here's why."</h2>
+      <p>Three steps. No forms, no calorie spreadsheets, no willpower required.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step__n">01</div>
+        <h3>Talk</h3>
+        <p>Just speak — what you ate, the craving that hit at 11pm, your weight, your sleep, your stress, your injection day. Snap a photo of a meal or a lab result. It even hears it in your voice when something's off.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">02</div>
+        <h3>Connect</h3>
+        <p>Link the apps you already use — your scale (Renpho &amp; co.), Health, steps, sleep, weather, calendar, cycle. It pulls in hundreds of signals a day and structures them cleanly, in any language.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">03</div>
+        <h3>Understand</h3>
+        <p>It weighs everything at once against medical research and your own past, surfacing the multi-factor reasons your weight is stuck — and never invents an answer it can't trace to a source.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES / FEED IT ANYTHING -->
+<section id="sources">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">One tool, every signal</span>
+      <h2>Feed it anything. It makes sense of all of it.</h2>
+      <p>Most weight apps count calories and stop there. <span class="brandname">What works for me</span> takes in hundreds of signals from every corner of your life — and turns the mess into clean, comparable data no human could hold in their head.</p>
+    </div>
+    <div class="sources-grid">
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg></div>
+        <h3>Your voice</h3>
+        <p>Dictate meals, cravings, mood, a bad night, your injection. Prefer typing? That works too.</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M6 8v8"/><path d="M10 4v16"/><path d="M14 7v10"/><path d="M18 9v6"/><path d="M22 11v2"/></svg></div>
+        <h3>Your tone, read</h3>
+        <p>It hears <em>how</em> you say it — stress drives cortisol, and cortisol drives fat storage. "You sound tense today — anything to note?"</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07l-1.41 1.41"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.41-1.41"/></svg></div>
+        <h3>The apps you already use</h3>
+        <p>Your smart scale (like Renpho), steps, sleep trackers, weather, your calendar (that late dinner, that brutal week), menstrual cycle, and any health app.</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+        <h3>A photo is enough</h3>
+        <p>Snap a meal, the scale, a lab report or your treatment pen — it reads the numbers and logs them for you.</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></div>
+        <h3>Any document, any language</h3>
+        <p>Blood panels, prescriptions, scans — as image, audio, data feed or text. Structured cleanly, whatever the language.</p>
+      </div>
+      <div class="source-card reveal">
+        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-12 2 6h6"/></svg></div>
+        <h3>The mind–body link</h3>
+        <p>Stress, cortisol, broken sleep, emotional eating — it knows your mood moves your body chemistry and your appetite, and tracks it.</p>
+      </div>
+    </div>
+    <p class="sources-note reveal">A doctor sees you 15 minutes a year. <span class="brandname">What works for me</span> reads <b>hundreds of signals every single day</b> — and never forgets one.</p>
+  </div>
+</section>
+
+<!-- APP SHOWCASE -->
+<section class="showcase" id="app">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Inside the app</span>
+      <h2>See why the weight is stuck. Finally.</h2>
+      <p>An early look at <span class="brandname">What works for me</span>.</p>
+    </div>
+
+    <!-- row 1: conversation -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Conversation</span>
+        <h3>It listens — and learns what to ask.</h3>
+        <p>Speak freely: a meal, a craving, a sleepless night, your injection day. It even picks up when your voice sounds tense and checks in — then files every detail as clean data, and follows up on what you forgot to mention.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Today</div><div class="sub">Evening check-in</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body chat">
+                <div class="bubble bot" style="max-width:92%">Yesterday you skipped dinner after a long day. Did the late-night craving hit again?</div>
+                <div class="bubble me voice">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                  <span class="wave"><i style="height:6px"></i><i style="height:13px"></i><i style="height:18px"></i><i style="height:8px"></i><i style="height:15px"></i><i style="height:5px"></i><i style="height:11px"></i></span>
+                  <span style="font-size:.7rem;opacity:.85">0:16</span>
+                </div>
+                <div class="bubble bot" style="max-width:92%">"Yeah — biscuits at 11, then slept badly." Noted 👇 — I'll watch how skipped meals track the sugar pull.</div>
+                <div class="logged">
+                  <div class="lh">Captured</div>
+                  <div class="chips"><span class="chip alert">Sugar · late-night</span><span class="chip">Dinner · skipped</span><span class="chip sync">Sleep 5h · synced</span><span class="chip sync">Stress · high</span></div>
+                  <div class="logged-more">+ tone analysis · 200+ signals merged from your sources</div>
+                </div>
+                <div class="composer"><span class="pill">Tap to talk…</span><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- row 2: insights -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Insights &amp; correlations</span>
+        <h3>Why the scale won't move — with the evidence.</h3>
+        <p>Ask it to dig, or explore the correlations yourself. When hundreds of small signals line up, you'll see what's really stalling your loss — every factor weighed at once and ranked by how strongly it explains the plateau.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Insights</div><div class="sub">3 new leads this week</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="insight-card hero-find">
+                  <div class="ic-top"><span class="ic-badge">Pattern found</span><span class="ic-scan">300+ signals</span></div>
+                  <div class="ic-title">Your weight stalls on weeks with late sugar — and short sleep.</div>
+                  <div class="factors">
+                    <div class="factor"><div class="frow"><span>Sugar after 9pm</span><span>83%</span></div><div class="fbar"><i style="width:83%"></i></div></div>
+                    <div class="factor"><div class="frow"><span>Sleep under 6h</span><span>71%</span></div><div class="fbar"><i style="width:71%"></i></div></div>
+                    <div class="factor"><div class="frow"><span>High-stress days · calendar</span><span>58%</span></div><div class="fbar"><i style="width:58%"></i></div></div>
+                  </div>
+                  <div class="ic-foot">82% confidence · explains 9 of 11 stalled weeks · 9 sources</div>
+                </div>
+                <div class="insight-card lead">
+                  <div class="ic-top"><span class="ic-badge">Possible lead</span></div>
+                  <div class="ic-title">Cravings spike the day after a skipped dinner.</div>
+                  <div class="chips" style="margin-top:10px"><span class="chip">Skipped dinner</span><span class="chip">Short sleep</span><span class="chip alert">Sugar craving +1 day</span><span class="chip">Injection day 3</span></div>
+                  <div class="corr"><div class="bar"><i style="width:78%"></i></div><div class="lbl"><span>Combined signal</span><span>r = 0.78</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- row 3: timeline -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Daily timeline</span>
+        <h3>Every day, on the record.</h3>
+        <p>A living journal of your body — searchable and connected, pulling spoken notes and synced data into one thread: weight, meals, injection days, sleep. Scroll back through weeks and months; nothing you noticed ever gets lost again.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Journal</div><div class="sub">This week</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="tl">
+                  <div class="tl-day">
+                    <div class="tl-date">Today · Mon</div>
+                    <div class="tl-card"><div class="chips"><span class="chip alert">Sugar · late</span><span class="chip">Injection · day 3</span><span class="chip sync">Sleep 5h40</span><span class="chip sync">78.4 kg</span></div></div>
+                  </div>
+                  <div class="tl-day">
+                    <div class="tl-date">Sun</div>
+                    <div class="tl-card"><div class="chips"><span class="chip sync">Sleep 7h 20m</span><span class="chip sync">9,100 steps</span><span class="chip">No sugar</span></div></div>
+                  </div>
+                  <div class="tl-day muted">
+                    <div class="tl-date">Sat</div>
+                    <div class="tl-card"><div class="chips"><span class="chip alert">Bloating</span><span class="chip">Dairy · dinner</span><span class="chip sync">Cycle · day 24</span></div></div>
+                  </div>
+                  <div class="tl-day muted">
+                    <div class="tl-date">Fri</div>
+                    <div class="tl-card"><div class="chips"><span class="chip">Energy · high</span><span class="chip sync">78.1 kg</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- row 4: dashboard -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Trends dashboard</span>
+        <h3>Watch the factors line up.</h3>
+        <p>Weight, sleep, sugar, stress, cycle and your treatment — tracked over time so the connections become impossible to miss. The big picture of why you're stuck, drawn from every source at once.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Trends</div><div class="sub">Last 14 days</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="metrics">
+                  <div class="metric"><div class="v">300+</div><div class="l">Signals / day</div></div>
+                  <div class="metric"><div class="v down">−0.3<small>kg</small></div><div class="l">14-day change</div></div>
+                  <div class="metric"><div class="v">Sugar</div><div class="l">Top factor</div></div>
+                </div>
+                <div class="chart-card">
+                  <div class="ct">Weight × late sugar</div>
+                  <div class="cs">The scale stalls on high-sugar weeks</div>
+                  <svg width="100%" height="118" viewBox="0 0 240 118" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04848" stop-opacity=".28"/><stop offset="1" stop-color="#F04848" stop-opacity="0"/></linearGradient>
+                    </defs>
+                    <line x1="0" y1="30" x2="240" y2="30" stroke="#eee" stroke-width="1"/>
+                    <line x1="0" y1="64" x2="240" y2="64" stroke="#eee" stroke-width="1"/>
+                    <line x1="0" y1="98" x2="240" y2="98" stroke="#eee" stroke-width="1"/>
+                    <path d="M0,72 L34,60 L68,76 L102,40 L136,52 L170,30 L204,46 L240,34 L240,118 L0,118 Z" fill="url(#g1)"/>
+                    <path d="M0,72 L34,60 L68,76 L102,40 L136,52 L170,30 L204,46 L240,34" fill="none" stroke="#F04848" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0,82 L34,70 L68,84 L102,50 L136,60 L170,40 L204,54 L240,44" fill="none" stroke="#15100F" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>
+                    <circle cx="170" cy="30" r="3.4" fill="#F04848"/>
+                    <circle cx="170" cy="40" r="3.4" fill="#15100F"/>
+                  </svg>
+                  <div class="legend"><span><i style="background:#F04848"></i>Stalled weight</span><span><i style="background:#15100F;opacity:.5"></i>Late sugar</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROGRAM -->
+<section id="program">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">The program</span>
+      <h2>An app you keep. A study you can join.</h2>
+      <p>The app is yours, free: a private journal that investigates your own body. The program is optional — join a <b>cohort</b> and investigate one question alongside people living the exact same thing.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step__n">01</div>
+        <h3>Everyone logs</h3>
+        <p>Each member talks to the app daily. Voice, photos and connected apps become clean, comparable data — hundreds of signals each, around one shared question.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">02</div>
+        <h3>The app finds a lead</h3>
+        <p>It compares correlations across the whole cohort. When a pattern emerges — say, dairy after 5pm wrecking deep sleep — it proposes a test the group can actually run.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">03</div>
+        <h3>The cohort tests it</h3>
+        <p>Everyone is invited to run the same test the next day — take lactose at 6pm, say. Accept or decline; it's always your call. Results feed a shared knowledge base, and update your private profile note — a gold mine that grows every day.</p>
+      </div>
+    </div>
+
+    <div class="program-disclaim reveal">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <p><b>What we offer is an investigation into your own body — not a promise that you'll lose weight.</b> The app finds correlations and proposes tests; it never diagnoses, and never invents an answer it can't trace to a source.</p>
+    </div>
+
+    <!-- PRICING -->
+    <div class="pricing">
+      <div class="price-card reveal">
+        <div class="pk">The app</div>
+        <div class="amt">Free</div>
+        <p class="pdesc">Download on iOS or Android, talk to it daily, and get your own insights. Invitation only at launch.</p>
+        <span class="ptag">iOS &amp; Android</span>
+      </div>
+      <div class="price-card feature reveal">
+        <div class="pk">Join a cohort</div>
+        <div class="amt">€200 <small>/ month</small></div>
+        <p class="pdesc">Investigate one issue with a focused group. Group calls and the data work are run by our research partner. First 2 months free.</p>
+        <span class="ptag">2 months free</span>
+      </div>
+      <div class="price-card reveal">
+        <div class="pk">Cohort 0</div>
+        <div class="amt">Free <small>for now</small></div>
+        <p class="pdesc">Our founding Mounjaro cohort is free while it proves itself. From Cohort 1 onward, the program is paid.</p>
+        <span class="ptag">Founding cohort</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Why it's different</span>
+      <h2>Built to actually find answers.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg></div>
+        <h3>Voice-first</h3>
+        <p>Logging that takes seconds, not discipline. Just talk — the app does the rest.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2a.3.3 0 0 0-.2.3Z"/><path d="M8 2v6a4 4 0 0 1-8 0V2"/><path d="M6 14a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg></div>
+        <h3>Grounded, and honest</h3>
+        <p>Every signal is checked against real medical knowledge — and it cites its sources. It never invents an answer it can't back up.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-12 2 6h6"/></svg></div>
+        <h3>Hundreds of signals at once</h3>
+        <p>It weighs hundreds of signals together — connections no single test, and no 15-minute visit, can see.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Private by design</h3>
+        <p>Your data is encrypted, yours alone, and never sold. This is your story to keep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY & COMPLIANCE -->
+<section class="security" id="security">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Security &amp; compliance</span>
+      <h2>Your health data, under lock and law.</h2>
+      <p>Health data is the most sensitive data there is — a "special category" under the GDPR (Art. 9). We treat it that way: built for strict compliance with European and French law, by design, and engineered to go further than the law requires.</p>
+    </div>
+
+    <div class="law-grid">
+      <div class="law-card highlight reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Shared in a cohort — anonymised by design</h3>
+        <p>When you join a cohort, only de-identified signals ever enter the shared pool — never your name, your voice, or your raw journal. The pool sees patterns, not people. Your private profile note stays yours alone.</p>
+        <div class="law-refs"><span class="ref">Pseudonymisation</span><span class="ref">GDPR Art. 9</span><span class="ref">Art. 25</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg></div>
+        <h3>Collection — minimised &amp; consented</h3>
+        <p>We collect only what a finding actually needs, and pseudonymise it the moment it arrives. Analysis runs on de-identified data — and only ever with your explicit, opt-in consent, which you can withdraw at any time.</p>
+        <div class="law-refs"><span class="ref">Art. 5(1)(c)</span><span class="ref">Art. 7</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3>Storage — you decide how long</h3>
+        <p>Your entries are kept for you to use, then — after three years — we tell you a month ahead and let you keep or delete them. Or opt in, once, to keep everything for as long as you want it.</p>
+        <div class="law-refs"><span class="ref">GDPR Art. 5(1)(e)</span><span class="ref">Storage limitation</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><path d="M12 16v2"/></svg></div>
+        <h3>Transmission &amp; keys — encrypted, separated</h3>
+        <p>Every byte moves over TLS 1.3 and rests under AES-256-GCM, with per-user keys held apart from the data they protect and rotated on a schedule — exactly the technical measures the law names for securing processing.</p>
+        <div class="law-refs"><span class="ref">GDPR Art. 32</span><span class="ref">TLS 1.3</span><span class="ref">AES-256</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg></div>
+        <h3>Where it lives — certified EU data centres</h3>
+        <p>Your data stays in the EU, on infrastructure built to the HDS standard (<em>Hébergeur de Données de Santé</em>) required for hosting French health data — an ISO&nbsp;27001-based framework overseen by the Agence du Numérique en Santé.</p>
+        <div class="law-refs"><span class="ref">Code de la santé publique L.1111-8</span><span class="ref">HDS</span><span class="ref">ISO 27001</span></div>
+      </div>
+
+      <div class="law-card reveal">
+        <div class="law-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Your rights — always yours</h3>
+        <p>Access, correct, export in a portable format (any date range, your physical, psychological and context data), or erase everything — one tap, honoured without undue delay. And we run a Data Protection Impact Assessment before we ever launch.</p>
+        <div class="law-refs"><span class="ref">GDPR Art. 15–20</span><span class="ref">Art. 17</span><span class="ref">Art. 35</span></div>
+      </div>
+    </div>
+
+    <div class="compliance-banner reveal">
+      <svg class="shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      <p><b>Built to comply with the GDPR (Regulation (EU) 2016/679) and France's Loi Informatique et Libertés — and to go further.</b> Your data is never sold, never used to train anyone else's AI, and never shared without your explicit say-so. Privacy isn't a setting here — it's the architecture.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA / APPLY -->
+<section class="cta" id="apply">
+  <div class="wrap cta__in">
+    <div class="reveal">
+      <h2>Apply to Cohort 0.</h2>
+      <p>On Mounjaro and stalled? Join the founding cohort and help find what actually moves the scale. Limited places — we review every application.</p>
+      <form class="applyform" id="form-apply" novalidate>
+        <div class="row2">
+          <input type="text" name="name" class="fld" placeholder="First name" aria-label="First name" required>
+          <input type="email" name="email" class="fld" placeholder="your@email.com" aria-label="Email address" required>
+        </div>
+        <select name="treatment" class="fld" aria-label="Are you on a GLP-1 treatment?">
+          <option value="" selected>Are you on a weight-loss treatment?</option>
+          <option value="mounjaro">Yes — Mounjaro</option>
+          <option value="other-glp1">Yes — another GLP-1 (Wegovy, Ozempic…)</option>
+          <option value="none">Not currently</option>
+          <option value="prefer-not">Prefer not to say</option>
+        </select>
+        <input type="text" name="goal" class="fld" placeholder="In one line: what's stuck? (optional)" aria-label="What's stuck">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <button class="btn btn--dark" type="submit">Apply to Cohort 0</button>
+      </form>
+      <div class="form-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+        Free for the founding cohort · no spam · unsubscribe anytime.
+      </div>
+      <div class="form-success">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+        Application received. We'll be in touch about Cohort 0.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="brand"><svg class="logo" aria-hidden="true"><use href="#wmark"/></svg><b>What works for me</b></div>
+        <p>The AI weight-loss investigator you talk to. Your honest, 360° quest to finally understand why the weight won't move.</p>
+        <div class="stores">
+          <span class="store">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.1-2.02-3.77-2.04-1.6-.16-3.13.94-3.94.94-.81 0-2.07-.92-3.4-.9-1.75.03-3.36 1.02-4.26 2.58-1.82 3.16-.47 7.83 1.3 10.4.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.02 2.29-1.27 3.14-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.72-1.04-2.75-4.13z"/><path d="M14.5 5.6c.72-.87 1.2-2.08 1.07-3.28-1.03.04-2.28.69-3.02 1.55-.66.76-1.24 1.99-1.08 3.16 1.15.09 2.32-.58 3.03-1.43z"/></svg>
+            <span class="st"><small>Download on the</small><b>App Store</b></span>
+          </span>
+          <span class="store">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.5v19c0 .57.63.92 1.12.62l15.04-9.12c.47-.28.47-.96 0-1.24L5.12 1.88C4.63 1.58 4 1.93 4 2.5z"/></svg>
+            <span class="st"><small>Get it on</small><b>Google Play</b></span>
+          </span>
+        </div>
+      </div>
+      <div class="foot__links">
+        <div class="foot__col">
+          <h4>Product</h4>
+          <a href="#how">How it works</a>
+          <a href="#sources">What it tracks</a>
+          <a href="#app">Inside the app</a>
+          <a href="#program">The program</a>
+          <a href="#security">Security</a>
+        </div>
+        <div class="foot__col">
+          <h4>Get started</h4>
+          <a href="#apply">Apply to Cohort 0</a>
+          <a href="#cohort0">Cohort 0</a>
+        </div>
+        <div class="foot__col">
+          <h4>The apps</h4>
+          <a href="/V1/">General app</a>
+          <a href="/V2/">App for stalled weight loss</a>
+          <a href="/V3/">App for chronic pain</a>
+        </div>
+        <div class="foot__col">
+          <h4>Language</h4>
+          <a href="/V2/fr/">Français</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <span>© <span id="year">2026</span> <span class="brandname">What works for me</span></span>
+      <span class="legal">Not a medical device. A digital tool designed to provide insights to individuals and their healthcare professionals. It does not provide a diagnosis and does not guarantee weight loss. Mounjaro® is a registered trademark of Eli Lilly and Company; <span class="brandname">What works for me</span> is independent and not affiliated with or endorsed by Eli Lilly.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var nav = document.querySelector('header.nav');
+  var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  function wireForm(id){
+    var f = document.getElementById(id);
+    if(!f) return;
+    var email = f.querySelector('input[type=email]');
+    var name  = f.querySelector('input[name=name]');
+    var btn   = f.querySelector('button[type=submit]');
+    var flag  = function(el){ el.focus(); el.style.boxShadow='0 0 0 3px rgba(0,0,0,.22)'; };
+    f.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      if(!email.value || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)){ return flag(email); }
+      if(name && !name.value.trim()){ return flag(name); }
+      var reveal = function(){ var c = f.closest('.hero__copy, .cta__in, .reveal'); if(c) c.classList.add('is-done'); };
+      var original = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Sending…';
+      var data = new FormData(f);
+      data.append('lang', document.documentElement.lang || 'en');
+      data.append('source', id);
+      fetch('/V2/apply.php', { method:'POST', body:data })
+        .then(function(r){ return r.ok ? r.json().catch(function(){ return {ok:true}; }) : {ok:false}; })
+        .then(function(res){
+          if(res && res.ok){ reveal(); }
+          else { btn.disabled=false; btn.textContent=original; email.style.boxShadow='0 0 0 3px rgba(0,0,0,.25)'; }
+        })
+        .catch(function(){ btn.disabled=false; btn.textContent=original; email.style.boxShadow='0 0 0 3px rgba(0,0,0,.25)'; });
+    });
+    [email, name].forEach(function(el){ if(el) el.addEventListener('input', function(){ this.style.boxShadow=''; }); });
+  }
+  wireForm('form-hero');
+  wireForm('form-apply');
+</script>
+</body>
+</html>
