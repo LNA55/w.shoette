@@ -1,7 +1,11 @@
-# User data — NEVER commit (contains real waitlist signup emails).
+# User data — NEVER commit (contains real signup / application emails).
 # Lives only on the server; retrieve via FTP.
 waitlist.csv
 **/waitlist.csv
+cohort0.csv
+**/cohort0.csv
+requests.csv
+**/requests.csv
 
 # Local agent / editor / OS
 .claude/
