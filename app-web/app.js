@@ -297,7 +297,7 @@
     recent.forEach(function(e){ var dk=new Date(e.createdAt); dk=dk.getFullYear()+'-'+dk.getMonth()+'-'+dk.getDate();
       (e.signals||[]).forEach(function(s){ if(by[s.category]){ by[s.category].days[dk]=1; by[s.category].count++; by[s.category].vals.push(s.value||s.label); } }); });
     return RECAP_KEYS.map(function(k){ var c=by[k], d=Object.keys(c.days).length;
-      return { key:k, label:(k==='environment'?t('climate'):catName(k)), days:d, score:(d>=10?3:(d>=4?2:1)), value:recapValue(k,c,d) }; });
+      return { key:k, label:(k==='environment'?t('climate'):catName(k)), days:d, score:(d>=10?3:(d>=4?2:1)), value:recapValue(k,c,d), absent:(d===0) }; });
   }
   function recapValue(key,c,d){
     if(d===0) return t('absent');
@@ -454,10 +454,13 @@
     if(!S.store.entries.length) return empty('emptyDataT','emptyData','🗂️');
     var recap=computeRecap(), view=S.dataView||'values';
     var rows=recap.map(function(r){
-      var right = view==='values' ? '<span class="rv">'+esc(r.value)+'</span>'
+      var right = view==='values'
+        ? '<span class="rv'+(r.absent?' rv-absent':'')+'">'+esc(r.value)+'</span>'
         : '<span class="score s'+r.score+'"><i class="dot"></i>'+esc(t('score'+r.score))+'</span>';
-      return '<div class="rrow"><span class="rl">'+esc(r.label)+'</span>'+right+'</div>'; }).join('');
-    var recapCard='<div class="card recap"><div class="recap-head"><h3 class="sec" style="margin:0">'+esc(t('recapTitle'))+'</h3>'+
+      return '<div class="rrow"><span class="rl"><span class="rl-ic">'+(CAT_EMOJI[r.key]||'')+'</span><span class="rl-name">'+esc(r.label)+'</span></span>'+right+'</div>'; }).join('');
+    var rtParts=t('recapTitle').split('—');
+    var recapHead='<div class="recap-titlewrap"><h3 class="recap-title">'+esc(rtParts[0].trim())+'</h3>'+(rtParts[1]?'<span class="recap-period">'+esc(rtParts[1].trim())+'</span>':'')+'</div>';
+    var recapCard='<div class="card recap"><div class="recap-head">'+recapHead+
       seg([['values',t('viewValues')],['score',t('viewScore')]], view, 'dataview')+'</div><div class="recap-table">'+rows+'</div></div>';
     var byCat={};
     S.store.entries.forEach(function(e){ (e.signals||[]).forEach(function(s){ (byCat[s.category]=byCat[s.category]||[]).push({v:s.value||s.label, t:e.createdAt}); }); });
