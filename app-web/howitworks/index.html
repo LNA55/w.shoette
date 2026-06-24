@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comment ça marche — What works for me</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --c-500: #118996; --c-100: #C5E3E5; --c-50: #E8F3F4; --c-700: #0B545C; --c-800: #073A40;
+    --ink: #1b1417; --muted: #7a7075; --line: #ece7e9;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
+    --radius: 18px; --maxw: 760px;
+  }
+  html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+  body { font-family: var(--font-body); color: var(--ink); background: #fff; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  /* Nav */
+  .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); padding: 0 24px; }
+  .topbar-inner { max-width: var(--maxw); margin: 0 auto; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { font-family: var(--font-display); font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c-500); box-shadow: 0 0 0 3px var(--c-100); flex: none; }
+  .back { font-size: .85rem; color: var(--c-700); text-decoration: none; font-weight: 600; }
+  .back:hover { text-decoration: underline; }
+
+  /* Layout */
+  .page { max-width: var(--maxw); margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* Hero */
+  .hero { margin-bottom: 56px; }
+  .hero h1 { font-family: var(--font-display); font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 700; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 14px; }
+  .hero p { font-size: 1.1rem; color: var(--muted); max-width: 560px; }
+  .badge { display: inline-block; background: var(--c-50); color: var(--c-700); border: 1px solid var(--c-100); border-radius: 999px; padding: 4px 12px; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 16px; }
+
+  /* Sections */
+  .section { margin-bottom: 52px; }
+  .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .section-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--c-500); color: #fff; display: grid; place-items: center; font-size: 1rem; flex: none; }
+  .section-label h2 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; }
+  .section p, .section li { font-size: .97rem; color: var(--ink); }
+  .section p + p { margin-top: 10px; }
+  ul.steps { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  ul.steps li { display: flex; gap: 12px; align-items: flex-start; }
+  ul.steps li .num { width: 24px; height: 24px; border-radius: 50%; background: var(--c-500); color: #fff; font-size: .75rem; font-weight: 700; display: grid; place-items: center; flex: none; margin-top: 1px; }
+
+  /* Cards */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 16px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .card .card-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .card h3 { font-family: var(--font-display); font-size: .95rem; font-weight: 700; margin-bottom: 4px; }
+  .card p { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+  /* Divider */
+  .divider { border: none; border-top: 1px solid var(--line); margin: 52px 0; }
+
+  /* Tech section */
+  .tech-header { background: var(--c-800); color: #fff; border-radius: var(--radius); padding: 22px 24px; margin-bottom: 32px; }
+  .tech-header h2 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+  .tech-header p { font-size: .88rem; opacity: .75; line-height: 1.5; }
+  .tech-block { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; margin-bottom: 16px; }
+  .tech-block h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .tech-block h3 .tag { font-size: .72rem; font-weight: 700; border-radius: 999px; padding: 2px 9px; }
+  .tag-local { background: var(--c-50); color: var(--c-700); }
+  .tag-server { background: #fdf3e3; color: #8a5c00; }
+  .tag-none { background: #f5f5f5; color: #666; }
+  .tech-block p, .tech-block li { font-size: .9rem; color: var(--ink); line-height: 1.6; }
+  .tech-block p + p { margin-top: 8px; }
+  .tech-block ul { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .tech-block ul li { display: flex; gap: 8px; }
+  .tech-block ul li::before { content: '→'; color: var(--c-500); font-weight: 700; flex: none; }
+  .future { background: #f9f6f7; border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: .85rem; color: var(--muted); border-left: 3px solid var(--c-200); }
+  .future strong { color: var(--ink); }
+
+  /* Keyword chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip { background: var(--c-50); color: var(--c-800); border-radius: 999px; padding: 4px 11px; font-size: .8rem; font-weight: 600; }
+
+  /* Footer */
+  footer { text-align: center; color: var(--muted); font-size: .82rem; padding-top: 24px; border-top: 1px solid var(--line); margin-top: 24px; }
+  footer a { color: var(--c-700); text-decoration: none; }
+
+  @media (max-width: 560px) { .page { padding: 32px 18px 60px; } .card-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span>What works for me</div>
+    <a class="back" href="/app/">← Ouvrir l'app</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="badge">Documentation produit</div>
+    <h1>Comment ça marche</h1>
+    <p>Guide complet de l'application — fonctionnement utilisateur écran par écran, puis architecture technique à l'intention du futur CTO.</p>
+  </div>
+
+
+  <!-- ── SECTION 1 : AJOUTER UNE ENTRÉE ── -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-icon">📝</div>
+      <h2>Ajouter une entrée</h2>
+    </div>
+    <p>L'écran principal est le <strong>Journal</strong>. En haut de l'écran se trouve la zone de saisie : c'est là qu'on <strong>ajoute une entrée</strong>.</p>
+    <p>Une entrée, c'est un fragment de vécu de santé : ce qu'on a mangé, comment on a dormi, une douleur, une émotion, une mesure. On l'écrit librement, sans formulaire à remplir. La phrase peut être aussi courte que <em>« mal dormi »</em> ou aussi précise que <em>« réveillée à 4h, temps humide dehors, dîner fromage hier soir »</em>.</p>
+
+    <div class="card-grid" style="margin-top:20px">
+      <div class="card">
+        <div class="card-icon">⌨️</div>
+        <h3>Texte libre</h3>
+        <p>Tape ou dicte ce que tu veux, dans ta langue naturelle. Pas de champ dédié, pas de menu à dérouler.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎙️</div>
+        <h3>Dictée vocale</h3>
+        <p>Le bouton micro active la reconnaissance vocale du navigateur. Dans l'app native iOS, la dictée sera intégrée de façon plus fluide.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📷</div>
+        <h3>Photo</h3>
+        <p>Le bouton appareil photo permet d'ajouter une image (repas, ordonnance, courbe de tension). La photo est redimensionnée localement avant envoi.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:18px">Des <strong>raccourcis rapides</strong> apparaissent sous la zone de saisie (<em>😴 Ma nuit</em>, <em>🍽️ Mon repas</em>, <em>🩹 Une douleur</em>, <em>🙂 Mon humeur</em>) : ils pré-remplissent la zone avec un début de phrase pour guider la saisie.</p>
+    <p>Une fois l'entrée soumise, elle est automatiquement <strong>horodatée</strong>, <strong>taguée</strong> (voir ci-dessous) et <strong>sauvegardée</strong>.</p>
+  </div>
+
+
+  <!-- ── SECTION 2 : TAGS ── -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-icon">🏷️</div>
+      <h2>Les tags : catégorisation automatique</h2>
+    </div>
+    <p>Dès qu'une entrée est soumise, un <strong>moteur d'attribution de tags</strong> analyse le texte et lui associe une ou plusieurs catégories :</p>
+
+    <div class="chips">
+      <span class="chip">😴 Sommeil</span>
+      <span class="chip">🍽️ Alimentation</span>
+      <span class="chip">🙂 Humeur</span>
+      <span class="chip">⚡️ Énergie</span>
+      <span class="chip">🩹 Douleur</span>
+      <span class="chip">🌀 Stress</span>
+      <span class="chip">🌡️ Symptômes</span>
+      <span class="chip">🌫️ Brouillard mental</span>
+      <span class="chip">💊 Médicaments</span>
+      <span class="chip">🏃 Activité</span>
+      <span class="chip">📊 Mesures</span>
+      <span class="chip">⛅️ Environnement</span>
+    </div>
+
+    <p style="margin-top:14px">Les tags apparaissent sous chaque entrée du journal sous forme de chips colorées. Si aucun mot-clé n'est reconnu, l'entrée reçoit le tag <em>Divers</em>.</p>
+    <p><strong>Modifier les tags :</strong> chaque entrée du journal possède un bouton crayon ✏️. Il ouvre un panneau d'édition qui permet de supprimer un tag automatique, d'en ajouter un manuellement, ou de modifier le texte de l'entrée.</p>
+  </div>
+
+
+  <!-- ── SECTION 3 : JOURNAL ── -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-icon">📖</div>
+      <h2>Consulter le journal</h2>
+    </div>
+    <p>Sous la zone de saisie se trouve la liste des entrées passées, affichées du plus récent au plus ancien. Par défaut, l'app affiche les <strong>dernières 24 heures</strong>. Le bouton <em>Afficher plus</em> remonte de 24 h supplémentaires à chaque clic.</p>
+
+    <p style="margin-top:10px">Deux outils permettent de <strong>filtrer pour trouver les entrées recherchées</strong> :</p>
+    <ul class="steps" style="margin-top:10px">
+      <li><span class="num">🔍</span><span><strong>Recherche textuelle</strong> — filtre en temps réel sur le contenu des entrées et leurs tags.</span></li>
+      <li><span class="num">⚙️</span><span><strong>Panneau de filtres</strong> — permet de combiner une plage de dates, un tag spécifique (ex : afficher uniquement les entrées <em>Douleur</em>), et une tranche horaire (ex : uniquement les entrées du soir).</span></li>
+    </ul>
+    <p style="margin-top:12px">Quand un ou plusieurs filtres sont actifs, l'icône filtre passe en surbrillance pour signaler que la vue est restreinte.</p>
+  </div>
+
+
+  <!-- ── SECTION 4 : DONNÉES ── -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-icon">📊</div>
+      <h2>L'écran Données</h2>
+    </div>
+    <p>L'écran <strong>Données</strong> offre deux vues sur les 14 derniers jours.</p>
+
+    <div class="card-grid" style="margin-top:16px">
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>Récap 14 jours</h3>
+        <p>Un tableau synthétique avec, pour chaque dimension (Sommeil, Alimentation, Humeur, Énergie, Douleur, Stress, Brouillard mental, Climat) : soit la valeur extraite (ex : <em>6,5 h/nuit</em>), soit un indicateur de fréquence de suivi (insuffisant / intermédiaire / suffisant).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗂️</div>
+        <h3>Par thème</h3>
+        <p>La liste complète des données regroupées par catégorie. Chaque bloc est dépliable et liste les valeurs extraites avec leur horodatage.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── SECTION 5 : CORRÉLATIONS ── -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-icon">🔗</div>
+      <h2>L'écran Corrélations</h2>
+    </div>
+    <p>C'est l'écran le plus analytique. Il ne se met <strong>pas à jour automatiquement</strong> : l'utilisateur clique sur <em>Mettre à jour</em> pour lancer l'analyse. L'app affiche alors les associations détectées dans les données des 14 derniers jours.</p>
+    <p>Exemple de résultat : <em>« Tes douleurs/symptômes reviennent souvent les jours où tu notes : « fromage » »</em>, avec un indicateur de force de l'association (faible / modérée / forte) et le nombre d'occurrences observées.</p>
+    <p style="margin-top:10px">Une bannière apparaît automatiquement si des entrées ont été modifiées depuis la dernière analyse, pour inviter à relancer l'analyse et intégrer les nouvelles données.</p>
+    <p style="margin-top:10px; font-size:.88rem; color:var(--muted)">⚠️ L'app rappelle systématiquement que <em>corrélation n'est pas causalité</em>.</p>
+  </div>
+
+
+  <!-- ── SECTION 6 : RÉGLAGES ── -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-icon">⚙️</div>
+      <h2>Réglages &amp; compte</h2>
+    </div>
+    <ul class="steps">
+      <li><span class="num">1</span><span><strong>Langue</strong> — Français ou English. Toute l'interface bascule instantanément.</span></li>
+      <li><span class="num">2</span><span><strong>Thème</strong> — Turquoise (défaut) ou Corail. Modifie l'accent couleur de l'app.</span></li>
+      <li><span class="num">3</span><span><strong>Taille du texte</strong> — Normal ou Grand texte (+12 %).</span></li>
+      <li><span class="num">4</span><span><strong>Exporter mes données</strong> — Télécharge un fichier JSON complet de toutes les entrées et analyses.</span></li>
+      <li><span class="num">5</span><span><strong>Charger des exemples</strong> — Injecte un jeu de données de démonstration pour explorer les écrans sans avoir à saisir d'entrées.</span></li>
+    </ul>
+  </div>
+
+
+  <hr class="divider">
+
+
+  <!-- ── ARCHITECTURE TECHNIQUE ── -->
+  <div class="tech-header">
+    <h2>Architecture technique — note pour le futur CTO</h2>
+    <p>Cette section décrit les choix d'implémentation de la version démo web, les limites intentionnelles, et les évolutions envisagées. L'app web est un prototype fonctionnel : elle permet de valider les flux utilisateur avant développement de l'app native iOS.</p>
+  </div>
+
+
+  <!-- Moteur de tags -->
+  <div class="tech-block">
+    <h3>Moteur d'attribution de tags <span class="tag tag-local">100 % client</span></h3>
+    <p>Le moteur tourne entièrement <strong>dans le navigateur, en JavaScript</strong>. Il n'effectue aucun appel réseau et ne consomme aucun token LLM.</p>
+    <p>Fonctionnement : à la soumission d'une entrée, la fonction <code>structureEntry(text)</code> parcourt le texte en minuscules et teste la présence de mots-clés issus d'une liste codée en dur pour chaque catégorie. Le premier mot-clé trouvé déclenche l'attribution du tag. Si une valeur numérique est détectable (ex : <em>« 6h de sommeil »</em>, <em>« 120/80 mmHg »</em>), elle est extraite et associée au tag.</p>
+    <ul>
+      <li>Latence : nulle (synchrone, aucun appel réseau)</li>
+      <li>Coût : zéro (pas d'API externe)</li>
+      <li>Limite : couverture vocabulaire fixe ; un mot absent des listes n'est pas reconnu</li>
+    </ul>
+
+    <div class="future">
+      <strong>Évolution A — règles utilisateur :</strong> chaque re-qualification de tag par l'utilisateur pourrait alimenter un dictionnaire personnel <code>userRules</code> stocké dans son profil. La prochaine saisie contenant le même mot appliquerait automatiquement la règle. Cela ne nécessite aucun token, mais demande de concevoir un système de résolution de conflits entre règles génériques et règles utilisateur.
+    </div>
+    <div class="future" style="margin-top:8px">
+      <strong>Évolution B — classification LLM :</strong> remplacer ou compléter la correspondance par mots-clés avec un appel à l'API Anthropic (Claude) pour classer chaque entrée. Avantages : compréhension du langage naturel, multilinguisme natif, gestion des négations et du contexte. Coûts : latence réseau (~300–800 ms), consommation de tokens à chaque entrée (estimé ~50–150 tokens d'input par entrée avec un prompt système compact). À envisager en mode hybride : règles locales en premier, LLM en fallback si le score de confiance est bas.
+    </div>
+  </div>
+
+
+  <!-- Stockage -->
+  <div class="tech-block">
+    <h3>Stockage des données <span class="tag tag-server">local + serveur</span></h3>
+    <p>L'app adopte une architecture <strong>local-first</strong> : toutes les données sont écrites en premier dans le <code>localStorage</code> du navigateur, puis synchronisées de façon asynchrone avec le serveur.</p>
+    <ul>
+      <li><strong>Côté client :</strong> <code>localStorage</code> — persistance entre les sessions, fonctionne hors-ligne</li>
+      <li><strong>Côté serveur :</strong> API PHP minimale hébergée sur OVH (hébergement mutualisé). Chaque compte est stocké dans un fichier <code>data/store_&lt;id&gt;.json</code>. Les mots de passe sont hashés avec bcrypt (<code>password_hash</code> PHP)</li>
+      <li><strong>Format :</strong> JSON — profil, entrées, insights, date de dernière analyse</li>
+      <li><strong>Transport :</strong> POST HTTPS vers <code>/app/api.php</code>, actions <code>signup</code> / <code>login</code> / <code>load</code> / <code>save</code></li>
+    </ul>
+    <div class="future">
+      <strong>Pour la production :</strong> remplacer les fichiers JSON par une base de données (PostgreSQL ou SQLite), ajouter des sessions signées (JWT ou session PHP durcie), chiffrement at-rest des données de santé. La structure JSON actuelle est directement mappable sur un schéma relationnel.
+    </div>
+  </div>
+
+
+  <!-- Moteur de corrélations -->
+  <div class="tech-block">
+    <h3>Moteur de corrélations <span class="tag tag-local">100 % client</span></h3>
+    <p>L'analyse tourne intégralement <strong>dans le navigateur</strong> à la demande de l'utilisateur. Aucun token LLM n'est consommé.</p>
+    <p>Algorithme : sur les 14 derniers jours, l'app construit une carte jour par jour. Chaque jour est marqué <em>flag</em> s'il contient un signal de type <strong>Douleur</strong>, <strong>Symptôme</strong> ou <strong>Brouillard mental</strong>. Les tags <strong>Alimentation</strong> et <strong>Environnement</strong> sont traités comme des <em>triggers</em> potentiels. Un trigger co-occure avec un flag si un signal symptôme apparaît le <strong>même jour, le lendemain ou le surlendemain</strong> (fenêtre glissante de 3 jours, pour capturer les réactions différées). À partir de 2 co-occurrences, l'association est affichée.</p>
+    <ul>
+      <li>Force de l'association : faible (&lt; 4 co-occurrences), modérée (4–5), forte (≥ 6)</li>
+      <li>Maximum 6 associations affichées, triées par nombre d'occurrences</li>
+      <li>L'analyse ne se relance pas automatiquement — déclenchement manuel voulu (contrôle utilisateur)</li>
+    </ul>
+    <div class="future">
+      <strong>Évolution :</strong> étendre la fenêtre glissante en paramètre utilisateur, inclure d'autres catégories comme triggers (Stress, Activité), ou passer à un modèle de corrélation statistique (Pearson, chi²). Une version LLM pourrait interpréter les patterns en langage naturel et formuler des hypothèses, mais cela consommerait des tokens et nécessiterait d'envoyer des données de santé à un tiers — point de gouvernance à trancher.
+    </div>
+  </div>
+
+
+  <!-- Ce qui n'est pas implémenté -->
+  <div class="tech-block">
+    <h3>Fonctionnalités non implémentées dans la démo <span class="tag tag-none">roadmap</span></h3>
+    <ul>
+      <li><strong>Apprentissage des re-qualifications de tags :</strong> les corrections de tags faites par l'utilisateur sont sauvegardées pour l'entrée concernée, mais ne mettent pas à jour les règles globales de classification</li>
+      <li><strong>Notifications et rappels :</strong> pas de push notifications dans la version web (nécessite un Service Worker + backend de push, ou l'app native)</li>
+      <li><strong>Partage médecin :</strong> pas de vue exportable formatée pour un professionnel de santé</li>
+      <li><strong>Multi-device sync temps réel :</strong> la synchro est déclenchée au chargement de l'app, pas en continu (WebSocket ou polling à ajouter)</li>
+      <li><strong>Dictée vocale native :</strong> l'interface est prête, mais la reconnaissance vocale utilise l'API navigateur (SpeechRecognition), absente sur certains navigateurs mobiles — sera natif dans l'app iOS</li>
+    </ul>
+  </div>
+
+
+  <footer>
+    <p>What works for me — version démo web &middot; <a href="/app/">Ouvrir l'app</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
