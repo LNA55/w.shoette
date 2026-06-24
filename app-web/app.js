@@ -42,6 +42,17 @@
       occText: '{n} occurrences sur {d} jours avec ce facteur',
       band_weak: 'association faible', band_moderate: 'association modérée', band_strong: 'association forte',
       insightCaveat: 'Association observée, pas une preuve de cause à effet.',
+      corrWindowTitle: 'Fenêtre d’analyse',
+      win_24h: '24 h', win_3d: '3 jours', win_1w: '1 semaine',
+      winExpl_1: 'On regarde si un symptôme survient le jour même du facteur.',
+      winExpl_3: 'On regarde si un symptôme survient dans les 3 jours qui suivent le facteur.',
+      winExpl_7: 'On regarde si un symptôme survient dans la semaine qui suit le facteur.',
+      spanPhrase_1: 'des 24 h précédentes', spanPhrase_3: 'des 3 jours précédents', spanPhrase_7: 'de la semaine précédente',
+      observedTpl: 'Association observée le {date}, sur les données {span}.',
+      pin: 'Épingler', unpin: 'Désépingler', hide: 'Masquer', unhide: 'Réafficher',
+      pinnedTag: 'Épinglée', obsoleteTag: 'Obsolète', hiddenTag: 'Masquée',
+      showObsolete: 'Afficher les corrélations obsolètes',
+      noCurrentCorr: 'Aucune corrélation active pour cette fenêtre.',
       settingsTitle: 'Réglages',
       accTitle: 'Accessibilité', textSize: 'Taille du texte', tsNormal: 'Normal', tsLarge: 'Grand texte',
       language: 'Langue', theme: 'Thème', themeTurq: 'Turquoise', themeCoral: 'Corail',
@@ -96,6 +107,17 @@
       occText: '{n} occurrences over {d} days with this factor',
       band_weak: 'weak association', band_moderate: 'moderate association', band_strong: 'strong association',
       insightCaveat: 'Observed association — not proof of cause and effect.',
+      corrWindowTitle: 'Analysis window',
+      win_24h: '24 h', win_3d: '3 days', win_1w: '1 week',
+      winExpl_1: 'We check whether a symptom occurs on the same day as the factor.',
+      winExpl_3: 'We check whether a symptom occurs within 3 days after the factor.',
+      winExpl_7: 'We check whether a symptom occurs within a week after the factor.',
+      spanPhrase_1: 'previous 24 h', spanPhrase_3: 'previous 3 days', spanPhrase_7: 'previous week',
+      observedTpl: 'Association observed on {date}, based on the {span}.',
+      pin: 'Pin', unpin: 'Unpin', hide: 'Hide', unhide: 'Show again',
+      pinnedTag: 'Pinned', obsoleteTag: 'Obsolete', hiddenTag: 'Hidden',
+      showObsolete: 'Show obsolete correlations',
+      noCurrentCorr: 'No active correlation for this window.',
       settingsTitle: 'Settings',
       accTitle: 'Accessibility', textSize: 'Text size', tsNormal: 'Normal', tsLarge: 'Large text',
       language: 'Language', theme: 'Theme', themeTurq: 'Turquoise', themeCoral: 'Coral',
@@ -180,13 +202,15 @@
   function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
   function fmtDate(ts){ var d=new Date(ts), loc=S.lang==='fr'?'fr-FR':'en-US';
     return d.toLocaleDateString(loc,{weekday:'short',day:'numeric',month:'short'})+' · '+d.toLocaleTimeString(loc,{hour:'2-digit',minute:'2-digit'}); }
+  function fmtDay(ts){ var d=new Date(ts), loc=S.lang==='fr'?'fr-FR':'en-US';
+    return d.toLocaleDateString(loc,{day:'numeric',month:'long'}); }
 
   /* ---------------- Stockage ---------------- */
   var LS_SESSION='wwfm_session', LS_USERS='wwfm_users';
   function lsStoreKey(id){ return 'wwfm_store_'+id; }
   function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
   function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; return s; }
+  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; return s; }
   function api(action, payload){
     payload=payload||{}; payload.action=action;
     return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
@@ -257,9 +281,10 @@
   }
 
   /* ---------------- Analyse de corrélations (manuelle) ---------------- */
-  /* Fenêtre glissante 3 jours : un trigger J0 co-occure si un symptôme apparaît J0, J+1 ou J+2 */
-  function computeInsights(){
-    var DAY=864e5;
+  /* Fenêtre glissante paramétrable (windowDays) : un trigger J0 co-occure si un
+     symptôme apparaît entre J0 et J0+(windowDays-1). 1 = 24 h, 3 = 3 jours, 7 = 1 semaine. */
+  function computeInsights(windowDays){
+    var DAY=864e5, W=windowDays||3;
     var since=Date.now()-14*DAY, recent=S.store.entries.filter(function(e){return e.createdAt>=since;});
     var dayMap={};
     recent.forEach(function(e){
@@ -279,15 +304,26 @@
       Object.keys(d.trig).forEach(function(low){
         triggerDays[low]=triggerDays[low]||{n:0,label:d.trig[low]};
         triggerDays[low].n++;
-        if(flagDays[tsN]||flagDays[tsN+DAY]||flagDays[tsN+2*DAY]){ coOccur[low]=(coOccur[low]||0)+1; }
+        var hit=false; for(var k=0;k<W;k++){ if(flagDays[tsN+k*DAY]){ hit=true; break; } }
+        if(hit){ coOccur[low]=(coOccur[low]||0)+1; }
       });
     });
     return Object.keys(coOccur).filter(function(low){return coOccur[low]>=2;}).map(function(low){
       var n=coOccur[low], td=triggerDays[low].n, band=n>=6?'strong':(n>=4?'moderate':'weak');
-      return {label:triggerDays[low].label, incidents:n, days:td, band:band, ratio:td?n/td:0};
+      return {key:low, label:triggerDays[low].label, incidents:n, days:td, band:band, ratio:td?n/td:0};
     }).sort(function(a,b){return b.incidents-a.incidents;}).slice(0,6);
   }
-  function runAnalysis(){ S.store.insights=computeInsights(); S.store.lastAnalysisAt=Date.now(); persistStore(); render(); toast(t('analysisDone')); }
+  /* Fusionne les résultats frais dans le dictionnaire persistant : conserve pin/hidden,
+     marque obsolètes (current=false) les corrélations absentes du dernier run. */
+  function runAnalysis(){
+    var W=S.store.corrWindow||3, fresh=computeInsights(W), now=Date.now();
+    var dict=S.store.correlations||{}, freshKeys={};
+    fresh.forEach(function(p){ freshKeys[p.key]=true; var prev=dict[p.key]||{};
+      dict[p.key]={ key:p.key, label:p.label, incidents:p.incidents, days:p.days, band:p.band, ratio:p.ratio,
+        observedAt:now, windowDays:W, current:true, pinned:!!prev.pinned, hidden:!!prev.hidden }; });
+    Object.keys(dict).forEach(function(k){ if(!freshKeys[k]) dict[k].current=false; });
+    S.store.correlations=dict; S.store.lastAnalysisAt=now; persistStore(); render(); toast(t('analysisDone'));
+  }
 
   /* ---------------- Récap (Données) ---------------- */
   function freqLabel(d){ return d>=10?t('freq_daily'):(d>=4?t('freq_often'):t('freq_occasional')); }
@@ -363,10 +399,27 @@
     '</div>';
   }
   function empty(tk,bk,big){ return '<div class="empty"><div class="big">'+big+'</div><h3>'+esc(t(tk))+'</h3><p>'+esc(t(bk))+'</p></div>'; }
-  function insightCard(p){ return '<div class="card insight"><div class="stmt">'+esc(t('patternTpl').replace('{x}',p.label))+'</div>'+
-    '<div class="meta"><span class="band band-'+p.band+'">'+esc(t('band_'+p.band))+'</span><span class="bar"><i style="width:'+Math.round(p.ratio*100)+'%"></i></span></div>'+
-    '<div class="occ">'+esc(t('occText').replace('{n}',p.incidents).replace('{d}',p.days))+'</div>'+
-    '<div class="caveat">'+esc(t('insightCaveat'))+'</div></div>'; }
+  function pinSvg(filled){ return '<svg viewBox="0 0 24 24" fill="'+(filled?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 6 3 3v2h-4.5"/><path d="M12.5 15H6v-2l3-3"/><path d="M12 20v-5"/></svg>'; }
+  function insightCard(c){
+    var spanPhrase = c.windowDays===1?t('spanPhrase_1'):(c.windowDays===7?t('spanPhrase_7'):t('spanPhrase_3'));
+    var dateLine = t('observedTpl').replace('{date}', fmtDay(c.observedAt||Date.now())).replace('{span}', spanPhrase);
+    var obsolete = !c.current && !c.pinned;
+    var tags = '';
+    if(c.pinned) tags += '<span class="corr-tag tag-pinned">'+esc(t('pinnedTag'))+'</span>';
+    if(obsolete) tags += '<span class="corr-tag tag-obsolete">'+esc(t('obsoleteTag'))+'</span>';
+    if(c.hidden) tags += '<span class="corr-tag tag-hidden">'+esc(t('hiddenTag'))+'</span>';
+    var actions = '<button class="corr-act'+(c.pinned?' is-on':'')+'" data-act="corr-pin" data-v="'+esc(c.key)+'">'+pinSvg(c.pinned)+'<span>'+esc(c.pinned?t('unpin'):t('pin'))+'</span></button>'+
+      (c.hidden
+        ? '<button class="corr-act" data-act="corr-unhide" data-v="'+esc(c.key)+'"><span>'+esc(t('unhide'))+'</span></button>'
+        : '<button class="corr-act" data-act="corr-hide" data-v="'+esc(c.key)+'"><span>'+esc(t('hide'))+'</span></button>');
+    return '<div class="card insight'+(c.pinned?' is-pinned':'')+(obsolete||c.hidden?' is-archived':'')+'">'+
+      (tags?'<div class="corr-tags">'+tags+'</div>':'')+
+      '<div class="stmt">'+esc(t('patternTpl').replace('{x}',c.label))+'</div>'+
+      '<div class="meta"><span class="band band-'+c.band+'">'+esc(t('band_'+c.band))+'</span><span class="bar"><i style="width:'+Math.round(c.ratio*100)+'%"></i></span></div>'+
+      '<div class="occ">'+esc(t('occText').replace('{n}',c.incidents).replace('{d}',c.days))+'</div>'+
+      '<div class="corr-date">'+esc(dateLine)+'</div>'+
+      '<div class="corr-actions">'+actions+'</div>'+
+    '</div>'; }
 
   /* ---------------- Rendu ---------------- */
   function render(){
@@ -474,14 +527,27 @@
   }
 
   function corrHtml(){
-    var insights=S.store.insights||[], last=S.store.lastAnalysisAt;
+    var dict=S.store.correlations||{}, last=S.store.lastAnalysisAt, W=S.store.corrWindow||3;
+    var all=Object.keys(dict).map(function(k){return dict[k];});
     var stale=last && S.store.entries.some(function(e){return e.editedAt && e.editedAt>last;});
+    var winExpl = W===1?t('winExpl_1'):(W===7?t('winExpl_7'):t('winExpl_3'));
+    var winSection='<div class="corr-window">'+
+      '<div class="cw-head"><span class="cw-title">'+esc(t('corrWindowTitle'))+'</span>'+
+        seg([[1,t('win_24h')],[3,t('win_3d')],[7,t('win_1w')]], W, 'corrwindow')+'</div>'+
+      '<p class="cw-expl">'+esc(winExpl)+'</p></div>';
     var head='<h1 class="page-title">'+esc(t('corrTitle'))+'</h1><p class="page-sub">'+esc(t('corrSub'))+'</p>'+
+      winSection +
       (stale?'<div class="stale-banner">'+esc(t('corrStale'))+'</div>':'')+
       '<div class="analyze"><button class="btn" data-act="run-analysis">'+esc(t('update'))+'</button>'+
       '<span class="lastrun">'+ (last? esc(t('lastRun'))+' '+esc(fmtDate(last)) : esc(t('neverRun'))) +'</span></div>';
-    if(!insights.length){ return head+'<div class="empty"><div class="big">📊</div><p>'+esc(t('insufficient'))+'</p></div>'; }
-    return head + insights.map(insightCard).join('');
+    function byRank(a,b){ return (b.pinned?1:0)-(a.pinned?1:0) || b.incidents-a.incidents; }
+    var visible=all.filter(function(c){ return !c.hidden && (c.current || c.pinned); }).sort(byRank);
+    var archived=all.filter(function(c){ return c.hidden || (!c.current && !c.pinned); }).sort(byRank);
+    if(!visible.length && !archived.length){ return head+'<div class="empty"><div class="big">📊</div><p>'+esc(t('insufficient'))+'</p></div>'; }
+    var mainHtml = visible.length ? visible.map(insightCard).join('') : '<p class="cw-expl">'+esc(t('noCurrentCorr'))+'</p>';
+    var archiveHtml = archived.length ? '<details class="corr-archive"><summary>'+esc(t('showObsolete'))+' ('+archived.length+')</summary>'+
+      '<div class="corr-archive-list">'+archived.map(insightCard).join('')+'</div></details>' : '';
+    return head + mainHtml + archiveHtml;
   }
 
   function seg(opts,cur,act){ return '<span class="seg">'+opts.map(function(o){
@@ -559,6 +625,10 @@
     if(act==='clear-filters'){ pendingTag=''; S.filters={q:S.filters.q,dateFrom:'',dateTo:'',tag:'',hourStart:0,hourEnd:24}; S.windowHours=24; S.filterOpen=false; render(); return; }
     if(act==='more'){ S.windowHours+=24; render(); return; }
     if(act==='run-analysis'){ runAnalysis(); return; }
+    if(act==='set-corrwindow'){ S.store.corrWindow=parseInt(v,10)||3; runAnalysis(); return; }
+    if(act==='corr-pin'){ var cp=(S.store.correlations||{})[v]; if(cp){ cp.pinned=!cp.pinned; persistStore(); render(); } return; }
+    if(act==='corr-hide'){ var ch=(S.store.correlations||{})[v]; if(ch){ ch.hidden=true; persistStore(); render(); } return; }
+    if(act==='corr-unhide'){ var cu=(S.store.correlations||{})[v]; if(cu){ cu.hidden=false; persistStore(); render(); } return; }
     if(act==='set-dataview'){ S.dataView=v; render(); return; }
     if(act==='set-lang'){ setLang(v); return; }
     if(act==='set-theme'){ setTheme(v); return; }
