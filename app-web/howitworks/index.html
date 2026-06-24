@@ -72,6 +72,11 @@
   .tech-block ul { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
   .tech-block ul li { display: flex; gap: 8px; }
   .tech-block ul li::before { content: '→'; color: var(--c-500); font-weight: 700; flex: none; }
+  /* Stacked list: title on its own line, description below (readability) */
+  .tech-block ul.stacked li { display: block; }
+  .tech-block ul.stacked li::before { display: none; }
+  .tech-block ul.stacked li strong { display: block; margin-bottom: 3px; }
+  .tech-block ul.stacked li strong::before { content: '→'; color: var(--c-500); font-weight: 700; margin-right: 8px; }
   .future { background: #f9f6f7; border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: .85rem; color: var(--muted); border-left: 3px solid var(--c-200); }
   .future strong { color: var(--ink); }
 
@@ -299,7 +304,7 @@
   <!-- Ce qui n'est pas implémenté -->
   <div class="tech-block">
     <h3>Fonctionnalités non implémentées dans la démo <span class="tag tag-none">roadmap</span></h3>
-    <ul>
+    <ul class="stacked">
       <li><strong>Apprentissage des re-qualifications de tags :</strong> les corrections de tags faites par l'utilisateur sont sauvegardées pour l'entrée concernée, mais ne mettent pas à jour les règles globales de classification</li>
       <li><strong>Notifications et rappels :</strong> pas de push notifications dans la version web (nécessite un Service Worker + backend de push, ou l'app native)</li>
       <li><strong>Partage médecin :</strong> pas de vue exportable formatée pour un professionnel de santé</li>
