@@ -186,7 +186,7 @@
   .sources-note b{color:var(--red-deep)}
 
   /* showcase */
-  .showcase{background:#fff}
+  .showcase{background:var(--cream)}
   .feature-row{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center;margin-bottom:96px}
   .feature-row:last-child{margin-bottom:0}
   .feature-row:nth-child(even) .feature-row__media{order:-1}
@@ -437,6 +437,7 @@
     </a>
     <nav class="nav__links">
       <a href="#how">Comment ça marche</a>
+      <a href="#app">L'application</a>
       <a href="#security">Sécurité</a>
     </nav>
     <a href="#request" class="nav__cta">Demander un accès</a>
@@ -540,6 +541,176 @@
     </div>
   </div>
 </section>
+
+<!-- APP SHOWCASE -->
+<section class="showcase" id="app">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">L'application</span>
+      <h2>Voyez ce qui fait bouger votre douleur.</h2>
+      <p>Un premier aperçu de <span class="brandname">What works for me</span>.</p>
+    </div>
+
+    <!-- row 1: conversation -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Conversation</span>
+        <h3>Elle écoute — et apprend quoi demander.</h3>
+        <p>Parlez librement : où vous avez mal, à quel point, ce qui a changé, ce que vous avez pris. Elle perçoit même quand votre voix semble tendue et prend de vos nouvelles — puis classe chaque détail en données propres, et revient sur ce que vous avez oublié de mentionner.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Aujourd'hui</div><div class="sub">Point du soir</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body chat">
+                <div class="bubble bot" style="max-width:92%">Ce matin, vous avez enregistré une crise à 7/10. S'est-elle apaisée après l'antidouleur — et comment va-t-elle maintenant ?</div>
+                <div class="bubble me voice">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                  <span class="wave"><i style="height:6px"></i><i style="height:13px"></i><i style="height:18px"></i><i style="height:8px"></i><i style="height:15px"></i><i style="height:5px"></i><i style="height:11px"></i></span>
+                  <span style="font-size:.7rem;opacity:.85">0:15</span>
+                </div>
+                <div class="bubble bot" style="max-width:92%">« Redescendue à 4 vers midi, remontée à 6 ce soir. » Noté 👇 — je vais suivre comment les crises suivent le sommeil et la pression.</div>
+                <div class="logged">
+                  <div class="lh">Capturé</div>
+                  <div class="chips"><span class="chip alert">Douleur 7→4→6</span><span class="chip">Antidouleur · 8:05</span><span class="chip sync">Sommeil 5h · synchronisé</span><span class="chip sync">Pression ↓ · météo</span></div>
+                  <div class="logged-more">+ analyse du ton · plus de 200 signaux fusionnés depuis vos sources</div>
+                </div>
+                <div class="composer"><span class="pill">Appuyez pour parler…</span><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- row 2: insights -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Analyses &amp; corrélations</span>
+        <h3>Ce que votre douleur suit — avec les preuves.</h3>
+        <p>Demandez-lui de creuser, ou explorez les corrélations vous-même. Quand des centaines de petits signaux s'alignent, vous verrez ce que suivent vos crises — chaque facteur pesé d'un coup et classé selon la force avec laquelle il explique la douleur.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Analyses</div><div class="sub">3 nouvelles pistes cette semaine</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="insight-card hero-find">
+                  <div class="ic-top"><span class="ic-badge">Schéma trouvé</span><span class="ic-scan">300+ signaux</span></div>
+                  <div class="ic-title">Vos pires crises suivent un sommeil court et une baisse de pression.</div>
+                  <div class="factors">
+                    <div class="factor"><div class="frow"><span>Sommeil sous 6h</span><span>81%</span></div><div class="fbar"><i style="width:81%"></i></div></div>
+                    <div class="factor"><div class="frow"><span>Baisse de la pression barométrique</span><span>74%</span></div><div class="fbar"><i style="width:74%"></i></div></div>
+                    <div class="factor"><div class="frow"><span>Journées à fort stress · agenda</span><span>55%</span></div><div class="fbar"><i style="width:55%"></i></div></div>
+                  </div>
+                  <div class="ic-foot">82% de confiance · explique 10 crises sur 13 · 9 sources</div>
+                </div>
+                <div class="insight-card lead">
+                  <div class="ic-top"><span class="ic-badge">Piste possible</span></div>
+                  <div class="ic-title">Raideur le lendemain des journées passées longtemps assis.</div>
+                  <div class="chips" style="margin-top:10px"><span class="chip">6h+ assis</span><span class="chip">Peu de pas</span><span class="chip alert">Raideur matinale +1 jour</span></div>
+                  <div class="corr"><div class="bar"><i style="width:73%"></i></div><div class="lbl"><span>Signal combiné</span><span>r = 0.73</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- row 3: timeline -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Journal quotidien</span>
+        <h3>Chaque jour, consigné.</h3>
+        <p>Un journal vivant de votre corps — consultable et connecté, qui rassemble notes vocales et données synchronisées en un seul fil : intensité de la douleur, déclencheurs, sommeil, médicaments. Remontez des semaines et des mois en arrière ; rien de ce que vous avez remarqué ne se perd plus jamais.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Journal</div><div class="sub">Cette semaine</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="tl">
+                  <div class="tl-day">
+                    <div class="tl-date">Aujourd'hui · Lun</div>
+                    <div class="tl-card"><div class="chips"><span class="chip alert">Bas du dos · 7/10</span><span class="chip">Antidouleur</span><span class="chip sync">Sommeil 5h10</span><span class="chip sync">Pluie · pression ↓</span></div></div>
+                  </div>
+                  <div class="tl-day">
+                    <div class="tl-date">Dim</div>
+                    <div class="tl-card"><div class="chips"><span class="chip">Douleur 3/10</span><span class="chip sync">Sommeil 7h 20m</span><span class="chip sync">8 400 pas</span></div></div>
+                  </div>
+                  <div class="tl-day muted">
+                    <div class="tl-date">Sam</div>
+                    <div class="tl-card"><div class="chips"><span class="chip alert">Cou · 5/10</span><span class="chip sync">Long trajet en voiture</span><span class="chip sync">Cycle · jour 24</span></div></div>
+                  </div>
+                  <div class="tl-day muted">
+                    <div class="tl-date">Ven</div>
+                    <div class="tl-card"><div class="chips"><span class="chip">Douleur 2/10</span><span class="chip sync">Marche 40 min</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- row 4: dashboard -->
+    <div class="feature-row reveal">
+      <div class="feature-row__copy">
+        <span class="tag">Tableau de bord des tendances</span>
+        <h3>Regardez les facteurs s'aligner.</h3>
+        <p>Douleur, sommeil, météo, stress, activité et médicaments — suivis dans le temps pour que les liens deviennent impossibles à manquer. La vue d'ensemble de ce qui alimente votre douleur, tirée de toutes les sources à la fois.</p>
+      </div>
+      <div class="feature-row__media">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="phone__screen">
+            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+            <div class="app">
+              <div class="app__top"><div><div class="ttl">Tendances</div><div class="sub">14 derniers jours</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
+              <div class="app__body">
+                <div class="metrics">
+                  <div class="metric"><div class="v">300+</div><div class="l">Signaux / jour</div></div>
+                  <div class="metric"><div class="v down">5</div><div class="l">Jours de crise</div></div>
+                  <div class="metric"><div class="v">Sommeil</div><div class="l">Facteur clé</div></div>
+                </div>
+                <div class="chart-card">
+                  <div class="ct">Douleur × sommeil court</div>
+                  <div class="cs">Les crises augmentent quand le sommeil baisse</div>
+                  <svg width="100%" height="118" viewBox="0 0 240 118" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04848" stop-opacity=".28"/><stop offset="1" stop-color="#F04848" stop-opacity="0"/></linearGradient>
+                    </defs>
+                    <line x1="0" y1="30" x2="240" y2="30" stroke="#eee" stroke-width="1"/>
+                    <line x1="0" y1="64" x2="240" y2="64" stroke="#eee" stroke-width="1"/>
+                    <line x1="0" y1="98" x2="240" y2="98" stroke="#eee" stroke-width="1"/>
+                    <path d="M0,72 L34,60 L68,76 L102,40 L136,52 L170,30 L204,46 L240,34 L240,118 L0,118 Z" fill="url(#g1)"/>
+                    <path d="M0,72 L34,60 L68,76 L102,40 L136,52 L170,30 L204,46 L240,34" fill="none" stroke="#F04848" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M0,82 L34,70 L68,84 L102,50 L136,60 L170,40 L204,54 L240,44" fill="none" stroke="#15100F" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>
+                    <circle cx="170" cy="30" r="3.4" fill="#F04848"/>
+                    <circle cx="170" cy="40" r="3.4" fill="#15100F"/>
+                  </svg>
+                  <div class="legend"><span><i style="background:#F04848"></i>Niveau de douleur</span><span><i style="background:#15100F;opacity:.5"></i>Sommeil court</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- SECURITY & COMPLIANCE -->
 <section class="security" id="security">
@@ -661,6 +832,7 @@
         <div class="foot__col">
           <h4>Produit</h4>
           <a href="#how">Comment ça marche</a>
+          <a href="#app">L'application</a>
           <a href="#security">Sécurité</a>
         </div>
         <div class="foot__col">
