@@ -28,7 +28,8 @@
       noMatch: 'Aucune entrée ne correspond.',
       dataTitle: 'Tes données', dataSub: 'Tes entrées regroupées par thème — sans avoir rempli un seul formulaire.',
       emptyDataT: 'Pas encore de données', emptyData: 'Ajoute quelques entrées et reviens ici.',
-      recapTitle: 'Récap — 14 derniers jours', viewValues: 'Valeurs santé', viewScore: 'Complétude du suivi',
+      recapTitle: 'Récap', recapPeriod: '{n} derniers jours', viewValues: 'Valeurs santé', viewScore: 'Complétude du suivi',
+      recapDaysLabel: 'Récap des données', recapDaysNote: 'Nombre de jours analysés (7 par défaut)',
       byTopic: 'Par thème',
       score1: 'Insuffisant', score2: 'Intermédiaire', score3: 'Suffisant',
       absent: 'informations absentes', climate: 'Climat',
@@ -93,7 +94,8 @@
       noMatch: 'No entry matches.',
       dataTitle: 'Your data', dataSub: 'Your entries grouped by topic — without filling a single form.',
       emptyDataT: 'No data yet', emptyData: 'Add a few entries and come back here.',
-      recapTitle: 'Recap — last 14 days', viewValues: 'Health values', viewScore: 'Tracking completeness',
+      recapTitle: 'Recap', recapPeriod: 'last {n} days', viewValues: 'Health values', viewScore: 'Tracking completeness',
+      recapDaysLabel: 'Data recap', recapDaysNote: 'Number of days analysed (7 by default)',
       byTopic: 'By topic',
       score1: 'Insufficient', score2: 'Partial', score3: 'Sufficient',
       absent: 'no data', climate: 'Climate',
@@ -210,7 +212,7 @@
   function lsStoreKey(id){ return 'wwfm_store_'+id; }
   function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
   function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; return s; }
+  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; return s; }
   function api(action, payload){
     payload=payload||{}; payload.action=action;
     return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
@@ -326,22 +328,24 @@
   }
 
   /* ---------------- Récap (Données) ---------------- */
-  function freqLabel(d){ return d>=10?t('freq_daily'):(d>=4?t('freq_often'):t('freq_occasional')); }
+  function freqLabel(d,win){ var w=win||7; return d>=Math.ceil(w*0.8)?t('freq_daily'):(d>=Math.ceil(w*0.4)?t('freq_often'):t('freq_occasional')); }
   function computeRecap(){
-    var since=Date.now()-14*864e5, recent=S.store.entries.filter(function(e){return e.createdAt>=since;});
+    var win=S.store.recapDays||7;
+    var since=Date.now()-win*864e5, recent=S.store.entries.filter(function(e){return e.createdAt>=since;});
     var by={}; RECAP_KEYS.forEach(function(k){ by[k]={days:{},count:0,vals:[]}; });
     recent.forEach(function(e){ var dk=new Date(e.createdAt); dk=dk.getFullYear()+'-'+dk.getMonth()+'-'+dk.getDate();
       (e.signals||[]).forEach(function(s){ if(by[s.category]){ by[s.category].days[dk]=1; by[s.category].count++; by[s.category].vals.push(s.value||s.label); } }); });
+    var s3=Math.ceil(win*0.7), s2=Math.ceil(win*0.35);
     return RECAP_KEYS.map(function(k){ var c=by[k], d=Object.keys(c.days).length;
-      return { key:k, label:(k==='environment'?t('climate'):catName(k)), days:d, score:(d>=10?3:(d>=4?2:1)), value:recapValue(k,c,d), absent:(d===0) }; });
+      return { key:k, label:(k==='environment'?t('climate'):catName(k)), days:d, score:(d>=s3?3:(d>=s2?2:1)), value:recapValue(k,c,d,win), absent:(d===0) }; });
   }
-  function recapValue(key,c,d){
+  function recapValue(key,c,d,win){
     if(d===0) return t('absent');
     if(key==='sleep'){ var nums=c.vals.map(function(v){ var m=String(v).replace(',','.').match(/([\d.]+)\s*h/); return m?parseFloat(m[1]):null; }).filter(function(x){return x!=null;});
-      if(nums.length){ var a=nums.reduce(function(x,y){return x+y;},0)/nums.length; return (Math.round(a*10)/10)+' '+t('unitNight'); } return freqLabel(d); }
+      if(nums.length){ var a=nums.reduce(function(x,y){return x+y;},0)/nums.length; return (Math.round(a*10)/10)+' '+t('unitNight'); } return freqLabel(d,win); }
     if(key==='food'){ return Math.max(1,Math.round(c.count/d))+' '+t('unitMeals'); }
     if(key==='environment'){ var f={},best='',bn=0; c.vals.forEach(function(v){ var x=String(v).toLowerCase(); f[x]=(f[x]||0)+1; if(f[x]>bn){bn=f[x];best=x;} }); return best?cap(best):t('absent'); }
-    return freqLabel(d);
+    return freqLabel(d,win);
   }
 
   /* ---------------- UI helpers ---------------- */
@@ -511,8 +515,8 @@
         ? '<span class="rv'+(r.absent?' rv-absent':'')+'">'+esc(r.value)+'</span>'
         : '<span class="score s'+r.score+'"><i class="dot"></i>'+esc(t('score'+r.score))+'</span>';
       return '<div class="rrow"><span class="rl"><span class="rl-ic">'+(CAT_EMOJI[r.key]||'')+'</span><span class="rl-name">'+esc(r.label)+'</span></span>'+right+'</div>'; }).join('');
-    var rtParts=t('recapTitle').split('—');
-    var recapHead='<div class="recap-titlewrap"><h3 class="recap-title">'+esc(rtParts[0].trim())+'</h3>'+(rtParts[1]?'<span class="recap-period">'+esc(rtParts[1].trim())+'</span>':'')+'</div>';
+    var rDays=S.store.recapDays||7;
+    var recapHead='<div class="recap-titlewrap"><h3 class="recap-title">'+esc(t('recapTitle'))+'</h3><span class="recap-period">'+esc(t('recapPeriod').replace('{n}',rDays))+'</span></div>';
     var recapCard='<div class="card recap"><div class="recap-head">'+recapHead+
       seg([['values',t('viewValues')],['score',t('viewScore')]], view, 'dataview')+'</div><div class="recap-table">'+rows+'</div></div>';
     var byCat={};
@@ -558,6 +562,9 @@
         '<div class="row"><span class="k">'+esc(t('accTitle'))+' · '+esc(t('textSize'))+'</span><span class="sp"></span>'+ seg([['normal',t('tsNormal')],['large',t('tsLarge')]], S.textsize, 'textsize')+'</div>'+
         '<div class="row"><span class="k">'+esc(t('language'))+'</span><span class="sp"></span>'+ seg([['fr','Français'],['en','English']], S.lang, 'lang')+'</div>'+
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
+      '</div>'+
+      '<div class="card list" style="margin-top:14px">'+
+        '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('recapDaysLabel'))+'<small class="row-note">'+esc(t('recapDaysNote'))+'</small></span><span class="sp"></span>'+ seg([[7,'7 j'],[14,'14 j'],[30,'30 j']], S.store.recapDays||7, 'recapdays')+'</div>'+
       '</div>'+
       '<div class="card list" style="margin-top:14px">'+
         '<div class="row"><span class="k">'+esc(t('account'))+'</span><span class="sp"></span><span style="color:var(--muted)">'+esc(S.email||'')+'</span></div>'+
@@ -629,6 +636,7 @@
     if(act==='corr-pin'){ var cp=(S.store.correlations||{})[v]; if(cp){ cp.pinned=!cp.pinned; persistStore(); render(); } return; }
     if(act==='corr-hide'){ var ch=(S.store.correlations||{})[v]; if(ch){ ch.hidden=true; persistStore(); render(); } return; }
     if(act==='corr-unhide'){ var cu=(S.store.correlations||{})[v]; if(cu){ cu.hidden=false; persistStore(); render(); } return; }
+    if(act==='set-recapdays'){ S.store.recapDays=parseInt(v,10)||7; persistStore(); render(); return; }
     if(act==='set-dataview'){ S.dataView=v; render(); return; }
     if(act==='set-lang'){ setLang(v); return; }
     if(act==='set-theme'){ setTheme(v); return; }
