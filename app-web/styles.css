@@ -141,12 +141,14 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .tag-pinned{background:var(--c-500);color:#fff}
 .tag-obsolete{background:#f1eef0;color:var(--muted)}
 .tag-hidden{background:#faf8f9;color:var(--muted);border:1px dashed var(--line)}
-.corr-date{margin-top:8px;color:var(--muted);font-size:.8rem}
-.corr-actions{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-.corr-act{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--c-200);color:var(--c-700);border-radius:999px;padding:7px 13px;font-size:.82rem;font-weight:700}
-.corr-act svg{width:15px;height:15px}
-.corr-act:hover{background:var(--c-50)}
-.corr-act.is-on{background:var(--c-500);color:#fff;border-color:var(--c-500)}
+/* Pied de carte : date à gauche, actions pictos discrètes à droite */
+.corr-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.corr-date{color:var(--muted);font-size:.8rem;flex:1;min-width:0}
+.corr-actions{display:flex;gap:2px;flex:none}
+.corr-ico{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--muted);padding:5px;border-radius:8px;font-size:.78rem;font-weight:600}
+.corr-ico svg{width:16px;height:16px}
+.corr-ico:hover{background:var(--c-50);color:var(--c-700)}
+.corr-ico.is-on{color:var(--c-600)}
 .insight.is-pinned{border-color:var(--c-300);box-shadow:0 0 0 1px var(--c-200) inset}
 .insight.is-archived{opacity:.72}
 
@@ -182,8 +184,9 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 /* Bottom nav */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
 .tabbar .inner{max-width:var(--maxw);margin:0 auto;height:var(--tabbar-h);display:flex}
-.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;color:var(--muted);font-size:.72rem;font-weight:600;padding-top:8px;min-height:var(--tabbar-h)}
-.tab svg{width:24px;height:24px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;color:var(--muted);font-size:.66rem;font-weight:600;padding:8px 2px 0;min-height:var(--tabbar-h)}
+.tab svg{width:22px;height:22px}
+.tab span{white-space:nowrap}
 .tab.on{color:var(--c-600)}
 
 /* Toast */

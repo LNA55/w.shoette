@@ -15,7 +15,7 @@
       errMissing: 'Renseigne ton e-mail et ton mot de passe.',
       errExists: 'Ce compte existe déjà — connecte-toi.',
       errNouser: 'Aucun compte avec cet e-mail.', errBadpass: 'Mot de passe incorrect.',
-      navHome: 'Journal', navData: 'Données', navCorr: 'Corrélations', navSettings: 'Réglages',
+      navHome: 'Journal', navData: 'Données', navCorr: 'Corr. auto', navCorrMan: 'Corr. manu', navSettings: 'Réglages',
       capturePh: 'Ex : Mal dormi, réveillée à 4h. Dîner fromage hier soir. Mains raides ce matin, temps humide…',
       add: 'Ajouter', listening: 'Écoute…', micOff: 'La dictée vocale arrivera dans l’app native.',
       saved: 'Entrée enregistrée ✓', photo: 'Photo',
@@ -35,8 +35,11 @@
       absent: 'informations absentes', climate: 'Climat',
       freq_daily: 'quotidien', freq_often: 'fréquent', freq_occasional: 'occasionnel',
       unitNight: 'h/nuit', unitMeals: 'prises/jour',
-      corrTitle: 'Corrélations',
+      corrTitle: 'Corrélations automatiques',
       corrSub: 'Ce que l’app commence à remarquer dans tes données. Attention, corrélation n’est pas causalité.',
+      corrManualTitle: 'Corrélations manuelles', corrManualSoon: 'Bientôt — détails à venir.',
+      corrBtnLabel: 'Boutons des corrélations', corrBtnNote: 'Pour l’instant : épingler et masquer',
+      btnIcons: 'Pictogrammes', btnIconsText: 'Pictogrammes et texte',
       update: 'Mettre à jour', lastRun: 'Dernière analyse :', neverRun: 'Analyse jamais lancée',
       analysisDone: 'Analyse mise à jour ✓', insufficient: 'Informations entrées insuffisantes',
       patternTpl: 'Tes douleurs/symptômes reviennent souvent les jours où tu notes : « {x} ».',
@@ -83,7 +86,7 @@
       errMissing: 'Enter your email and password.',
       errExists: 'This account already exists — sign in.',
       errNouser: 'No account with this email.', errBadpass: 'Wrong password.',
-      navHome: 'Journal', navData: 'Data', navCorr: 'Correlations', navSettings: 'Settings',
+      navHome: 'Journal', navData: 'Data', navCorr: 'Auto corr.', navCorrMan: 'Man. corr.', navSettings: 'Settings',
       capturePh: 'E.g. Slept badly, awake at 4am. Cheese for dinner. Stiff hands this morning, humid weather…',
       add: 'Add', listening: 'Listening…', micOff: 'Voice dictation is coming in the native app.',
       saved: 'Entry saved ✓', photo: 'Photo',
@@ -103,8 +106,11 @@
       absent: 'no data', climate: 'Climate',
       freq_daily: 'daily', freq_often: 'frequent', freq_occasional: 'occasional',
       unitNight: 'h/night', unitMeals: 'meals/day',
-      corrTitle: 'Correlations',
+      corrTitle: 'Automatic correlations',
       corrSub: 'What the app is starting to notice in your data. Remember: correlation is not causation.',
+      corrManualTitle: 'Manual correlations', corrManualSoon: 'Coming soon — details to follow.',
+      corrBtnLabel: 'Correlation buttons', corrBtnNote: 'For now: pin and hide',
+      btnIcons: 'Icons', btnIconsText: 'Icons and text',
       update: 'Update', lastRun: 'Last analysis:', neverRun: 'Analysis not run yet',
       analysisDone: 'Analysis updated ✓', insufficient: 'Not enough information entered',
       patternTpl: 'Your pain/symptoms often come back on days when you log: “{x}”.',
@@ -216,7 +222,7 @@
   function lsStoreKey(id){ return 'wwfm_store_'+id; }
   function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
   function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; return s; }
+  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; return s; }
   function api(action, payload){
     payload=payload||{}; payload.action=action;
     return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
@@ -360,6 +366,7 @@
     var p={ home:'<path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
       data:'<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>',
       corr:'<path d="M5 20v-6M12 20V5M19 20v-9"/><path d="M3 20h18"/>',
+      corrman:'<path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/>',
       settings:'<circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/>',
       search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
       filter:'<path d="M4 5h16M7 12h10M10 19h4"/>',
@@ -409,25 +416,27 @@
   }
   function empty(tk,bk,big){ return '<div class="empty"><div class="big">'+big+'</div><h3>'+esc(t(tk))+'</h3><p>'+esc(t(bk))+'</p></div>'; }
   function pinSvg(filled){ return '<svg viewBox="0 0 24 24" fill="'+(filled?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 6 3 3v2h-4.5"/><path d="M12.5 15H6v-2l3-3"/><path d="M12 20v-5"/></svg>'; }
+  function eyeSvg(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>'; }
+  function eyeOffSvg(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a18 18 0 0 1-3.2 4.2M6.6 6.6A18 18 0 0 0 2 12s3.5 7 10 7a10.8 10.8 0 0 0 3.9-.7"/></svg>'; }
   function insightCard(c){
     var spanPhrase = c.windowDays===1?t('spanPhrase_1'):(c.windowDays===7?t('spanPhrase_7'):t('spanPhrase_3'));
     var dateLine = t('observedTpl').replace('{date}', fmtDay(c.observedAt||Date.now())).replace('{span}', spanPhrase);
     var obsolete = !c.current && !c.pinned;
+    var withText = (S.store.corrBtnStyle==='iconstext');
     var tags = '';
     if(c.pinned) tags += '<span class="corr-tag tag-pinned">'+esc(t('pinnedTag'))+'</span>';
     if(obsolete) tags += '<span class="corr-tag tag-obsolete">'+esc(t('obsoleteTag'))+'</span>';
     if(c.hidden) tags += '<span class="corr-tag tag-hidden">'+esc(t('hiddenTag'))+'</span>';
-    var actions = '<button class="corr-act'+(c.pinned?' is-on':'')+'" data-act="corr-pin" data-v="'+esc(c.key)+'">'+pinSvg(c.pinned)+'<span>'+esc(c.pinned?t('unpin'):t('pin'))+'</span></button>'+
-      (c.hidden
-        ? '<button class="corr-act" data-act="corr-unhide" data-v="'+esc(c.key)+'"><span>'+esc(t('unhide'))+'</span></button>'
-        : '<button class="corr-act" data-act="corr-hide" data-v="'+esc(c.key)+'"><span>'+esc(t('hide'))+'</span></button>');
+    function icoBtn(act,svg,label,on){ return '<button class="corr-ico'+(on?' is-on':'')+'" data-act="'+act+'" data-v="'+esc(c.key)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'">'+svg+(withText?'<span>'+esc(label)+'</span>':'')+'</button>'; }
+    var actions = icoBtn('corr-pin', pinSvg(c.pinned), c.pinned?t('unpin'):t('pin'), c.pinned)+
+      (c.hidden ? icoBtn('corr-unhide', eyeSvg(), t('unhide'), false)
+                : icoBtn('corr-hide', eyeOffSvg(), t('hide'), false));
     return '<div class="card insight'+(c.pinned?' is-pinned':'')+(obsolete||c.hidden?' is-archived':'')+'">'+
       (tags?'<div class="corr-tags">'+tags+'</div>':'')+
       '<div class="stmt">'+esc(t('patternTpl').replace('{x}',c.label))+'</div>'+
       '<div class="meta"><span class="band band-'+c.band+'">'+esc(t('band_'+c.band))+'</span><span class="bar"><i style="width:'+Math.round(c.ratio*100)+'%"></i></span></div>'+
       '<div class="occ">'+esc(t('occText').replace('{n}',c.incidents).replace('{d}',c.days))+'</div>'+
-      '<div class="corr-date">'+esc(dateLine)+'</div>'+
-      '<div class="corr-actions">'+actions+'</div>'+
+      '<div class="corr-foot"><span class="corr-date">'+esc(dateLine)+'</span><span class="corr-actions">'+actions+'</span></div>'+
     '</div>'; }
 
   /* ---------------- Rendu ---------------- */
@@ -461,7 +470,7 @@
         '<p class="note" style="text-align:center">'+esc(t('legal'))+'</p>'+
       '</div>';
   }
-  function screenHtml(){ switch(S.tab){ case 'data': return dataHtml(); case 'corr': return corrHtml(); case 'settings': return settingsHtml(); default: return homeHtml(); } }
+  function screenHtml(){ switch(S.tab){ case 'data': return dataHtml(); case 'corr': return corrHtml(); case 'corrman': return corrManualHtml(); case 'settings': return settingsHtml(); default: return homeHtml(); } }
 
   function captureBox(){
     var mic = (window.SpeechRecognition||window.webkitSpeechRecognition)
@@ -539,11 +548,9 @@
     var dict=S.store.correlations||{}, last=S.store.lastAnalysisAt, W=S.store.corrWindow||3;
     var all=Object.keys(dict).map(function(k){return dict[k];});
     var stale=last && S.store.entries.some(function(e){return e.editedAt && e.editedAt>last;});
-    var winExpl = W===1?t('winExpl_1'):(W===7?t('winExpl_7'):t('winExpl_3'));
     var winSection='<div class="corr-window">'+
       '<div class="cw-head"><span class="cw-title">'+esc(t('corrWindowTitle'))+'</span>'+
-        seg([[1,t('win_24h')],[3,t('win_3d')],[7,t('win_1w')]], W, 'corrwindow')+'</div>'+
-      '<p class="cw-expl">'+esc(winExpl)+'</p></div>';
+        seg([[1,t('win_24h')],[3,t('win_3d')],[7,t('win_1w')]], W, 'corrwindow')+'</div></div>';
     var head='<h1 class="page-title">'+esc(t('corrTitle'))+'</h1><p class="page-sub">'+esc(t('corrSub'))+'</p>'+
       winSection +
       (stale?'<div class="stale-banner">'+esc(t('corrStale'))+'</div>':'')+
@@ -559,6 +566,10 @@
     return head + mainHtml + archiveHtml;
   }
 
+  function corrManualHtml(){
+    return '<h1 class="page-title">'+esc(t('corrManualTitle'))+'</h1>'+
+      '<div class="empty"><div class="big">🔗</div><p>'+esc(t('corrManualSoon'))+'</p></div>';
+  }
   function seg(opts,cur,act){ return '<span class="seg">'+opts.map(function(o){
       return '<button data-act="set-'+act+'" data-v="'+o[0]+'" class="'+(cur===o[0]?'on':'')+'">'+o[1]+'</button>'; }).join('')+'</span>'; }
   function settingsHtml(){
@@ -569,7 +580,8 @@
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
       '</div>'+
       '<div class="card list" style="margin-top:14px">'+
-        '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('recapDaysLabel'))+'<small class="row-note">'+esc(t('recapDaysNote'))+'</small></span><span class="sp"></span>'+ seg([[7,'7 j'],[14,'14 j'],[30,'30 j']], S.store.recapDays||7, 'recapdays')+'</div>'+
+        '<div class="row"><span class="k">'+esc(t('recapDaysLabel'))+'<small class="row-note">'+esc(t('recapDaysNote'))+'</small></span><span class="sp"></span>'+ seg([[7,'7 j'],[14,'14 j'],[30,'30 j']], S.store.recapDays||7, 'recapdays')+'</div>'+
+        '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('corrBtnLabel'))+'<small class="row-note">'+esc(t('corrBtnNote'))+'</small></span><span class="sp"></span>'+ seg([['icons',t('btnIcons')],['iconstext',t('btnIconsText')]], S.store.corrBtnStyle||'icons', 'corrbtnstyle')+'</div>'+
       '</div>'+
       '<div class="card list" style="margin-top:14px">'+
         '<div class="row"><span class="k">'+esc(t('account'))+'</span><span class="sp"></span><span style="color:var(--muted)">'+esc(S.email||'')+'</span></div>'+
@@ -585,7 +597,7 @@
       '<p class="note">'+esc(t('backupNote'))+'</p><p class="note">'+esc(t('legal'))+'</p>';
   }
   function tabbarHtml(){
-    var tabs=[['home','navHome'],['data','navData'],['corr','navCorr'],['settings','navSettings']];
+    var tabs=[['home','navHome'],['data','navData'],['corr','navCorr'],['corrman','navCorrMan'],['settings','navSettings']];
     return '<nav class="tabbar"><div class="inner">'+tabs.map(function(x){
       return '<button class="tab '+(S.tab===x[0]?'on':'')+'" data-act="tab" data-v="'+x[0]+'">'+navIcon(x[0])+'<span>'+esc(t(x[1]))+'</span></button>'; }).join('')+'</div></nav>';
   }
@@ -657,6 +669,7 @@
     if(act==='corr-hide'){ var ch=(S.store.correlations||{})[v]; if(ch){ ch.hidden=true; persistStore(); render(); } return; }
     if(act==='corr-unhide'){ var cu=(S.store.correlations||{})[v]; if(cu){ cu.hidden=false; persistStore(); render(); } return; }
     if(act==='set-recapdays'){ S.store.recapDays=parseInt(v,10)||7; persistStore(); render(); return; }
+    if(act==='set-corrbtnstyle'){ S.store.corrBtnStyle=v; persistStore(); render(); return; }
     if(act==='set-dataview'){ S.dataView=v; render(); return; }
     if(act==='set-lang'){ setLang(v); return; }
     if(act==='set-theme'){ setTheme(v); return; }
