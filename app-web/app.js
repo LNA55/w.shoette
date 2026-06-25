@@ -38,6 +38,17 @@
       corrTitle: 'Corrélations automatiques',
       corrSub: 'Ce que l’app commence à remarquer dans tes données. Attention, corrélation n’est pas causalité.',
       corrManualTitle: 'Corrélations manuelles', corrManualSoon: 'Bientôt — détails à venir.',
+      mfSub: 'Choisis 2 facteurs ou plus, puis lance l’analyse. Les suggestions viennent de tes entrées passées.',
+      mfPlaceholder: 'Facteur {n} — ex : heure du coucher', mfAdd: '+ Ajouter un facteur', mfDel: 'Retirer', mfRun: 'Run',
+      mfResults: 'Résultats', mfNeed2: 'Entre au moins 2 facteurs.',
+      mfTooFew: 'Pas assez de jours communs pour conclure (minimum 3).',
+      mfFlat: 'Données trop constantes pour mesurer une corrélation.',
+      mfPos: 'Association positive : les deux varient dans le même sens.',
+      mfNeg: 'Association inverse : quand l’un monte, l’autre baisse.',
+      mfNoteTpl: 'Coefficient r = {r} sur {n} jours communs. {dir}',
+      mfMultiTpl: 'Schéma commun aux {k} facteurs : force {s}/100, sur {n} jours communs.',
+      vStrong: 'Corrélation forte', vMaybe: 'Corrélation possible', vNone: 'Pas de corrélation claire',
+      sugBedtime: 'heure du coucher', sugDinner: 'heure du dîner', sugWake: 'heure du réveil', sugNight: 'qualité de la nuit',
       corrBtnLabel: 'Boutons des corrélations', corrBtnNote: 'Pour l’instant : épingler et masquer',
       btnIcons: 'Pictogrammes', btnIconsText: 'Pictogrammes et texte',
       update: 'Mettre à jour', lastRun: 'Dernière analyse :', neverRun: 'Analyse jamais lancée',
@@ -109,6 +120,17 @@
       corrTitle: 'Automatic correlations',
       corrSub: 'What the app is starting to notice in your data. Remember: correlation is not causation.',
       corrManualTitle: 'Manual correlations', corrManualSoon: 'Coming soon — details to follow.',
+      mfSub: 'Pick 2 or more factors, then run the analysis. Suggestions come from your past entries.',
+      mfPlaceholder: 'Factor {n} — e.g. bedtime', mfAdd: '+ Add a factor', mfDel: 'Remove', mfRun: 'Run',
+      mfResults: 'Results', mfNeed2: 'Enter at least 2 factors.',
+      mfTooFew: 'Not enough shared days to conclude (minimum 3).',
+      mfFlat: 'Data too constant to measure a correlation.',
+      mfPos: 'Positive association: both move the same way.',
+      mfNeg: 'Inverse association: when one goes up, the other goes down.',
+      mfNoteTpl: 'Coefficient r = {r} over {n} shared days. {dir}',
+      mfMultiTpl: 'Shared pattern across {k} factors: strength {s}/100, over {n} shared days.',
+      vStrong: 'Strong correlation', vMaybe: 'Possible correlation', vNone: 'No clear correlation',
+      sugBedtime: 'bedtime', sugDinner: 'dinner time', sugWake: 'wake-up time', sugNight: 'night quality',
       corrBtnLabel: 'Correlation buttons', corrBtnNote: 'For now: pin and hide',
       btnIcons: 'Icons', btnIconsText: 'Icons and text',
       update: 'Update', lastRun: 'Last analysis:', neverRun: 'Analysis not run yet',
@@ -222,7 +244,7 @@
   function lsStoreKey(id){ return 'wwfm_store_'+id; }
   function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
   function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; return s; }
+  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; if(!s.manual) s.manual={factors:[],result:null}; return s; }
   function api(action, payload){
     payload=payload||{}; payload.action=action;
     return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
@@ -566,9 +588,167 @@
     return head + mainHtml + archiveHtml;
   }
 
+  /* ---------------- Corrélations manuelles (on demand) ---------------- */
+  function manualVocab(){
+    var set={};
+    [t('sugBedtime'),t('sugDinner'),t('sugWake'),t('sugNight')].forEach(function(s){ set[s]=1; });
+    CAT_ORDER.forEach(function(k){ set[catName(k)]=1; });
+    S.store.entries.forEach(function(e){ (e.signals||[]).forEach(function(s){ var v=s.value||s.label; if(v) set[v]=1; }); });
+    return Object.keys(set).slice(0,60);
+  }
+  /* Série quotidienne d'un facteur : moyenne des nombres extraits sinon nombre d'occurrences/jour. */
+  function factorDaily(factor){
+    var f=(factor||'').trim().toLowerCase(), res={byDay:{},days:0}; if(!f) return res;
+    var words=f.split(/\s+/).filter(function(w){return w.length>2;}); if(!words.length) words=[f];
+    var isTime=/(heure|couch|lever|réveil|reveil|d[îi]ner|d[ée]jeuner|repas|bed|wake|time)/.test(f);
+    var agg={};
+    S.store.entries.forEach(function(e){
+      var txt=(e.text||'').toLowerCase(), sigs=(e.signals||[]);
+      var hay=txt+' '+sigs.map(function(s){return (s.category+' '+(s.label||'')+' '+(s.value||'')).toLowerCase();}).join(' ');
+      if(!words.some(function(w){return hay.indexOf(w)>-1;})) return;
+      var d=new Date(e.createdAt), dk=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
+      agg[dk]=agg[dk]||{sum:0,num:0,cnt:0}; agg[dk].cnt++;
+      var val=null;
+      if(isTime){ var m=txt.match(/(\d{1,2})\s*[h:](\d{2})?/); val=m?(parseInt(m[1],10)+(m[2]?parseInt(m[2],10)/60:0)):(d.getHours()+d.getMinutes()/60); }
+      else { for(var i=0;i<sigs.length;i++){ var sm=String(sigs[i].value||'').match(/(\d+(?:[.,]\d+)?)/); if(sm){ val=parseFloat(sm[1].replace(',','.')); break; } }
+        if(val==null){ var tm=txt.match(/(\d+(?:[.,]\d+)?)/); if(tm) val=parseFloat(tm[1].replace(',','.')); } }
+      if(val!=null && !isNaN(val)){ agg[dk].sum+=val; agg[dk].num++; }
+    });
+    var byDay={}; Object.keys(agg).forEach(function(dk){ var a=agg[dk]; byDay[dk]=a.num>0?a.sum/a.num:a.cnt; });
+    res.byDay=byDay; res.days=Object.keys(byDay).length; return res;
+  }
+  function pearson(xs,ys){
+    var n=xs.length; if(n<3) return {r:null,n:n};
+    var mx=0,my=0,i; for(i=0;i<n;i++){ mx+=xs[i]; my+=ys[i]; } mx/=n; my/=n;
+    var num=0,dx=0,dy=0; for(i=0;i<n;i++){ var a=xs[i]-mx,b=ys[i]-my; num+=a*b; dx+=a*a; dy+=b*b; }
+    if(dx===0||dy===0) return {r:null,n:n,flat:true};
+    return {r:num/Math.sqrt(dx*dy), n:n};
+  }
+  function analyzePair(fa,fb){
+    var A=factorDaily(fa).byDay, B=factorDaily(fb).byDay;
+    var days=Object.keys(A).filter(function(k){return k in B;});
+    var xs=days.map(function(k){return A[k];}), ys=days.map(function(k){return B[k];});
+    var pr=pearson(xs,ys), verdict;
+    if(pr.r==null) verdict='red'; else { var ar=Math.abs(pr.r); verdict=ar>=0.6?'green':(ar>=0.35?'yellow':'red'); }
+    var res={a:fa,b:fb,r:pr.r,n:pr.n,flat:!!pr.flat,xs:xs,ys:ys,verdict:verdict};
+    res.note=manualNote(res); return res;
+  }
+  function manualNote(res){
+    if(res.r==null) return res.flat ? t('mfFlat') : t('mfTooFew');
+    var rr=(Math.round(res.r*100)/100).toString().replace('.',',');
+    return t('mfNoteTpl').replace('{r}',rr).replace('{n}',res.n).replace('{dir}', res.r>0?t('mfPos'):t('mfNeg'));
+  }
+  function syncManualInputs(){ var ins=document.querySelectorAll('.mf-input'); S.store.manual=S.store.manual||{factors:[]};
+    if(!ins.length) return; var arr=[]; for(var i=0;i<ins.length;i++) arr.push(ins[i].value); S.store.manual.factors=arr; }
+  function runManual(){
+    syncManualInputs();
+    var clean=(S.store.manual.factors||[]).map(function(f){return (f||'').trim();}).filter(Boolean);
+    if(clean.length<2){ S.store.manual.result={error:t('mfNeed2')}; persistStore(); render(); return; }
+    if(clean.length===2){ S.store.manual.result={mode:'pair', pair:analyzePair(clean[0],clean[1])}; }
+    else { S.store.manual.result={mode:'multi', multi:analyzeMulti(clean)}; }
+    persistStore(); render();
+  }
+  /* Corrélation multi-facteurs : valeur propre dominante de la matrice de corrélation
+     (sur les jours communs à TOUS les facteurs) → 1 seul score de schéma commun, pas une liste de paires. */
+  function powerEig(M){
+    var n=M.length, v=[], i, j; for(i=0;i<n;i++) v[i]=1/Math.sqrt(n); var lambda=0;
+    for(var it=0; it<200; it++){
+      var w=[]; for(i=0;i<n;i++){ var s=0; for(j=0;j<n;j++) s+=M[i][j]*v[j]; w[i]=s; }
+      var nrm=Math.sqrt(w.reduce(function(a,x){return a+x*x;},0))||1; for(i=0;i<n;i++) w[i]/=nrm;
+      var num=0; for(i=0;i<n;i++){ var s2=0; for(j=0;j<n;j++) s2+=M[i][j]*w[j]; num+=w[i]*s2; }
+      if(Math.abs(num-lambda)<1e-7){ lambda=num; break; } lambda=num; v=w;
+    }
+    return lambda;
+  }
+  function analyzeMulti(factors){
+    var series=factors.map(function(f){ return {name:f, byDay:factorDaily(f).byDay}; });
+    var days=Object.keys(series[0].byDay).filter(function(k){ return series.every(function(s){return k in s.byDay;}); }).sort();
+    var n=days.length, k=series.length;
+    if(n<3) return {factors:factors, verdict:'red', n:n, note:t('mfTooFew'), lines:[], days:[]};
+    var cols=series.map(function(s){ return days.map(function(d){return s.byDay[d];}); });
+    var R=[]; for(var i=0;i<k;i++){ R[i]=[]; for(var j=0;j<k;j++){ R[i][j] = i===j?1:(pearson(cols[i],cols[j]).r||0); } }
+    var lambda=powerEig(R), strength=Math.max(0,Math.min(1,(lambda-1)/(k-1)));
+    var verdict=strength>=0.6?'green':(strength>=0.35?'yellow':'red');
+    var lines=series.map(function(s){ var vals=days.map(function(d){return s.byDay[d];});
+      var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals), rng=(mx-mn)||1;
+      return {name:s.name, norm:vals.map(function(v){return (v-mn)/rng;})}; });
+    var note=t('mfMultiTpl').replace('{k}',k).replace('{s}',Math.round(strength*100)).replace('{n}',n);
+    return {factors:factors, verdict:verdict, strength:strength, n:n, note:note, lines:lines, days:days};
+  }
+  function verdictBadge(v){ var lbl=v==='green'?t('vStrong'):(v==='yellow'?t('vMaybe'):t('vNone'));
+    return '<span class="verdict v-'+v+'"><span class="pill"></span>'+esc(lbl)+'</span>'; }
+  function scatterSvg(res){
+    var w=320,h=210,pad=30, xs=res.xs, ys=res.ys; if(!xs.length) return '';
+    var minx=Math.min.apply(null,xs),maxx=Math.max.apply(null,xs),miny=Math.min.apply(null,ys),maxy=Math.max.apply(null,ys);
+    if(minx===maxx){minx-=1;maxx+=1;} if(miny===maxy){miny-=1;maxy+=1;}
+    function px(x){ return pad+(x-minx)/(maxx-minx)*(w-pad-12); }
+    function py(y){ return h-pad-(y-miny)/(maxy-miny)*(h-pad-12); }
+    var pts=xs.map(function(x,i){ return '<circle cx="'+px(x).toFixed(1)+'" cy="'+py(ys[i]).toFixed(1)+'" r="4.5"/>'; }).join('');
+    return '<svg class="scatter" viewBox="0 0 '+w+' '+h+'" role="img">'+
+      '<line class="axis" x1="'+pad+'" y1="'+(h-pad)+'" x2="'+(w-6)+'" y2="'+(h-pad)+'"/>'+
+      '<line class="axis" x1="'+pad+'" y1="8" x2="'+pad+'" y2="'+(h-pad)+'"/>'+
+      pts+
+      '<text class="ax-lbl" x="'+(w-6)+'" y="'+(h-10)+'" text-anchor="end">'+esc(res.a)+'</text>'+
+      '<text class="ax-lbl" x="6" y="14">'+esc(res.b)+'</text>'+
+    '</svg>';
+  }
+  function multiLineSvg(m){
+    var w=320,h=180,pad=24, days=m.days.length; if(days<2) return '';
+    var colors=['#118996','#e0a32e','#9b59b6','#e05a4f','#2ecc71','#3498db'];
+    function px(i){ return pad+i/(days-1)*(w-pad-8); }
+    function py(v){ return h-pad-v*(h-pad-8); }
+    var paths=m.lines.map(function(ln,idx){ var d=ln.norm.map(function(v,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1);}).join(' ');
+      return '<path d="'+d+'" fill="none" stroke="'+colors[idx%colors.length]+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'; }).join('');
+    var legend=m.lines.map(function(ln,idx){ return '<span class="ml-leg"><i style="background:'+colors[idx%colors.length]+'"></i>'+esc(ln.name)+'</span>'; }).join('');
+    return '<svg class="multiline" viewBox="0 0 '+w+' '+h+'" role="img">'+
+      '<line class="axis" x1="'+pad+'" y1="'+(h-pad)+'" x2="'+(w-6)+'" y2="'+(h-pad)+'"/>'+
+      '<line class="axis" x1="'+pad+'" y1="8" x2="'+pad+'" y2="'+(h-pad)+'"/>'+paths+'</svg>'+
+      '<div class="ml-legend">'+legend+'</div>';
+  }
+  function renderManualResult(r){
+    if(!r) return ''; if(r.error) return '<div class="empty"><p>'+esc(r.error)+'</p></div>';
+    var out='<h3 class="sec">'+esc(t('mfResults'))+'</h3>';
+    if(r.mode==='pair'){ var p=r.pair;
+      out+='<div class="card manual-card">'+
+        '<div class="mc-head"><span class="mc-pair">'+esc(p.a)+' <span class="mc-x">×</span> '+esc(p.b)+'</span>'+verdictBadge(p.verdict)+'</div>'+
+        (p.xs && p.xs.length ? scatterSvg(p) : '')+
+        '<p class="mc-note">'+esc(p.note)+'</p><p class="caveat">'+esc(t('insightCaveat'))+'</p></div>';
+    } else if(r.mode==='multi'){ var m=r.multi;
+      out+='<div class="card manual-card">'+
+        '<div class="mc-head"><span class="mc-pair">'+m.factors.map(function(f){return esc(f);}).join(' <span class="mc-x">×</span> ')+'</span>'+verdictBadge(m.verdict)+'</div>'+
+        (m.lines && m.lines.length ? multiLineSvg(m) : '')+
+        '<p class="mc-note">'+esc(m.note)+'</p><p class="caveat">'+esc(t('insightCaveat'))+'</p></div>';
+    }
+    return out;
+  }
   function corrManualHtml(){
-    return '<h1 class="page-title">'+esc(t('corrManualTitle'))+'</h1>'+
-      '<div class="empty"><div class="big">🔗</div><p>'+esc(t('corrManualSoon'))+'</p></div>';
+    var m=S.store.manual||{factors:[],result:null};
+    var factors=(m.factors||[]).slice(); while(factors.length<2) factors.push('');
+    var rows=factors.map(function(f,i){
+      return '<div class="mf-row"><input class="field mf-input" data-idx="'+i+'" autocomplete="off" value="'+esc(f)+'" placeholder="'+esc(t('mfPlaceholder').replace('{n}',i+1))+'">'+
+        (factors.length>2?'<button class="mf-del" data-act="mf-del" data-v="'+i+'" aria-label="'+esc(t('mfDel'))+'">×</button>':'')+'</div>';
+    }).join('');
+    return '<h1 class="page-title">'+esc(t('corrManualTitle'))+'</h1><p class="page-sub">'+esc(t('mfSub'))+'</p>'+
+      '<div class="card manual-form">'+rows+
+        '<div class="mf-actions"><button class="btn btn-ghost btn-sm" data-act="mf-add">'+esc(t('mfAdd'))+'</button>'+
+        '<span class="spacer"></span><button class="btn" data-act="mf-run">'+esc(t('mfRun'))+'</button></div>'+
+        '<div class="mf-megamenu" hidden></div>'+
+      '</div>'+
+      renderManualResult(m.result);
+  }
+  function hideMegaMenu(){ var mm=document.querySelector('.mf-megamenu'); if(mm) mm.hidden=true; }
+  function renderMegaItems(menu, query){
+    var q=(query||'').trim().toLowerCase();
+    var items=manualVocab().filter(function(v){ return !q || v.toLowerCase().indexOf(q)>-1; });
+    menu.innerHTML = items.length ? items.map(function(v){ return '<button type="button" class="mf-sug" data-v="'+esc(v)+'">'+esc(v)+'</button>'; }).join('') : '<span class="mf-empty">'+esc(t('noMatch'))+'</span>';
+  }
+  function openMegaMenu(input){
+    var form=input.closest('.manual-form'); if(!form) return;
+    var menu=form.querySelector('.mf-megamenu'); if(!menu) return;
+    menu.setAttribute('data-idx', input.getAttribute('data-idx'));
+    renderMegaItems(menu, input.value);
+    menu.style.top=(input.offsetTop+input.offsetHeight+6)+'px';
+    menu.hidden=false;
   }
   function seg(opts,cur,act){ return '<span class="seg">'+opts.map(function(o){
       return '<button data-act="set-'+act+'" data-v="'+o[0]+'" class="'+(cur===o[0]?'on':'')+'">'+o[1]+'</button>'; }).join('')+'</span>'; }
@@ -672,6 +852,9 @@
     if(act==='corr-unhide'){ var cu=(S.store.correlations||{})[v]; if(cu){ cu.hidden=false; persistStore(); render(); } return; }
     if(act==='set-recapdays'){ S.store.recapDays=parseInt(v,10)||7; persistStore(); render(); return; }
     if(act==='set-corrbtnstyle'){ S.store.corrBtnStyle=v; persistStore(); render(); return; }
+    if(act==='mf-add'){ syncManualInputs(); S.store.manual.factors.push(''); render(); return; }
+    if(act==='mf-del'){ syncManualInputs(); S.store.manual.factors.splice(parseInt(v,10),1); render(); return; }
+    if(act==='mf-run'){ runManual(); return; }
     if(act==='set-dataview'){ S.dataView=v; render(); return; }
     if(act==='set-lang'){ setLang(v); return; }
     if(act==='set-theme'){ setTheme(v); return; }
@@ -705,6 +888,8 @@
     var el=ev.target; if(!el) return;
     if(el.id==='capInput'){ S.draft=el.value; return; }
     if(el.id==='editInput'){ S.editDraft=el.value; return; }
+    if(el.classList && el.classList.contains('mf-input')){ S.store.manual=S.store.manual||{factors:[]}; S.store.manual.factors[parseInt(el.getAttribute('data-idx'),10)]=el.value;
+      var mm=document.querySelector('.mf-megamenu'); if(mm && !mm.hidden && mm.getAttribute('data-idx')===el.getAttribute('data-idx')) renderMegaItems(mm, el.value); return; }
     if(el.id==='homeSearch'){ S.filters.q=el.value; render(); return; }
     if(el.classList && el.classList.contains('hour-slider')){
       var a=+( (document.getElementById('fHourStart')||{}).value )||0, b=+( (document.getElementById('fHourEnd')||{}).value ); if(isNaN(b)) b=24;
@@ -713,6 +898,17 @@
   document.addEventListener('keydown', function(ev){
     if(ev.key==='Enter' && !S.token){ var p=document.getElementById('f_pass'); if(p && document.activeElement===p){
       doAuth(render._authMode, document.getElementById('f_email').value, p.value, function(m){ var er=document.getElementById('authErr'); if(er)er.textContent=m; }); } }
+    if(ev.key==='Escape'){ hideMegaMenu(); }
+  });
+  /* Méga-menu de suggestions sous le champ de facteur */
+  document.addEventListener('focusin', function(ev){ var el=ev.target; if(el && el.classList && el.classList.contains('mf-input')) openMegaMenu(el); });
+  document.addEventListener('focusout', function(ev){ var el=ev.target; if(el && el.classList && el.classList.contains('mf-input')) setTimeout(hideMegaMenu,150); });
+  document.addEventListener('mousedown', function(ev){
+    var s=ev.target.closest ? ev.target.closest('.mf-sug') : null; if(!s) return;
+    ev.preventDefault(); var menu=s.closest('.mf-megamenu'), idx=parseInt(menu.getAttribute('data-idx'),10);
+    var input=document.querySelector('.mf-input[data-idx="'+idx+'"]');
+    if(input){ input.value=s.getAttribute('data-v'); S.store.manual=S.store.manual||{factors:[]}; S.store.manual.factors[idx]=input.value; }
+    hideMegaMenu();
   });
 
   /* ---------------- Boot ---------------- */
