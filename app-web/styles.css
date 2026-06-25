@@ -168,6 +168,7 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .list .row{display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .list .row .k{font-weight:600}.list .row .sp{flex:1}
 .row-note{display:block;font-weight:500;font-size:.78rem;color:var(--muted);margin-top:3px}
+.pw-clear{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);font-weight:600;user-select:all;word-break:break-all;text-align:right}
 .seg{display:inline-flex;background:var(--c-50);border-radius:999px;padding:4px;gap:4px}
 .seg button{border:none;background:transparent;color:var(--c-600);font-weight:600;font-size:.88rem;padding:9px 14px;border-radius:999px;min-height:38px;transition:color .15s}
 .seg button.on{background:#fff;color:var(--c-700);font-weight:700;box-shadow:0 0 0 1px var(--c-200),0 4px 12px -6px rgba(0,0,0,.22)}

@@ -57,7 +57,7 @@
       settingsTitle: 'Réglages',
       accTitle: 'Accessibilité', textSize: 'Taille du texte', tsNormal: 'Normal', tsLarge: 'Grand texte',
       language: 'Langue', theme: 'Thème', themeTurq: 'Turquoise', themeCoral: 'Corail',
-      account: 'Compte', logout: 'Se déconnecter',
+      account: 'Compte', logout: 'Se déconnecter', pwUnknown: 'reconnecte-toi pour l’afficher',
       loadSample: 'Charger des exemples', exportData: 'Exporter mes données (JSON)',
       backupNote: 'Tes données sont sauvegardées sur le serveur : elles survivent à la suppression de l’app et restent accessibles, même ton ordinateur éteint. Jamais envoyées sur GitHub.',
       legal: 'What works for me est un journal de santé et un outil d’exploration de corrélations. Il ne fournit pas de diagnostic et ne remplace pas l’avis d’un professionnel de santé. Les associations présentées sont statistiques, pas des preuves de cause à effet.',
@@ -123,7 +123,7 @@
       settingsTitle: 'Settings',
       accTitle: 'Accessibility', textSize: 'Text size', tsNormal: 'Normal', tsLarge: 'Large text',
       language: 'Language', theme: 'Theme', themeTurq: 'Turquoise', themeCoral: 'Coral',
-      account: 'Account', logout: 'Sign out',
+      account: 'Account', logout: 'Sign out', pwUnknown: 'log in again to show it',
       loadSample: 'Load sample entries', exportData: 'Export my data (JSON)',
       backupNote: 'Your data is saved on the server: it survives app deletion and stays accessible, even with your computer off. Never pushed to GitHub.',
       legal: 'What works for me is a health journal and a correlation-exploration tool. It does not provide a diagnosis and does not replace professional medical advice. The associations shown are statistical, not proof of cause and effect.',
@@ -233,12 +233,13 @@
     api(mode,{email:email,password:pass,lang:S.lang,theme:S.theme}).then(function(res){
       if(res.error==='network'){ res = (mode==='signup'?localSignup:localLogin)(email,pass); }
       if(!res.ok){ onErr(t('err'+cap(res.error||'Missing'))); return; }
-      finishAuth(res);
+      finishAuth(res, pass);
     });
   }
   function applyProfile(){ var p=S.store.profile||{}; if(p.lang)S.lang=p.lang; if(p.theme)S.theme=p.theme; if(p.textsize)S.textsize=p.textsize; }
-  function finishAuth(res){ setSession(res.token,res.email); S.store=normStore(res.store); applyProfile();
-    lsSet(lsStoreKey(res.token),S.store); applyTheme(); applyTextsize(); S.tab='home'; render(); }
+  function finishAuth(res, pass){ setSession(res.token,res.email); S.store=normStore(res.store); applyProfile();
+    if(pass){ S.store.profile.password=pass; }
+    lsSet(lsStoreKey(res.token),S.store); applyTheme(); applyTextsize(); S.tab='home'; if(pass){ persistStore(); } render(); }
   function logout(){ localStorage.removeItem(LS_SESSION); S.token=null; S.email=null; S.store=normStore({}); render(); }
   function loadStoreFromServer(){ if(!S.token) return;
     api('load',{token:S.token}).then(function(res){ if(res.ok && res.store){ S.store=normStore(res.store); lsSet(lsStoreKey(S.token),S.store);
@@ -568,6 +569,7 @@
       '</div>'+
       '<div class="card list" style="margin-top:14px">'+
         '<div class="row"><span class="k">'+esc(t('account'))+'</span><span class="sp"></span><span style="color:var(--muted)">'+esc(S.email||'')+'</span></div>'+
+        '<div class="row"><span class="k">'+esc(t('password'))+'</span><span class="sp"></span><span class="pw-clear">'+ (prof().password ? esc(prof().password) : '<em style="color:var(--muted);font-weight:500">'+esc(t('pwUnknown'))+'</em>') +'</span></div>'+
         '<div class="row" style="border-bottom:none"><button class="btn btn-ghost btn-block" data-act="logout">'+esc(t('logout'))+'</button></div>'+
       '</div>'+
       '<div class="card list" style="margin-top:14px">'+
