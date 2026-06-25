@@ -90,7 +90,53 @@
       editTitle: 'Modifier l’entrée', editSave: 'Enregistrer', editCancel: 'Annuler',
       editDelete: 'Supprimer l’entrée', editHint: 'Les nouvelles données seront prises en compte lors de la prochaine analyse.',
       editTagsTitle: 'Tags actifs', editAddTag: 'Ajouter un tag', editModified: 'modifiée', noTags: 'aucun tag',
-      corrStale: 'Des entrées ont été modifiées depuis la dernière analyse. Cliquez sur « Mettre à jour » pour recalculer.'
+      corrStale: 'Des entrées ont été modifiées depuis la dernière analyse. Cliquez sur « Mettre à jour » pour recalculer.',
+      /* Écrans légaux */
+      legalBack: '← Réglages', legalInfoTitle: 'Informations légales',
+      legalMentionsTitle: 'Mentions légales',
+      legalCguTitle: 'Conditions générales d’utilisation',
+      legalCgvTitle: 'Conditions générales de vente',
+      legalLorem: '<p class="ld-meta">Document de démonstration — texte de remplacement (lorem ipsum). À remplacer par la version juridique définitive.</p>'+
+        '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>'+
+        '<h4>1. Lorem ipsum dolor</h4>'+
+        '<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>'+
+        '<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>'+
+        '<h4>2. Consectetur adipiscing elit</h4>'+
+        '<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>'+
+        '<h4>3. Ut enim ad minima veniam</h4>'+
+        '<p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum.</p>',
+      /* Gestion des données personnelles (section cosmétique) */
+      pdpTitle: 'Gestion des données personnelles et fonctions associées',
+      pdpFootnote: '* Fonctionnalités présentées à titre indicatif — pas encore actives dans cette démo.',
+      pdpAlwaysOn: 'Toujours activé',
+      /* Fonctions IA (section cosmétique) */
+      aiTitle: 'Fonctions basées sur des moteurs d’intelligence artificielle',
+      ai1: 'Pousser des invitations à faire des saisies dans le journal',
+      ai2: 'Générer automatiquement la liste des tags',
+      ai3: 'Sélectionner automatiquement les facteurs à inclure dans le Récap de l’écran Données',
+      ai4: 'Faire tourner un moteur d’IA pour établir les corrélations automatiques',
+      ai4Tag: 'Payant à l’usage', ai4Note: 'Facturé au prorata des tokens consommés.',
+      pdp1Title: 'Ne jamais transmettre mes données ni mon nom à un tiers',
+      pdp1Tag: 'RESTERA TOUJOURS GRATUIT',
+      pdp1Expl: '<p>Vos données de santé et votre identité ne sont <strong>jamais</strong> vendues, louées ni communiquées à un annonceur, un assureur ou un partenaire commercial.</p>'+
+        '<p>Cet engagement est inconditionnel : il est activé par défaut, ne peut pas être désactivé, et le restera toujours — sans contrepartie.</p>',
+      pdp2Title: 'Chiffrer le stockage de mes données',
+      pdp2Tag: '150 €/mois',
+      pdp2Expl: '<p>Par défaut, vos données sont hébergées dans un centre de données mutualisé opéré par <strong>OVH</strong>, en France. Votre nom, lui, est conservé séparément, sur un autre serveur.</p>'+
+        '<p>En activant cette option, vous bénéficiez d’un niveau de sécurité supplémentaire : vos données sont déplacées sur un <strong>disque dédié hébergé chez nous</strong>, et leur transmission est <strong>chiffrée de bout en bout</strong>. Votre nom et vos données restent en permanence stockés dans des emplacements distincts.</p>'+
+        '<p>Cette protection renforcée ralentit très légèrement l’application, en particulier l’affichage des résultats dans les onglets « Corrélations ».</p>',
+      pdp3Title: 'Me proposer de tester de nouveaux protocoles de laboratoire',
+      pdp3Expl: '<p>Recevez, en avant-première et sur la base du volontariat, des propositions pour évaluer de nouveaux protocoles d’analyse mis au point par des laboratoires partenaires.</p>'+
+        '<p>Vous restez libre d’accepter ou de refuser chaque sollicitation. Aucune information permettant de vous identifier n’est transmise sans votre accord explicite.</p>',
+      pdp4Title: 'Partager mon journal de façon anonyme',
+      pdp4Expl: '<p>Une copie <strong>anonymisée</strong> de votre journal — sans votre nom ni aucune information permettant de vous identifier — peut être analysée afin de vous proposer des recommandations personnalisées sur votre santé et votre bien-être.</p>'+
+        '<p>Vous pouvez interrompre ce partage à tout moment.</p>',
+      pdp5Title: 'Personnaliser mes valeurs de référence',
+      pdp5Tag: 'Sur devis',
+      pdp5Expl: '<p>Lorsque vous saisissez un résultat d’analyse, il est comparé à une plage de référence — la « norme » — fournie par les laboratoires et le corps médical. Cette norme dépend notamment de votre âge et de votre sexe.</p>'+
+        '<p>Or certains profils s’écartent de ces standards : prise de traitements particuliers, personnes non binaires (ni totalement homme, ni totalement femme), sportifs de haut niveau…</p>'+
+        '<p>Cette option permettra d’ajuster ces valeurs de référence à votre situation, manuellement, par un membre de notre équipe — un réglage unique réalisé sur mesure (« one shot »).</p>'+
+        '<p><em>Option payante, pas encore disponible. Contactez-nous pour en savoir plus.</em></p>'
     },
     en: {
       tagline: 'The health journal you talk to',
@@ -176,7 +222,44 @@
       editTitle: 'Edit entry', editSave: 'Save', editCancel: 'Cancel',
       editDelete: 'Delete entry', editHint: 'New data will be picked up on the next analysis run.',
       editTagsTitle: 'Active tags', editAddTag: 'Add a tag', editModified: 'edited', noTags: 'no tags',
-      corrStale: 'Some entries have been edited since the last analysis. Run "Update" to recalculate.'
+      corrStale: 'Some entries have been edited since the last analysis. Run "Update" to recalculate.',
+      /* Legal screens */
+      legalBack: '← Settings', legalInfoTitle: 'Legal',
+      legalMentionsTitle: 'Legal notice',
+      legalCguTitle: 'Terms of use',
+      legalCgvTitle: 'Terms of sale',
+      /* Personal data management (cosmetic section) */
+      pdpTitle: 'Managing your personal data & related features',
+      pdpFootnote: '* Features shown for illustration only — not active in this demo yet.',
+      pdpAlwaysOn: 'Always on',
+      /* AI features (cosmetic section) */
+      aiTitle: 'Features powered by artificial-intelligence engines',
+      ai1: 'Push me invitations to add journal entries',
+      ai2: 'Automatically generate the list of tags',
+      ai3: 'Automatically select the factors shown in the Data screen Recap',
+      ai4: 'Run an AI engine to compute automatic correlations',
+      ai4Tag: 'Pay per use', ai4Note: 'Billed in proportion to the tokens used.',
+      pdp1Title: 'Never share my data or my name with a third party',
+      pdp1Tag: 'ALWAYS FREE',
+      pdp1Expl: '<p>Your health data and your identity are <strong>never</strong> sold, rented or shared with advertisers, insurers or commercial partners.</p>'+
+        '<p>This commitment is unconditional: it is on by default, cannot be turned off, and will always stay that way — at no cost.</p>',
+      pdp2Title: 'Encrypt the storage of my data',
+      pdp2Tag: '€150/month',
+      pdp2Expl: '<p>By default, your data is hosted in a shared data center operated by <strong>OVH</strong>, in France. Your name is kept separately, on a different server.</p>'+
+        '<p>With this option enabled, you get an extra layer of security: your data is moved to a <strong>dedicated disk hosted on our own premises</strong>, and its transmission is <strong>encrypted end to end</strong>. Your name and your data always remain stored in separate locations.</p>'+
+        '<p>This reinforced protection slightly slows the app down, in particular when displaying results in the « Correlations » tabs.</p>',
+      pdp3Title: 'Invite me to test new laboratory protocols',
+      pdp3Expl: '<p>Receive early, opt-in invitations to evaluate new analysis protocols developed by partner laboratories.</p>'+
+        '<p>You remain free to accept or decline each request. No information that could identify you is shared without your explicit consent.</p>',
+      pdp4Title: 'Share my journal anonymously',
+      pdp4Expl: '<p>An <strong>anonymized</strong> copy of your journal — without your name or any information that could identify you — may be analyzed to offer you personalized recommendations about your health and well-being.</p>'+
+        '<p>You can stop this sharing at any time.</p>',
+      pdp5Title: 'Personalize my reference values',
+      pdp5Tag: 'On request',
+      pdp5Expl: '<p>When you enter a test result, it is compared against a reference range — the « norm » — provided by laboratories and the medical community. This norm depends notably on your age and sex.</p>'+
+        '<p>Yet some profiles fall outside these standards: specific treatments, non-binary people (neither fully male nor fully female), elite athletes…</p>'+
+        '<p>This option will let a member of our team adjust these reference values to your situation, by hand — a one-off, tailor-made setup (« one shot »).</p>'+
+        '<p><em>Paid option, not available yet. Contact us to learn more.</em></p>'
     }
   };
 
@@ -502,7 +585,9 @@
         '<p class="note" style="text-align:center">'+esc(t('legal'))+'</p>'+
       '</div>';
   }
-  function screenHtml(){ switch(S.tab){ case 'data': return dataHtml(); case 'corr': return corrHtml(); case 'corrman': return corrManualHtml(); case 'account': return accountHtml(); case 'settings': return settingsHtml(); default: return homeHtml(); } }
+  function screenHtml(){ switch(S.tab){ case 'data': return dataHtml(); case 'corr': return corrHtml(); case 'corrman': return corrManualHtml(); case 'account': return accountHtml(); case 'settings': return settingsHtml();
+    case 'legal-mentions': return legalHtml('legalMentionsTitle'); case 'legal-cgu': return legalHtml('legalCguTitle'); case 'legal-cgv': return legalHtml('legalCgvTitle');
+    default: return homeHtml(); } }
 
   function captureBox(){
     var mic = (window.SpeechRecognition||window.webkitSpeechRecognition)
@@ -792,6 +877,7 @@
         '<div class="row"><span class="k">'+esc(t('language'))+'</span><span class="sp"></span>'+ seg([['fr','Français'],['en','English']], S.lang, 'lang')+'</div>'+
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
       '</div>'+
+      aiSectionHtml()+
       '<div class="card list" style="margin-top:14px">'+
         '<div class="row"><span class="k">'+esc(t('recapDaysLabel'))+'<small class="row-note">'+esc(t('recapDaysNote'))+'</small></span><span class="sp"></span>'+ seg([[7,'7 j'],[14,'14 j'],[30,'30 j']], S.store.recapDays||7, 'recapdays')+'</div>'+
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('corrBtnLabel'))+'<small class="row-note">'+esc(t('corrBtnNote'))+'</small></span><span class="sp"></span>'+ seg([['icons',t('btnIcons')],['iconstext',t('btnIconsText')]], S.store.corrBtnStyle||'icons', 'corrbtnstyle')+'</div>'+
@@ -802,7 +888,75 @@
         '<div class="row" style="border-bottom:none"><button class="btn btn-ghost btn-block" data-act="import">'+esc(t('importData'))+'</button>'+
           '<input type="file" id="importInput" accept="application/json,.json" style="display:none"></div>'+
       '</div>'+
+      pdpSectionHtml()+
+      legalLinksHtml()+
       '<p class="note">'+esc(t('backupNote'))+'</p><p class="note">'+esc(t('legal'))+'</p>';
+  }
+  /* Section « Gestion des données personnelles » — items à checkbox + explication dépliable.
+     Purement cosmétique : aucune fonction n'est branchée (cf. astérisque + note de bas de section). */
+  function pdpSectionHtml(){
+    function item(o){
+      var box = o.locked
+        ? '<input type="checkbox" class="pdp-cb" checked onclick="return false" title="'+esc(t('pdpAlwaysOn'))+'" aria-label="'+esc(t('pdpAlwaysOn'))+'">'
+        : '<input type="checkbox" class="pdp-cb"'+(o.checked?' checked':'')+'>';
+      var sumTag = o.sumTag ? '<span class="price-tag '+o.tagClass+'">'+esc(o.sumTag)+'</span>' : '';
+      var explTag = o.explTag ? '<div class="pdp-tagrow"><span class="price-tag '+o.tagClass+'">'+esc(o.explTag)+'</span></div>' : '';
+      return '<div class="pdp-item">'+
+        '<label class="pdp-check'+(o.locked?' is-locked':'')+'">'+box+'</label>'+
+        '<details class="pdp-body">'+
+          '<summary class="pdp-sum"><span class="pdp-titlewrap">'+
+            '<span class="pdp-title">'+esc(o.title)+' <span class="pdp-star">*</span></span>'+ sumTag +
+          '</span><span class="pdp-caret" aria-hidden="true">▾</span></summary>'+
+          '<div class="pdp-expl">'+ o.expl + explTag +'</div>'+
+        '</details>'+
+      '</div>';
+    }
+    return '<h3 class="sec">'+esc(t('pdpTitle'))+'</h3>'+
+      '<div class="card pdp-card">'+
+        item({title:t('pdp1Title'), expl:t('pdp1Expl'), locked:true, sumTag:t('pdp1Tag'), tagClass:'price-tag--free'})+
+        item({title:t('pdp2Title'), expl:t('pdp2Expl'), explTag:t('pdp2Tag'), tagClass:'price-tag--paid'})+
+        item({title:t('pdp3Title'), expl:t('pdp3Expl')})+
+        item({title:t('pdp4Title'), expl:t('pdp4Expl')})+
+        item({title:t('pdp5Title'), expl:t('pdp5Expl'), explTag:t('pdp5Tag'), tagClass:'price-tag--paid'})+
+      '</div>'+
+      '<p class="note pdp-foot">'+esc(t('pdpFootnote'))+'</p>';
+  }
+  /* Liens vers les écrans légaux (mentions, CGU, CGV). */
+  function legalLinksHtml(){
+    function link(tab,key){
+      return '<button class="link-row" data-act="tab" data-v="'+tab+'"><span class="k">'+esc(t(key))+'</span><span class="sp"></span><span class="link-caret" aria-hidden="true">›</span></button>';
+    }
+    return '<h3 class="sec">'+esc(t('legalInfoTitle'))+'</h3>'+
+      '<div class="card">'+
+        link('legal-mentions','legalMentionsTitle')+
+        link('legal-cgu','legalCguTitle')+
+        link('legal-cgv','legalCgvTitle')+
+      '</div>';
+  }
+  /* Écran texte légal générique (mentions / CGU / CGV) avec bouton retour vers Réglages. */
+  function legalHtml(titleKey){
+    return '<button class="back-link" data-act="tab" data-v="settings">'+esc(t('legalBack'))+'</button>'+
+      '<h1 class="page-title">'+esc(t(titleKey))+'</h1>'+
+      '<div class="card legal-doc">'+ t('legalLorem') +'</div>';
+  }
+  /* Section « Fonctions IA » — liste front cosmétique (cases sans effet). */
+  function aiSectionHtml(){
+    function item(o){
+      var tag = o.tag ? '<div class="ai-tagrow"><span class="price-tag price-tag--paid">'+esc(o.tag)+'</span></div>' : '';
+      var note = o.note ? '<span class="ai-note">'+esc(o.note)+'</span>' : '';
+      return '<div class="ai-item">'+
+        '<label class="pdp-check"><input type="checkbox" class="pdp-cb"'+(o.checked?' checked':'')+'></label>'+
+        '<div class="ai-body"><span class="pdp-title">'+esc(o.title)+' <span class="pdp-star">*</span></span>'+ tag + note +'</div>'+
+      '</div>';
+    }
+    return '<h3 class="sec">'+esc(t('aiTitle'))+'</h3>'+
+      '<div class="card pdp-card">'+
+        item({title:t('ai1'), checked:true})+
+        item({title:t('ai2'), checked:true})+
+        item({title:t('ai3'), checked:true})+
+        item({title:t('ai4'), checked:false, tag:t('ai4Tag'), note:t('ai4Note')})+
+      '</div>'+
+      '<p class="note pdp-foot">'+esc(t('pdpFootnote'))+'</p>';
   }
   function tabbarHtml(){
     var tabs=[['home','navHome'],['data','navData'],['corr','navCorr'],['corrman','navCorrMan'],['settings','navSettings']];

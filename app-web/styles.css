@@ -222,6 +222,59 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .swatch{width:20px;height:20px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:6px;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
 .note{color:var(--muted);font-size:.84rem;margin-top:16px;line-height:1.5}
 
+/* Réglages — liens (mentions légales, CGU, CGV) façon ligne tappable */
+.link-row{display:flex;align-items:center;gap:12px;width:100%;padding:16px 0;border:none;border-bottom:1px solid var(--line);background:none;font:inherit;color:var(--ink);text-align:left;cursor:pointer;transition:background .15s;border-radius:8px}
+.link-row:last-child{border-bottom:none}
+.link-row:hover{background:var(--c-50)}
+.link-row .k{font-weight:600}.link-row .sp{flex:1}
+.link-caret{color:var(--c-400);font-size:1.4rem;line-height:1;font-weight:700;flex:none}
+
+/* Réglages — bouton retour (écrans légaux) */
+.back-link{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--c-600);font-weight:700;font-size:.95rem;padding:14px 2px 4px;cursor:pointer}
+.back-link:hover{color:var(--c-700)}
+
+/* Écran texte légal */
+.legal-doc{line-height:1.6}
+.legal-doc .ld-meta{color:var(--muted);font-size:.8rem;font-style:italic;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.legal-doc p{margin:0 0 12px;font-size:.92rem;color:var(--ink)}
+.legal-doc p:last-child{margin-bottom:0}
+.legal-doc h4{font-family:var(--font-display);font-size:1rem;margin:20px 0 8px;color:var(--ink)}
+
+/* Réglages — gestion des données personnelles (items dépliables) */
+.pdp-card{margin-top:14px;padding:6px 18px}
+.pdp-item{display:flex;gap:13px;align-items:flex-start;padding:15px 0;border-bottom:1px solid var(--line)}
+.pdp-item:last-child{border-bottom:none}
+.pdp-check{flex:none;display:grid;place-items:center;padding-top:1px;cursor:pointer}
+.pdp-check.is-locked{cursor:default}
+.pdp-cb{width:22px;height:22px;accent-color:var(--c-500);cursor:pointer}
+.pdp-check.is-locked .pdp-cb{cursor:default}
+.pdp-body{flex:1;min-width:0}
+.pdp-sum{list-style:none;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+.pdp-sum::-webkit-details-marker{display:none}
+.pdp-titlewrap{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.pdp-title{font-weight:600;line-height:1.35}
+.pdp-star{color:var(--c-500);font-weight:800}
+.pdp-caret{flex:none;color:var(--muted);margin-top:2px;transition:transform .18s;font-size:.85rem}
+.pdp-body[open] .pdp-caret{transform:rotate(180deg)}
+.pdp-expl{margin-top:11px;font-size:.9rem;line-height:1.55;color:var(--ink)}
+.pdp-expl p{margin:0 0 8px}.pdp-expl p:last-child{margin-bottom:0}
+.pdp-expl strong{font-weight:700}
+.pdp-tagrow{margin-top:12px}
+.pdp-foot{font-style:italic}
+
+/* Réglages — fonctions IA (liste simple, non dépliable) */
+.ai-item{display:flex;gap:13px;align-items:flex-start;padding:15px 0;border-bottom:1px solid var(--line)}
+.ai-item:last-child{border-bottom:none}
+.ai-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.ai-note{font-size:.8rem;color:var(--muted);line-height:1.45}
+.ai-tagrow{margin-top:2px}
+
+/* Étiquette « prix » (forme d'étiquette de commerce, avec pointe + œillet) */
+.price-tag{position:relative;display:inline-flex;align-items:center;padding:5px 11px 5px 18px;background:var(--c-500);color:#fff;font-weight:800;font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;border-radius:0 5px 5px 0;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);white-space:nowrap}
+.price-tag::before{content:'';position:absolute;left:6px;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;background:#fff;opacity:.95}
+.price-tag--free{background:#1f7a52}
+.price-tag--paid{background:#9a7400}
+
 /* Empty */
 .empty{text-align:center;color:var(--muted);padding:42px 18px}
 .empty .big{font-size:2.4rem;margin-bottom:10px}
