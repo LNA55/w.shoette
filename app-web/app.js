@@ -72,6 +72,10 @@
       accTitle: 'Accessibilité', textSize: 'Taille du texte', tsNormal: 'Normal', tsLarge: 'Grand texte',
       language: 'Langue', theme: 'Thème', themeTurq: 'Turquoise', themeCoral: 'Corail',
       account: 'Compte', logout: 'Se déconnecter', pwUnknown: 'reconnecte-toi pour l’afficher',
+      myAccount: 'Mon compte', accProfile: 'Profil',
+      accCreated: 'Date de création', accEntries: 'Entrées au journal',
+      accSex: 'Sexe à la naissance', accSexNote: 'Pour les standards du métabolisme',
+      sexM: 'H', sexF: 'F', sexO: 'Autre', accBirth: 'Date de naissance', accNotSet: 'non renseigné',
       loadSample: 'Charger des exemples', exportData: 'Exporter mes données (JSON)',
       importData: 'Importer des données (JSON)', importDone: 'Données importées ✓', importErr: 'Fichier JSON invalide',
       importConfirm: 'Remplacer les données actuelles de ce compte par celles du fichier ?',
@@ -154,6 +158,10 @@
       accTitle: 'Accessibility', textSize: 'Text size', tsNormal: 'Normal', tsLarge: 'Large text',
       language: 'Language', theme: 'Theme', themeTurq: 'Turquoise', themeCoral: 'Coral',
       account: 'Account', logout: 'Sign out', pwUnknown: 'log in again to show it',
+      myAccount: 'My account', accProfile: 'Profile',
+      accCreated: 'Created on', accEntries: 'Journal entries',
+      accSex: 'Sex at birth', accSexNote: 'For metabolism standards',
+      sexM: 'M', sexF: 'F', sexO: 'Other', accBirth: 'Date of birth', accNotSet: 'not set',
       loadSample: 'Load sample entries', exportData: 'Export my data (JSON)',
       importData: 'Import data (JSON)', importDone: 'Data imported ✓', importErr: 'Invalid JSON file',
       importConfirm: 'Replace the current data of this account with the file?',
@@ -244,7 +252,9 @@
   function lsStoreKey(id){ return 'wwfm_store_'+id; }
   function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
   function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; if(!s.manual) s.manual={factors:[],result:null}; return s; }
+  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; if(!s.manual) s.manual={factors:[],result:null};
+    if(!s.profile.createdAt){ s.profile.createdAt = s.entries.length ? s.entries.reduce(function(m,e){return e.createdAt<m?e.createdAt:m;}, s.entries[0].createdAt) : Date.now(); }
+    return s; }
   function api(action, payload){
     payload=payload||{}; payload.action=action;
     return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
@@ -468,7 +478,7 @@
     document.getElementById('app').innerHTML =
       '<header class="topbar"><div class="wrap">'+
         '<div class="brand"><span class="dot"></span>What works for me</div>'+
-        '<div class="brand"><small>'+esc((S.email||'').split('@')[0])+'</small></div>'+
+        '<button class="acct-btn" data-act="tab" data-v="account" aria-label="'+esc(t('myAccount'))+'"><span class="acct-ini">'+esc((S.email||'?').charAt(0).toUpperCase())+'</span><small>'+esc((S.email||'').split('@')[0])+'</small></button>'+
       '</div></header>'+
       '<main class="screen"><div class="wrap">'+ screenHtml() +'</div></main>'+ tabbarHtml()+
       (S.editingId ? editModalHtml() : '');
@@ -492,7 +502,7 @@
         '<p class="note" style="text-align:center">'+esc(t('legal'))+'</p>'+
       '</div>';
   }
-  function screenHtml(){ switch(S.tab){ case 'data': return dataHtml(); case 'corr': return corrHtml(); case 'corrman': return corrManualHtml(); case 'settings': return settingsHtml(); default: return homeHtml(); } }
+  function screenHtml(){ switch(S.tab){ case 'data': return dataHtml(); case 'corr': return corrHtml(); case 'corrman': return corrManualHtml(); case 'account': return accountHtml(); case 'settings': return settingsHtml(); default: return homeHtml(); } }
 
   function captureBox(){
     var mic = (window.SpeechRecognition||window.webkitSpeechRecognition)
@@ -752,6 +762,29 @@
   }
   function seg(opts,cur,act){ return '<span class="seg">'+opts.map(function(o){
       return '<button data-act="set-'+act+'" data-v="'+o[0]+'" class="'+(cur===o[0]?'on':'')+'">'+o[1]+'</button>'; }).join('')+'</span>'; }
+  function fmtFullDate(ts){ if(!ts) return null; var d=new Date(ts), loc=S.lang==='fr'?'fr-FR':'en-US';
+    return d.toLocaleDateString(loc,{day:'numeric',month:'long',year:'numeric'}); }
+  function accountHtml(){
+    var p=prof();
+    var created=fmtFullDate(p.createdAt) || '—';
+    var sex=p.sex||'';
+    var pwHtml = p.password ? esc(p.password) : '<em style="color:var(--muted);font-weight:500">'+esc(t('pwUnknown'))+'</em>';
+    return '<h1 class="page-title">'+esc(t('myAccount'))+'</h1>'+
+      '<div class="card list">'+
+        '<div class="row"><span class="k">'+esc(t('account'))+'</span><span class="sp"></span><span style="color:var(--muted)">'+esc(S.email||'')+'</span></div>'+
+        '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('password'))+'</span><span class="sp"></span><span class="pw-clear">'+pwHtml+'</span></div>'+
+      '</div>'+
+      '<h3 class="sec">'+esc(t('accProfile'))+'</h3>'+
+      '<div class="card list">'+
+        '<div class="row"><span class="k">'+esc(t('accCreated'))+'</span><span class="sp"></span><span style="color:var(--muted)">'+esc(created)+'</span></div>'+
+        '<div class="row"><span class="k">'+esc(t('accEntries'))+'</span><span class="sp"></span><span class="acct-num">'+S.store.entries.length+'</span></div>'+
+        '<div class="row"><span class="k">'+esc(t('accSex'))+'<small class="row-note">'+esc(t('accSexNote'))+'</small></span><span class="sp"></span>'+ seg([['M',t('sexM')],['F',t('sexF')],['O',t('sexO')]], sex, 'sex')+'</div>'+
+        '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('accBirth'))+'</span><span class="sp"></span><input type="date" id="accBirth" class="field sm acct-date" value="'+esc(p.birthdate||'')+'"></div>'+
+      '</div>'+
+      '<div class="card list" style="margin-top:14px">'+
+        '<div class="row" style="border-bottom:none"><button class="btn btn-ghost btn-block" data-act="logout">'+esc(t('logout'))+'</button></div>'+
+      '</div>';
+  }
   function settingsHtml(){
     return '<h1 class="page-title">'+esc(t('settingsTitle'))+'</h1>'+
       '<div class="card list">'+
@@ -762,11 +795,6 @@
       '<div class="card list" style="margin-top:14px">'+
         '<div class="row"><span class="k">'+esc(t('recapDaysLabel'))+'<small class="row-note">'+esc(t('recapDaysNote'))+'</small></span><span class="sp"></span>'+ seg([[7,'7 j'],[14,'14 j'],[30,'30 j']], S.store.recapDays||7, 'recapdays')+'</div>'+
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('corrBtnLabel'))+'<small class="row-note">'+esc(t('corrBtnNote'))+'</small></span><span class="sp"></span>'+ seg([['icons',t('btnIcons')],['iconstext',t('btnIconsText')]], S.store.corrBtnStyle||'icons', 'corrbtnstyle')+'</div>'+
-      '</div>'+
-      '<div class="card list" style="margin-top:14px">'+
-        '<div class="row"><span class="k">'+esc(t('account'))+'</span><span class="sp"></span><span style="color:var(--muted)">'+esc(S.email||'')+'</span></div>'+
-        '<div class="row"><span class="k">'+esc(t('password'))+'</span><span class="sp"></span><span class="pw-clear">'+ (prof().password ? esc(prof().password) : '<em style="color:var(--muted);font-weight:500">'+esc(t('pwUnknown'))+'</em>') +'</span></div>'+
-        '<div class="row" style="border-bottom:none"><button class="btn btn-ghost btn-block" data-act="logout">'+esc(t('logout'))+'</button></div>'+
       '</div>'+
       '<div class="card list" style="margin-top:14px">'+
         '<div class="row"><button class="btn btn-soft btn-block" data-act="sample">'+esc(t('loadSample'))+'</button></div>'+
@@ -852,6 +880,7 @@
     if(act==='corr-unhide'){ var cu=(S.store.correlations||{})[v]; if(cu){ cu.hidden=false; persistStore(); render(); } return; }
     if(act==='set-recapdays'){ S.store.recapDays=parseInt(v,10)||7; persistStore(); render(); return; }
     if(act==='set-corrbtnstyle'){ S.store.corrBtnStyle=v; persistStore(); render(); return; }
+    if(act==='set-sex'){ prof().sex=v; persistStore(); render(); return; }
     if(act==='mf-add'){ syncManualInputs(); S.store.manual.factors.push(''); render(); return; }
     if(act==='mf-del'){ syncManualInputs(); S.store.manual.factors.splice(parseInt(v,10),1); render(); return; }
     if(act==='mf-run'){ runManual(); return; }
@@ -883,7 +912,8 @@
   });
   document.addEventListener('change', function(ev){ var el=ev.target;
     if(el && el.id==='photoInput' && el.files && el.files[0]){ handlePhoto(el.files[0]); el.value=''; return; }
-    if(el && el.id==='importInput' && el.files && el.files[0]){ var fr=new FileReader(); fr.onload=function(e){ importData(e.target.result); }; fr.readAsText(el.files[0]); el.value=''; return; } });
+    if(el && el.id==='importInput' && el.files && el.files[0]){ var fr=new FileReader(); fr.onload=function(e){ importData(e.target.result); }; fr.readAsText(el.files[0]); el.value=''; return; }
+    if(el && el.id==='accBirth'){ prof().birthdate=el.value; persistStore(); return; } });
   document.addEventListener('input', function(ev){
     var el=ev.target; if(!el) return;
     if(el.id==='capInput'){ S.draft=el.value; return; }
