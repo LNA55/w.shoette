@@ -30,7 +30,7 @@
       emptyDataT: 'Pas encore de données', emptyData: 'Ajoute quelques entrées et reviens ici.',
       recapTitle: 'Récap', recapPeriod: '{n} derniers jours', viewValues: 'Valeurs santé', viewScore: 'Complétude du suivi',
       recapDaysLabel: 'Récap des données', recapDaysNote: 'Nombre de jours analysés (7 par défaut)',
-      byTopic: 'Par thème',
+      byTopic: 'Par thème', dataSeeMore: 'Voir plus', dataShowMore: 'Afficher plus',
       score1: 'Insuffisant', score2: 'Intermédiaire', score3: 'Suffisant',
       absent: 'informations absentes', climate: 'Climat',
       freq_daily: 'quotidien', freq_often: 'fréquent', freq_occasional: 'occasionnel',
@@ -67,6 +67,7 @@
       pin: 'Épingler', unpin: 'Désépingler', hide: 'Masquer', unhide: 'Réafficher',
       pinnedTag: 'Épinglée', obsoleteTag: 'Obsolète', hiddenTag: 'Masquée',
       showObsolete: 'Afficher les corrélations obsolètes',
+      showHiddenManual: 'Afficher les corrélations masquées',
       noCurrentCorr: 'Aucune corrélation active pour cette fenêtre.',
       settingsTitle: 'Réglages',
       accTitle: 'Accessibilité', textSize: 'Taille du texte', tsNormal: 'Normal', tsLarge: 'Grand texte',
@@ -116,6 +117,21 @@
       ai3: 'Sélectionner automatiquement les facteurs à inclure dans le Récap de l’écran Données',
       ai4: 'Faire tourner un moteur d’IA pour établir les corrélations automatiques',
       ai4Tag: 'Payant à l’usage', ai4Note: 'Facturé au prorata des tokens consommés.',
+      ai5: 'L’IA détermine les triggers pour solliciter une entrée',
+      /* Journal — entrées sollicitées (pull) */
+      pullTitle: 'Entrées sollicitées', pullBadge: 'Proposé par l’app',
+      pullEmpty: 'Aucune sollicitation en attente pour le moment.',
+      pullSend: 'Envoyer', pullSkip: 'Ignorer', pullYes: 'Oui', pullNo: 'Non',
+      pullQFood: 'Qu’as-tu mangé ?', pullPreFood: 'J’ai mangé ',
+      pullQPain: 'Toujours mal aux cuisses ?',
+      pullPainYesEntry: 'Oui, j’ai toujours mal aux cuisses.', pullPainNoEntry: 'Je n’ai plus mal aux cuisses.',
+      pullQSleep: 'As-tu dormi depuis ton dernier sommeil ?',
+      pullSleepYesEntry: 'J’ai dormi à un moment dans la journée.', pullSleepNoEntry: 'Je n’ai pas dormi depuis mon réveil.',
+      /* Réglages — Entrées sollicitées (règles consignées) */
+      pullSettingsTitle: 'Entrées sollicitées',
+      pullRuleFood: '<p><strong>Type :</strong> question ouverte.</p><p><strong>Déclencheur :</strong> 8 h se sont écoulées depuis ta dernière saisie concernant une prise alimentaire.</p>',
+      pullRulePain: '<p><strong>Type :</strong> Oui / Non.</p><p><strong>Déclencheur :</strong> une entrée du jour signale une douleur, sans qu’aucune entrée ultérieure n’indique sa disparition.</p>',
+      pullRuleSleep: '<p><strong>Type :</strong> Oui / Non.</p><p><strong>Déclencheur :</strong> 12 h après la première saisie de la journée (journée comptée à partir de 4 h du matin).</p><p>« Oui » enregistre : « Éléna a dormi à un moment dans la journée ».</p>',
       pdp1Title: 'Ne jamais transmettre mes données ni mon nom à un tiers',
       pdp1Tag: 'RESTERA TOUJOURS GRATUIT',
       pdp1Expl: '<p>Vos données de santé et votre identité ne sont <strong>jamais</strong> vendues, louées ni communiquées à un annonceur, un assureur ou un partenaire commercial.</p>'+
@@ -162,7 +178,7 @@
       emptyDataT: 'No data yet', emptyData: 'Add a few entries and come back here.',
       recapTitle: 'Recap', recapPeriod: 'last {n} days', viewValues: 'Health values', viewScore: 'Tracking completeness',
       recapDaysLabel: 'Data recap', recapDaysNote: 'Number of days analysed (7 by default)',
-      byTopic: 'By topic',
+      byTopic: 'By topic', dataSeeMore: 'See more', dataShowMore: 'Show more',
       score1: 'Insufficient', score2: 'Partial', score3: 'Sufficient',
       absent: 'no data', climate: 'Climate',
       freq_daily: 'daily', freq_often: 'frequent', freq_occasional: 'occasional',
@@ -199,6 +215,7 @@
       pin: 'Pin', unpin: 'Unpin', hide: 'Hide', unhide: 'Show again',
       pinnedTag: 'Pinned', obsoleteTag: 'Obsolete', hiddenTag: 'Hidden',
       showObsolete: 'Show obsolete correlations',
+      showHiddenManual: 'Show hidden correlations',
       noCurrentCorr: 'No active correlation for this window.',
       settingsTitle: 'Settings',
       accTitle: 'Accessibility', textSize: 'Text size', tsNormal: 'Normal', tsLarge: 'Large text',
@@ -239,6 +256,21 @@
       ai3: 'Automatically select the factors shown in the Data screen Recap',
       ai4: 'Run an AI engine to compute automatic correlations',
       ai4Tag: 'Pay per use', ai4Note: 'Billed in proportion to the tokens used.',
+      ai5: 'Let AI decide when to request an entry',
+      /* Journal — requested entries (pull) */
+      pullTitle: 'Requested entries', pullBadge: 'Suggested by the app',
+      pullEmpty: 'No pending requests right now.',
+      pullSend: 'Send', pullSkip: 'Dismiss', pullYes: 'Yes', pullNo: 'No',
+      pullQFood: 'What did you eat?', pullPreFood: 'I ate ',
+      pullQPain: 'Still aching thighs?',
+      pullPainYesEntry: 'Yes, my thighs still ache.', pullPainNoEntry: 'My thighs no longer ache.',
+      pullQSleep: 'Have you slept since your last sleep?',
+      pullSleepYesEntry: 'I slept at some point during the day.', pullSleepNoEntry: 'I have not slept since I woke up.',
+      /* Settings — Pull Input (logged rules) */
+      pullSettingsTitle: 'Pull Input',
+      pullRuleFood: '<p><strong>Type:</strong> open question.</p><p><strong>Trigger:</strong> 8 hours have passed since your last entry about a meal.</p>',
+      pullRulePain: '<p><strong>Type:</strong> Yes / No.</p><p><strong>Trigger:</strong> an entry earlier today reports pain, with no later entry indicating it has stopped.</p>',
+      pullRuleSleep: '<p><strong>Type:</strong> Yes / No.</p><p><strong>Trigger:</strong> 12 hours after the first entry of the day (day counted from 4 a.m.).</p><p>“Yes” records: “Eléna slept at some point during the day”.</p>',
       pdp1Title: 'Never share my data or my name with a third party',
       pdp1Tag: 'ALWAYS FREE',
       pdp1Expl: '<p>Your health data and your identity are <strong>never</strong> sold, rented or shared with advertisers, insurers or commercial partners.</p>'+
@@ -320,7 +352,8 @@
             tab:'home', rec:null, recOn:false, draft:'', draftPhoto:null, dataView:'values',
             searchOpen:false, filterOpen:false, windowHours:24,
             filters:{ q:'', dateFrom:'', dateTo:'', tag:'', hourStart:0, hourEnd:24 },
-            editingId:null, editDraft:'', editSigs:[], editSigsDirty:false };
+            editingId:null, editDraft:'', editSigs:[], editSigsDirty:false,
+            pullDismissed:{}, dataShow:{} };
 
   function t(k){ var d=I18N[S.lang]||I18N.fr; return (k in d)?d[k]:(I18N.fr[k]!==undefined?I18N.fr[k]:k); }
   function catName(key){ return t('cat_'+key); }
@@ -335,7 +368,7 @@
   function lsStoreKey(id){ return 'wwfm_store_'+id; }
   function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
   function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; if(!s.manual) s.manual={factors:[],result:null};
+  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; if(!s.manual) s.manual={factors:[]}; s.manual.saved=s.manual.saved||[];
     if(!s.profile.createdAt){ s.profile.createdAt = s.entries.length ? s.entries.reduce(function(m,e){return e.createdAt<m?e.createdAt:m;}, s.entries[0].createdAt) : Date.now(); }
     return s; }
   function api(action, payload){
@@ -621,12 +654,43 @@
         '<button class="btn" data-act="apply-filters">'+esc(t('apply'))+'</button></div>'+
     '</div>';
   }
+  /* Entrées sollicitées (pull) — démo : 3 sollicitations affichées tant qu'elles ne sont
+     ni envoyées ni ignorées (état en mémoire). Répondre crée une vraie entrée de journal. */
+  function pullCards(){ return [
+    { id:'food', type:'open', q:'pullQFood', prefill:t('pullPreFood') },
+    { id:'pain', type:'yesno', q:'pullQPain', yesEntry:'pullPainYesEntry', noEntry:'pullPainNoEntry' },
+    { id:'sleep', type:'yesno', q:'pullQSleep', yesEntry:'pullSleepYesEntry', noEntry:'pullSleepNoEntry' }
+  ]; }
+  function pullCardById(id){ var a=pullCards(); for(var i=0;i<a.length;i++){ if(a[i].id===id) return a[i]; } return null; }
+  function pullSectionHtml(){
+    var cards=pullCards().filter(function(c){ return !S.pullDismissed[c.id]; });
+    var inner;
+    if(!cards.length){ inner='<p class="pull-empty">'+esc(t('pullEmpty'))+'</p>'; }
+    else { inner=cards.map(function(c){
+      var actions;
+      if(c.type==='open'){
+        actions='<textarea class="pull-input" id="pull_'+c.id+'" rows="2">'+esc(c.prefill||'')+'</textarea>'+
+          '<div class="pull-actions"><button class="btn btn-ghost btn-sm" data-act="pull-skip" data-v="'+c.id+'">'+esc(t('pullSkip'))+'</button>'+
+          '<span class="pull-spacer"></span><button class="btn btn-sm" data-act="pull-send" data-v="'+c.id+'">'+esc(t('pullSend'))+'</button></div>';
+      } else {
+        actions='<div class="pull-actions"><button class="btn btn-ghost btn-sm" data-act="pull-skip" data-v="'+c.id+'">'+esc(t('pullSkip'))+'</button>'+
+          '<span class="pull-spacer"></span><button class="btn btn-soft btn-sm" data-act="pull-no" data-v="'+c.id+'">'+esc(t('pullNo'))+'</button>'+
+          '<button class="btn btn-sm" data-act="pull-yes" data-v="'+c.id+'">'+esc(t('pullYes'))+'</button></div>';
+      }
+      return '<div class="pull-card"><div class="pull-q"><span class="pull-ic">🔔</span><span>'+esc(t(c.q))+'</span></div>'+actions+'</div>';
+    }).join(''); }
+    return '<section class="pull-section">'+
+      '<div class="pull-head"><span class="pull-badge">'+esc(t('pullBadge'))+'</span><h2 class="pull-title">'+esc(t('pullTitle'))+'</h2></div>'+
+      inner+'</section>';
+  }
   function homeHtml(){
     var list=sortedEntries().filter(matchEntry), active=filtersActive(), shown, hasMore=false;
     if(active){ shown=list; } else { var cutoff=Date.now()-S.windowHours*3600e3; shown=list.filter(function(e){return e.createdAt>=cutoff;}); hasMore=list.some(function(e){return e.createdAt<cutoff;}); }
     var listHtml = S.store.entries.length===0 ? empty('emptyJournalT','emptyJournal','📝')
       : (shown.length ? shown.map(entryCard).join('') : '<div class="empty"><p>'+esc(t('noMatch'))+'</p></div>');
     return captureBox()+
+      pullSectionHtml()+
+      '<section class="journal-section">'+
       '<div class="jhead"><h2 class="jtitle">'+esc(t('journalTitle'))+'</h2>'+
         '<div class="jicons">'+
           '<button class="iconbtn xs'+(S.searchOpen?' on':'')+'" data-act="toggle-search" aria-label="'+esc(t('search'))+'">'+navIcon('search')+'</button>'+
@@ -635,7 +699,8 @@
       (S.searchOpen?'<input id="homeSearch" class="field" placeholder="'+esc(t('searchPh'))+'" value="'+esc(S.filters.q)+'">':'')+
       (S.filterOpen?filterPanelHtml():'')+
       '<div id="journalList">'+listHtml+'</div>'+
-      (hasMore?'<button class="btn btn-soft btn-block more" data-act="more">'+esc(t('more'))+'</button>':'');
+      (hasMore?'<button class="btn btn-soft btn-block more" data-act="more">'+esc(t('more'))+'</button>':'')+
+      '</section>';
   }
 
   function dataHtml(){
@@ -654,9 +719,16 @@
     S.store.entries.forEach(function(e){ (e.signals||[]).forEach(function(s){ (byCat[s.category]=byCat[s.category]||[]).push({v:s.value||s.label, t:e.createdAt}); }); });
     var cards='';
     CAT_ORDER.forEach(function(key){ var items=byCat[key]; if(!items||!items.length) return;
+      var total=items.length, shown=Math.min(S.dataShow[key]||40, total);
+      var lis=items.slice(0,shown).map(function(it){ return '<li><span class="v">'+esc(it.v)+'</span><span class="d">'+esc(fmtDate(it.t))+'</span></li>'; }).join('');
+      var more = shown<total
+        ? (shown<=40
+            ? '<a class="cat-more-link" data-act="data-more" data-v="'+key+'">'+esc(t('dataSeeMore'))+'</a>'
+            : '<button class="btn btn-soft btn-sm cat-more-btn" data-act="data-more" data-v="'+key+'">'+esc(t('dataShowMore'))+'</button>')
+        : '';
       cards+='<details class="card cat"'+(['sleep','food','pain'].indexOf(key)>-1?' open':'')+'>'+
-        '<summary><span class="c-ic">'+CAT_EMOJI[key]+'</span><span class="c-name">'+esc(catName(key))+'</span><span class="c-count">'+items.length+'</span></summary>'+
-        '<ul>'+items.slice(0,40).map(function(it){ return '<li><span class="v">'+esc(it.v)+'</span><span class="d">'+esc(fmtDate(it.t))+'</span></li>'; }).join('')+'</ul></details>'; });
+        '<summary><span class="c-ic">'+CAT_EMOJI[key]+'</span><span class="c-name">'+esc(catName(key))+'</span><span class="c-count">'+total+'</span></summary>'+
+        '<ul class="cat-ul" data-cat="'+key+'">'+lis+'</ul>'+ more +'</details>'; });
     return '<h1 class="page-title">'+esc(t('dataTitle'))+'</h1><p class="page-sub">'+esc(t('dataSub'))+'</p>'+ recapCard +
       '<h3 class="sec">'+esc(t('byTopic'))+'</h3><div class="cats-grid">'+cards+'</div>';
   }
@@ -738,11 +810,19 @@
   function runManual(){
     syncManualInputs();
     var clean=(S.store.manual.factors||[]).map(function(f){return (f||'').trim();}).filter(Boolean);
-    if(clean.length<2){ S.store.manual.result={error:t('mfNeed2')}; persistStore(); render(); return; }
-    if(clean.length===2){ S.store.manual.result={mode:'pair', pair:analyzePair(clean[0],clean[1])}; }
-    else { S.store.manual.result={mode:'multi', multi:analyzeMulti(clean)}; }
+    S.store.manual.saved=S.store.manual.saved||[];
+    if(clean.length<2){ S.store.manual.error=t('mfNeed2'); persistStore(); render(); return; }
+    S.store.manual.error=null;
+    var data = clean.length===2 ? {mode:'pair', pair:analyzePair(clean[0],clean[1])} : {mode:'multi', multi:analyzeMulti(clean)};
+    /* Clé = facteurs normalisés & triés → re-lancer la même combinaison met à jour la carte existante
+       (en conservant épinglage/masquage), comme l'écran des corrélations automatiques. */
+    var key = clean.map(function(f){return f.toLowerCase();}).sort().join(' | ');
+    var ex = S.store.manual.saved.filter(function(s){return s.key===key;})[0];
+    if(ex){ ex.mode=data.mode; ex.pair=data.pair||null; ex.multi=data.multi||null; ex.createdAt=Date.now(); }
+    else { S.store.manual.saved.unshift({ key:key, mode:data.mode, pair:data.pair||null, multi:data.multi||null, pinned:false, hidden:false, createdAt:Date.now() }); }
     persistStore(); render();
   }
+  function findManual(key){ var a=(S.store.manual&&S.store.manual.saved)||[]; for(var i=0;i<a.length;i++){ if(a[i].key===key) return a[i]; } return null; }
   /* Corrélation multi-facteurs : valeur propre dominante de la matrice de corrélation
      (sur les jours communs à TOUS les facteurs) → 1 seul score de schéma commun, pas une liste de paires. */
   function powerEig(M){
@@ -789,7 +869,7 @@
   }
   function multiLineSvg(m){
     var w=320,h=180,pad=24, days=m.days.length; if(days<2) return '';
-    var colors=['#118996','#e0a32e','#9b59b6','#e05a4f','#2ecc71','#3498db'];
+    var colors=['#111827','#9ca3af','#4b5563','#6b7280','#374151','#1f2937'];
     function px(i){ return pad+i/(days-1)*(w-pad-8); }
     function py(v){ return h-pad-v*(h-pad-8); }
     var paths=m.lines.map(function(ln,idx){ var d=ln.norm.map(function(v,i){return (i?'L':'M')+px(i).toFixed(1)+' '+py(v).toFixed(1);}).join(' ');
@@ -800,24 +880,32 @@
       '<line class="axis" x1="'+pad+'" y1="8" x2="'+pad+'" y2="'+(h-pad)+'"/>'+paths+'</svg>'+
       '<div class="ml-legend">'+legend+'</div>';
   }
-  function renderManualResult(r){
-    if(!r) return ''; if(r.error) return '<div class="empty"><p>'+esc(r.error)+'</p></div>';
-    var out='<h3 class="sec">'+esc(t('mfResults'))+'</h3>';
-    if(r.mode==='pair'){ var p=r.pair;
-      out+='<div class="card manual-card">'+
-        '<div class="mc-head"><span class="mc-pair">'+esc(p.a)+' <span class="mc-x">×</span> '+esc(p.b)+'</span>'+verdictBadge(p.verdict)+'</div>'+
+  /* Carte d'une corrélation manuelle sauvegardée, avec pied « épingler »/« masquer » (cf. insightCard). */
+  function manualCard(s){
+    var withText=(S.store.corrBtnStyle==='iconstext');
+    function icoBtn(act,svg,label,on){ return '<button class="corr-ico'+(on?' is-on':'')+'" data-act="'+act+'" data-v="'+esc(s.key)+'" title="'+esc(label)+'" aria-label="'+esc(label)+'">'+svg+(withText?'<span>'+esc(label)+'</span>':'')+'</button>'; }
+    var tags='';
+    if(s.pinned) tags+='<span class="corr-tag tag-pinned">'+esc(t('pinnedTag'))+'</span>';
+    if(s.hidden) tags+='<span class="corr-tag tag-hidden">'+esc(t('hiddenTag'))+'</span>';
+    var actions = icoBtn('mf-pin', pinSvg(s.pinned), s.pinned?t('unpin'):t('pin'), s.pinned)+
+      (s.hidden ? icoBtn('mf-unhide', eyeSvg(), t('unhide'), false) : icoBtn('mf-hide', eyeOffSvg(), t('hide'), false));
+    var body;
+    if(s.mode==='pair'){ var p=s.pair;
+      body='<div class="mc-head"><span class="mc-pair">'+esc(p.a)+' <span class="mc-x">×</span> '+esc(p.b)+'</span>'+verdictBadge(p.verdict)+'</div>'+
         (p.xs && p.xs.length ? scatterSvg(p) : '')+
-        '<p class="mc-note">'+esc(p.note)+'</p><p class="caveat">'+esc(t('insightCaveat'))+'</p></div>';
-    } else if(r.mode==='multi'){ var m=r.multi;
-      out+='<div class="card manual-card">'+
-        '<div class="mc-head"><span class="mc-pair">'+m.factors.map(function(f){return esc(f);}).join(' <span class="mc-x">×</span> ')+'</span>'+verdictBadge(m.verdict)+'</div>'+
+        '<p class="mc-note">'+esc(p.note)+'</p><p class="caveat">'+esc(t('insightCaveat'))+'</p>';
+    } else { var m=s.multi;
+      body='<div class="mc-head"><span class="mc-pair">'+m.factors.map(function(f){return esc(f);}).join(' <span class="mc-x">×</span> ')+'</span>'+verdictBadge(m.verdict)+'</div>'+
         (m.lines && m.lines.length ? multiLineSvg(m) : '')+
-        '<p class="mc-note">'+esc(m.note)+'</p><p class="caveat">'+esc(t('insightCaveat'))+'</p></div>';
+        '<p class="mc-note">'+esc(m.note)+'</p><p class="caveat">'+esc(t('insightCaveat'))+'</p>';
     }
-    return out;
+    return '<div class="card manual-card'+(s.pinned?' is-pinned':'')+(s.hidden?' is-archived':'')+'">'+
+      (tags?'<div class="corr-tags">'+tags+'</div>':'')+ body +
+      '<div class="corr-foot"><span class="corr-date">'+esc(fmtDate(s.createdAt||Date.now()))+'</span><span class="corr-actions">'+actions+'</span></div>'+
+    '</div>';
   }
   function corrManualHtml(){
-    var m=S.store.manual||{factors:[],result:null};
+    var m=S.store.manual||{factors:[],saved:[]};
     var factors=(m.factors||[]).slice(); while(factors.length<2) factors.push('');
     var rows=factors.map(function(f,i){
       return '<div class="mf-row"><input class="field mf-input" data-idx="'+i+'" autocomplete="off" value="'+esc(f)+'" placeholder="'+esc(t('mfPlaceholder').replace('{n}',i+1))+'">'+
@@ -829,7 +917,18 @@
         '<span class="spacer"></span><button class="btn" data-act="mf-run">'+esc(t('mfRun'))+'</button></div>'+
         '<div class="mf-megamenu" hidden></div>'+
       '</div>'+
-      renderManualResult(m.result);
+      manualResultsHtml(m);
+  }
+  function manualResultsHtml(m){
+    var saved=(m.saved||[]);
+    function byRank(a,b){ return (b.pinned?1:0)-(a.pinned?1:0) || (b.createdAt||0)-(a.createdAt||0); }
+    var visible=saved.filter(function(s){return !s.hidden;}).sort(byRank);
+    var archived=saved.filter(function(s){return s.hidden;}).sort(byRank);
+    var out='';
+    if(m.error) out+='<div class="empty"><p>'+esc(m.error)+'</p></div>';
+    if(visible.length) out+='<h3 class="sec">'+esc(t('mfResults'))+'</h3>'+visible.map(manualCard).join('');
+    if(archived.length) out+='<details class="corr-archive"><summary>'+esc(t('showHiddenManual'))+' ('+archived.length+')</summary><div class="corr-archive-list">'+archived.map(manualCard).join('')+'</div></details>';
+    return out;
   }
   function hideMegaMenu(){ var mm=document.querySelector('.mf-megamenu'); if(mm) mm.hidden=true; }
   function renderMegaItems(menu, query){
@@ -878,6 +977,7 @@
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
       '</div>'+
       aiSectionHtml()+
+      pullRulesHtml()+
       '<div class="card list" style="margin-top:14px">'+
         '<div class="row"><span class="k">'+esc(t('recapDaysLabel'))+'<small class="row-note">'+esc(t('recapDaysNote'))+'</small></span><span class="sp"></span>'+ seg([[7,'7 j'],[14,'14 j'],[30,'30 j']], S.store.recapDays||7, 'recapdays')+'</div>'+
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('corrBtnLabel'))+'<small class="row-note">'+esc(t('corrBtnNote'))+'</small></span><span class="sp"></span>'+ seg([['icons',t('btnIcons')],['iconstext',t('btnIconsText')]], S.store.corrBtnStyle||'icons', 'corrbtnstyle')+'</div>'+
@@ -955,6 +1055,28 @@
         item({title:t('ai2'), checked:true})+
         item({title:t('ai3'), checked:true})+
         item({title:t('ai4'), checked:false, tag:t('ai4Tag'), note:t('ai4Note')})+
+        item({title:t('ai5'), checked:false})+
+      '</div>'+
+      '<p class="note pdp-foot">'+esc(t('pdpFootnote'))+'</p>';
+  }
+  /* Section « Entrées sollicitées » (Pull Input) — règles de déclenchement consignées. */
+  function pullRulesHtml(){
+    function rule(o){
+      return '<div class="pdp-item">'+
+        '<label class="pdp-check"><input type="checkbox" class="pdp-cb" checked></label>'+
+        '<details class="pdp-body">'+
+          '<summary class="pdp-sum"><span class="pdp-titlewrap">'+
+            '<span class="pdp-title">'+esc(o.title)+' <span class="pdp-star">*</span></span>'+
+          '</span><span class="pdp-caret" aria-hidden="true">▾</span></summary>'+
+          '<div class="pdp-expl">'+ o.expl +'</div>'+
+        '</details>'+
+      '</div>';
+    }
+    return '<h3 class="sec">'+esc(t('pullSettingsTitle'))+'</h3>'+
+      '<div class="card pdp-card">'+
+        rule({title:t('pullQFood'), expl:t('pullRuleFood')})+
+        rule({title:t('pullQPain'), expl:t('pullRulePain')})+
+        rule({title:t('pullQSleep'), expl:t('pullRuleSleep')})+
       '</div>'+
       '<p class="note pdp-foot">'+esc(t('pdpFootnote'))+'</p>';
   }
@@ -1014,6 +1136,9 @@
     if(act==='auth'){ doAuth(render._authMode, document.getElementById('f_email').value, document.getElementById('f_pass').value, function(m){ var er=document.getElementById('authErr'); if(er)er.textContent=m; }); return; }
     if(act==='tab'){ S.tab=v; if(v!=='home'){ S.searchOpen=false; S.filterOpen=false; } render(); window.scrollTo(0,0); return; }
     if(act==='add'){ var ta=document.getElementById('capInput'); addEntry(ta?ta.value:S.draft, S.draftPhoto); return; }
+    if(act==='pull-skip'){ S.pullDismissed[v]=true; render(); return; }
+    if(act==='pull-send'){ var pta=document.getElementById('pull_'+v); var ptx=pta?pta.value:''; S.pullDismissed[v]=true; if(ptx && ptx.trim()){ addEntry(ptx); } else { render(); } return; }
+    if(act==='pull-yes' || act==='pull-no'){ var pc=pullCardById(v); S.pullDismissed[v]=true; var pk=pc?(act==='pull-yes'?pc.yesEntry:pc.noEntry):null; if(pk){ addEntry(t(pk)); } else { render(); } return; }
     if(act==='quick'){ var q=document.getElementById('capInput'); if(q){ q.value=t(v); S.draft=q.value; q.focus(); q.setSelectionRange(q.value.length,q.value.length); } return; }
     if(act==='mic'){ toggleMic(); return; }
     if(act==='photo'){ var pin=document.getElementById('photoInput'); if(pin) pin.click(); return; }
@@ -1032,6 +1157,9 @@
     if(act==='corr-pin'){ var cp=(S.store.correlations||{})[v]; if(cp){ cp.pinned=!cp.pinned; persistStore(); render(); } return; }
     if(act==='corr-hide'){ var ch=(S.store.correlations||{})[v]; if(ch){ ch.hidden=true; persistStore(); render(); } return; }
     if(act==='corr-unhide'){ var cu=(S.store.correlations||{})[v]; if(cu){ cu.hidden=false; persistStore(); render(); } return; }
+    if(act==='mf-pin'){ var mp=findManual(v); if(mp){ mp.pinned=!mp.pinned; persistStore(); render(); } return; }
+    if(act==='mf-hide'){ var mh=findManual(v); if(mh){ mh.hidden=true; persistStore(); render(); } return; }
+    if(act==='mf-unhide'){ var mu=findManual(v); if(mu){ mu.hidden=false; persistStore(); render(); } return; }
     if(act==='set-recapdays'){ S.store.recapDays=parseInt(v,10)||7; persistStore(); render(); return; }
     if(act==='set-corrbtnstyle'){ S.store.corrBtnStyle=v; persistStore(); render(); return; }
     if(act==='set-sex'){ prof().sex=v; persistStore(); render(); return; }
@@ -1039,6 +1167,7 @@
     if(act==='mf-del'){ syncManualInputs(); S.store.manual.factors.splice(parseInt(v,10),1); render(); return; }
     if(act==='mf-run'){ runManual(); return; }
     if(act==='set-dataview'){ S.dataView=v; render(); return; }
+    if(act==='data-more'){ var pu=document.querySelector('.cat-ul[data-cat="'+v+'"]'); var ps=pu?pu.scrollTop:0; S.dataShow[v]=(S.dataShow[v]||40)+20; render(); var nu=document.querySelector('.cat-ul[data-cat="'+v+'"]'); if(nu) nu.scrollTop=ps; return; }
     if(act==='set-lang'){ setLang(v); return; }
     if(act==='set-theme'){ setTheme(v); return; }
     if(act==='set-textsize'){ setTextsize(v); return; }

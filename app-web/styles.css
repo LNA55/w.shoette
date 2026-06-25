@@ -6,12 +6,14 @@ html[data-textsize="large"]{font-size:18px}            /* Accessibilité : Grand
   --font-body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --font-display:'Space Grotesk','Inter',sans-serif;
   --ink:#1b1417; --muted:#7a7075; --line:#ece7e9;
+  /* Graphiques des corrélations — gris/noir neutres, volontairement indépendants du thème */
+  --chart-bg:#ebedf0; --chart-axis:#d1d5db; --chart-ink:#374151; --chart-muted:#6b7280;
   --radius:20px; --radius-sm:14px;
   --shadow:0 14px 34px -20px rgba(0,0,0,.38); --shadow-soft:0 8px 20px -16px rgba(0,0,0,.30);
   --maxw:720px; --tabbar-h:74px;
 }
-body[data-theme="turquoise"]{--c-50:#E8F3F4;--c-100:#C5E3E5;--c-200:#93C9CD;--c-300:#5FAFB5;--c-400:#2F9AA1;--c-500:#118996;--c-600:#0E6E78;--c-700:#0B545C;--c-800:#073A40;--c-900:#042227;}
-body[data-theme="coral"]{--c-50:#FDECEC;--c-100:#FBCFCE;--c-200:#F7A6A4;--c-300:#F47F7D;--c-400:#F26967;--c-500:#F1514F;--c-600:#CE3F3D;--c-700:#9E302E;--c-800:#6F2120;--c-900:#431312;}
+body[data-theme="turquoise"]{--c-50:#E8F3F4;--c-100:#C5E3E5;--c-200:#93C9CD;--c-300:#5FAFB5;--c-400:#2F9AA1;--c-500:#118996;--c-600:#0E6E78;--c-700:#0B545C;--c-800:#073A40;--c-900:#042227;--journal-bg:#CDE7E8;}
+body[data-theme="coral"]{--c-50:#FDECEC;--c-100:#FBCFCE;--c-200:#F7A6A4;--c-300:#F47F7D;--c-400:#F26967;--c-500:#F1514F;--c-600:#CE3F3D;--c-700:#9E302E;--c-800:#6F2120;--c-900:#431312;--journal-bg:#FAD8D8;}
 html,body{height:100%}
 body{font-family:var(--font-body);font-size:1rem;color:var(--ink);background:#fff;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overscroll-behavior-y:none}
 button{font-family:inherit;cursor:pointer}
@@ -36,7 +38,7 @@ input[type=range]{accent-color:var(--c-500)}
 .acct-date{flex:0 0 auto;width:auto;max-width:170px}
 .page-title{font-size:1.6rem;font-weight:700;margin:20px 0 4px}
 .page-sub{color:var(--muted);font-size:.95rem;margin-bottom:16px}
-h3.sec{font-size:1rem;margin:14px 2px 2px}
+h3.sec{font-size:1rem;margin:34px 2px 16px}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:var(--radius-sm);padding:14px 18px;font-weight:700;font-size:1rem;background:var(--c-500);color:#fff;transition:transform .06s,background .15s;min-height:48px}
@@ -87,7 +89,27 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .quick button{background:var(--c-50);border:1px solid var(--c-100);color:var(--c-800);border-radius:999px;padding:9px 14px;font-size:.88rem;font-weight:600;min-height:40px}
 
+/* Journal — entrées sollicitées (pull) : bac teinté, distinct des entrées passées (blanches) */
+.pull-section{margin-top:18px;border:1px solid var(--c-100);border-radius:var(--radius);padding:14px 14px 6px}
+.pull-head{display:flex;align-items:center;gap:9px;margin:0 2px 12px;flex-wrap:wrap}
+.pull-badge{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--c-700);background:var(--c-100);border-radius:999px;padding:3px 9px}
+.pull-title{font-size:1.05rem;font-weight:700;font-family:var(--font-display)}
+.pull-card{background:#fff;border:1px solid var(--c-100);border-radius:var(--radius-sm);padding:13px 14px;margin-bottom:10px;box-shadow:var(--shadow-soft)}
+.pull-q{display:flex;align-items:flex-start;gap:8px;font-weight:600;font-size:.98rem;line-height:1.35}
+.pull-ic{flex:none}
+.pull-input{width:100%;margin-top:10px;border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;font-size:.98rem;font-family:inherit;line-height:1.4;resize:vertical;min-height:46px;background:#fff;color:var(--ink);outline:none}
+.pull-input:focus{border-color:var(--c-400);box-shadow:0 0 0 4px var(--c-50)}
+.pull-actions{display:flex;align-items:center;gap:8px;margin-top:10px}
+.pull-actions .pull-spacer{flex:1}
+.pull-empty{color:var(--muted);font-size:.88rem;font-style:italic;padding:4px 2px 12px}
+
 /* Journal head + recherche + filtres */
+/* Section « Ton journal » : fond teinté dédié (par thème) pour la démarquer du haut de page.
+   Les cartes d'entrées restent blanches et ressortent sur ce fond. */
+.journal-section{background:var(--journal-bg);border-radius:var(--radius);padding:14px 12px;margin-top:14px}
+.journal-section .jhead{margin:2px 2px 10px}
+.journal-section .more{background:#fff;color:var(--c-700);border:1.5px solid var(--c-200)}
+.journal-section .more:hover{background:var(--c-50)}
 .jhead{display:flex;align-items:center;justify-content:space-between;margin:26px 2px 8px}
 .jtitle{font-size:1.3rem;font-weight:700}
 .jicons{display:flex;gap:8px}
@@ -117,10 +139,18 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .cat .c-ic{width:40px;height:40px;border-radius:11px;background:var(--c-100);color:var(--c-700);display:grid;place-items:center;flex:none;font-size:1.1rem}
 .cat .c-name{font-weight:700;font-family:var(--font-display)}
 .cat .c-count{margin-left:auto;background:var(--c-50);color:var(--c-700);border-radius:999px;padding:3px 10px;font-size:.8rem;font-weight:700}
-.cat ul{list-style:none;margin-top:12px;border-top:1px solid var(--line)}
+/* Liste par thème : boîte à hauteur fixe (~5 lignes), identique pour toutes, scroll interne */
+.cat ul{list-style:none;margin-top:12px;border-top:1px solid var(--line);height:240px;overflow-y:auto;overscroll-behavior:contain}
+.cat ul::-webkit-scrollbar{width:6px}
+.cat ul::-webkit-scrollbar-thumb{background:var(--c-200);border-radius:3px}
+.cat ul::-webkit-scrollbar-track{background:transparent}
 .cat li{padding:11px 2px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:baseline}
 .cat li .v{font-weight:600}
 .cat li .d{margin-left:auto;color:var(--muted);font-size:.78rem;white-space:nowrap}
+/* Contrôles de chargement progressif (sous la boîte) */
+.cat-more-link{display:inline-block;margin-top:12px;color:var(--c-700);font-weight:700;font-size:.9rem;text-decoration:underline;cursor:pointer}
+.cat-more-link:hover{color:var(--c-800)}
+.cat-more-btn{margin-top:12px}
 
 /* Corrélations */
 .insight{margin-top:14px}
@@ -156,8 +186,8 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .corr-ico svg{width:16px;height:16px}
 .corr-ico:hover{background:var(--c-50);color:var(--c-700)}
 .corr-ico.is-on{color:var(--c-600)}
-.insight.is-pinned{border-color:var(--c-300);box-shadow:0 0 0 1px var(--c-200) inset}
-.insight.is-archived{opacity:.72}
+.insight.is-pinned,.manual-card.is-pinned{border-color:var(--c-300);box-shadow:0 0 0 1px var(--c-200) inset}
+.insight.is-archived,.manual-card.is-archived{opacity:.72}
 
 /* Corrélations — section obsolètes (archive) */
 .corr-archive{margin-top:18px}
@@ -186,12 +216,12 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .v-green{color:#1f7a52}.v-green .pill{background:#3fb985}
 .v-yellow{color:#9a7400}.v-yellow .pill{background:#f0c34a}
 .v-red{color:#c0392b}.v-red .pill{background:#e05a4f}
-.scatter{width:100%;height:auto;margin-top:8px;background:var(--c-50);border-radius:12px}
-.scatter circle{fill:var(--c-500);opacity:.7}
-.scatter .axis{stroke:var(--c-200);stroke-width:1.5}
-.scatter .ax-lbl{fill:var(--muted);font-size:11px;font-weight:600;font-family:var(--font-body)}
-.multiline{width:100%;height:auto;margin-top:8px;background:var(--c-50);border-radius:12px}
-.multiline .axis{stroke:var(--c-200);stroke-width:1.5}
+.scatter{width:100%;height:auto;margin-top:8px;background:var(--chart-bg);border-radius:12px}
+.scatter circle{fill:var(--chart-ink);opacity:.72}
+.scatter .axis{stroke:var(--chart-axis);stroke-width:1.5}
+.scatter .ax-lbl{fill:var(--chart-muted);font-size:11px;font-weight:600;font-family:var(--font-body)}
+.multiline{width:100%;height:auto;margin-top:8px;background:var(--chart-bg);border-radius:12px}
+.multiline .axis{stroke:var(--chart-axis);stroke-width:1.5}
 .ml-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
 .ml-leg{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;color:var(--ink);font-weight:600}
 .ml-leg i{width:16px;height:3px;border-radius:2px;display:inline-block}
