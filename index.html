@@ -54,6 +54,9 @@
   .card__t .desc b{font-weight:700;color:var(--red-deep);opacity:1}
   .card__arrow{flex:0 0 auto;color:var(--red);transition:transform .18s ease}
   .card:hover .card__arrow{transform:translateX(4px)}
+  .more{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center}
+  .more a{color:rgba(255,255,255,.86);font-size:.9rem;font-weight:600;border-bottom:1px solid rgba(255,255,255,.38);padding-bottom:1px;transition:color .15s,border-color .15s}
+  .more a:hover{color:#fff;border-color:#fff}
   footer{position:relative;z-index:1;text-align:center;padding:22px;font-size:.85rem;color:rgba(255,255,255,.72)}
   @media(max-width:520px){
     .card{padding:20px;gap:14px}
@@ -89,7 +92,7 @@
         <svg class="card__w" aria-hidden="true"><use href="#wmark"/></svg>
         <span class="card__t">
           <span class="name">General app</span>
-          <span class="desc"><b>What is wrong with me</b> — investigate your whole body</span>
+          <span class="desc"><b>What works for me</b> — investigate your whole body</span>
         </span>
         <svg class="card__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
@@ -109,6 +112,12 @@
         </span>
         <svg class="card__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
+    </div>
+
+    <div class="more">
+      <a href="/v3bis/">V3 bis — for clinicians</a>
+      <a href="/app/">App demo</a>
+      <a href="/app/howitworks/">How it works</a>
     </div>
   </main>
 

@@ -43,13 +43,24 @@
   .md hr{border:none;border-top:1px solid var(--line);margin:30px 0}
   .loading{color:var(--muted);padding:40px 0;text-align:center}
   .badge{display:inline-block;background:var(--c-50);color:var(--c-700);border:1px solid var(--c-100);border-radius:999px;padding:4px 12px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+  /* Footer + sélecteur de langue */
+  .foot{border-top:1px solid var(--line);margin-top:48px}
+  .foot-inner{max-width:var(--maxw);margin:0 auto;padding:22px 18px calc(40px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+  .foot-lang-lbl{color:var(--muted);font-size:.82rem;font-weight:600}
+  .lang-switch{display:inline-flex;background:var(--c-50);border-radius:999px;padding:4px;gap:4px}
+  .lang-btn{border:none;background:transparent;color:var(--c-700);font-weight:700;font-size:.85rem;padding:8px 16px;border-radius:999px;cursor:pointer}
+  .lang-btn.on{background:#fff;color:var(--c-700);box-shadow:0 0 0 1px var(--c-100),0 4px 12px -6px rgba(0,0,0,.22)}
+  .soon{text-align:center;padding:64px 18px;color:var(--muted)}
+  .soon-flag{font-size:2.4rem;margin-bottom:12px}
+  .soon p{margin:8px 0;font-size:1.05rem}
+  .soon-sub a{color:var(--c-700);font-weight:700;text-decoration:none}
 </style>
 </head>
 <body>
 <nav class="topbar">
   <div class="topbar-inner">
     <div class="brand"><span class="dot"></span>Cahier des charges</div>
-    <a class="dl" href="cahier-des-charges.md" download>
+    <a class="dl" id="dlBtn" href="cahier-des-charges.md" download>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
       Télécharger le .md
     </a>
@@ -60,22 +71,45 @@
   <div id="md" class="md"><div class="loading">Chargement du cahier des charges…</div></div>
 </div>
 
+<footer class="foot">
+  <div class="foot-inner">
+    <span class="foot-lang-lbl">Langue / Language</span>
+    <div class="lang-switch">
+      <button class="lang-btn on" data-lang="fr">Français</button>
+      <button class="lang-btn" data-lang="en">English</button>
+    </div>
+  </div>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-  fetch('cahier-des-charges.md', {cache:'no-store'})
-    .then(function(r){ return r.text(); })
-    .then(function(txt){
-      var el = document.getElementById('md');
-      if (window.marked) {
-        el.innerHTML = (marked.parse ? marked.parse(txt) : marked(txt));
-      } else {
-        el.innerHTML = '<pre>'+txt.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];})+'</pre>';
-      }
-      document.title = 'Cahier des charges — What works for me';
-    })
-    .catch(function(){
-      document.getElementById('md').innerHTML = '<p class="loading">Impossible de charger le fichier. <a href="cahier-des-charges.md">Ouvrir le .md directement</a>.</p>';
-    });
+  var FILES = { fr:'cahier-des-charges.md', en:'cahier-des-charges.en.md' };
+  var EN_SOON = 'The English version is coming soon — the specification is still being finalized.';
+  var mdEl = document.getElementById('md'), dlBtn = document.getElementById('dlBtn');
+  function renderMd(txt){
+    mdEl.innerHTML = window.marked ? (marked.parse ? marked.parse(txt) : marked(txt))
+      : '<pre>'+txt.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];})+'</pre>';
+  }
+  function setLang(lang){
+    document.documentElement.lang = lang;
+    var btns = document.querySelectorAll('.lang-btn');
+    for (var i=0;i<btns.length;i++){ btns[i].classList.toggle('on', btns[i].getAttribute('data-lang')===lang); }
+    mdEl.innerHTML = '<div class="loading">…</div>';
+    fetch(FILES[lang], {cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw 0; return r.text(); })
+      .then(function(txt){ renderMd(txt); dlBtn.style.display=''; dlBtn.setAttribute('href', FILES[lang]); })
+      .catch(function(){
+        // Pas encore de traduction : on affiche un message, sans casser le FR.
+        mdEl.innerHTML = '<div class="soon"><div class="soon-flag">🇬🇧</div><p>'+EN_SOON+'</p>'+
+          '<p class="soon-sub"><a href="#" data-lang="fr">← Revenir au français</a></p></div>';
+        dlBtn.style.display='none';
+      });
+  }
+  document.addEventListener('click', function(ev){
+    var b = ev.target.closest ? ev.target.closest('[data-lang]') : null;
+    if(!b) return; ev.preventDefault(); setLang(b.getAttribute('data-lang'));
+  });
+  setLang('fr');
 </script>
 </body>
 </html>

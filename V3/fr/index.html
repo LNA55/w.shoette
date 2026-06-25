@@ -46,7 +46,7 @@
   }
   h1,h2,h3,.display{font-family:'Space Grotesk','Inter',sans-serif;line-height:1.02;letter-spacing:-.02em;font-weight:700}
   /* brand wordmark: render the product name in the header typeface wherever it appears in body copy */
-  .brandname{font-family:'Space Grotesk','Inter',sans-serif;font-weight:600;letter-spacing:-.01em}
+  .brandname{font-family:'Space Grotesk','Inter',sans-serif;font-weight:700;letter-spacing:.02em}
   a{color:inherit;text-decoration:none}
   img,svg{display:block}
   .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
@@ -70,6 +70,7 @@
   .btn--red:hover{transform:translateY(-2px);background:var(--red-deep)}
   .btn--ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4)}
   .btn--ghost:hover{background:rgba(255,255,255,.1);border-color:#fff}
+  .hero__note{margin-top:4px;margin-bottom:30px;font-size:.92rem;line-height:1.5;color:rgba(255,255,255,.8);max-width:58ch}
 
   /* nav */
   header.nav{position:sticky;top:0;z-index:50;background:var(--red);transition:box-shadow .25s ease}
@@ -435,9 +436,7 @@
       <b>What works for me</b>
     </a>
     <nav class="nav__links">
-      <a href="#approach">L'approche</a>
       <a href="#how">Comment ça marche</a>
-      <a href="#human">Accompagnement humain</a>
       <a href="#security">Sécurité</a>
     </nav>
     <a href="#request" class="nav__cta">Demander un accès</a>
@@ -451,22 +450,10 @@
     <div class="hero__copy">
       <span class="hero__eyebrow"><span class="dot"></span> Pour les douleurs récurrentes et inexpliquées</span>
       <h1><span class="q">Enquêtez sur votre corps —</span><span class="q">pas sur une liste de maladies.</span></h1>
-      <p class="lede">Des années d'examens, plusieurs spécialistes, aucune cause claire — et le seul traitement proposé, c'est l'antidouleur. <span class="brandname">What works for me</span> prend le parti inverse : au lieu de faire correspondre vos symptômes à une maladie connue, l'application enquête sur votre corps, en reliant <b>des centaines de signaux</b> jour après jour pour faire émerger les schémas à l'origine de votre douleur.</p>
+      <p class="lede">Des années d'examens, plusieurs spécialistes, aucune cause claire — et le seul traitement proposé, c'est l'antidouleur. <span class="brandname">What works for me</span> prend le parti inverse : au lieu de faire correspondre vos symptômes à une maladie connue, l'application enquête sur votre corps, en reliant <b>des centaines de signaux</b> jour après jour pour faire émerger les « modèles » (pattern). Testez ensuite ces routines, pour voir si la douleur disparaît vraiment à chaque fois.</p>
 
-      <form class="waitlist" id="form-hero" novalidate>
-        <input type="text" name="name" class="fld" placeholder="Prénom" aria-label="Prénom" required>
-        <input type="email" name="email" placeholder="votre@email.com" aria-label="Adresse e-mail" required>
-        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-        <button class="btn btn--light" type="submit">Demander un accès</button>
-      </form>
-      <div class="form-note">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
-        Premium · sur invitation · nous examinons chaque demande.
-      </div>
-      <div class="form-success">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
-        Demande reçue. Nous vous recontacterons.
-      </div>
+      <p class="hero__note">Corrélation n'est pas causalité. <span class="brandname">W</span> est un outil de mise en évidence de corrélations : il n'affirme aucune causalité et ne pose aucun diagnostic.</p>
+      <a class="btn btn--light" href="#request">Demander un accès</a>
     </div>
 
     <div class="hero__phone">
@@ -526,57 +513,6 @@
   </div>
 </section>
 
-<!-- APPROACH / CONTRAST -->
-<section class="compare" id="approach">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">L'approche</span>
-      <h2>Deux façons d'aborder la douleur.</h2>
-      <p>La médecine conventionnelle est conçue pour identifier des maladies connues. Cela fonctionne — jusqu'à ce que vos symptômes ne correspondent à aucune. Alors la recherche s'arrête souvent, et la gestion de la douleur commence.</p>
-    </div>
-    <div class="compare-grid">
-      <div class="appr old reveal">
-        <div class="ak">Le parcours habituel</div>
-        <h3>Chercher une maladie connue</h3>
-        <ul>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>Fait correspondre vos symptômes à un catalogue de maladies répertoriées.</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>Réalise des examens pour les confirmer ou les écarter, une par une.</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>Quand rien ne correspond, l'investigation s'arrête généralement.</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>Il ne vous reste plus qu'à gérer la douleur — souvent avec des antidouleurs.</li>
-        </ul>
-      </div>
-      <div class="appr new reveal">
-        <div class="ak">Une autre question</div>
-        <h3>Enquêter sur votre corps</h3>
-        <ul>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Part de votre corps et de votre histoire — pas d'un catalogue.</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Enregistre des centaines de signaux par jour : douleur, sommeil, alimentation, stress, météo, posture, médicaments.</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Recherche des corrélations et des schémas qui vous sont propres.</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Fait émerger des pistes à explorer avec votre médecin — et ne cesse jamais de chercher.</li>
-        </ul>
-      </div>
-    </div>
-    <p class="compare-note reveal">Un complément à la prise en charge médicale, pas un remplacement. <span class="brandname">What works for me</span> fournit des informations pour vous et votre professionnel de santé. L'application ne pose aucun diagnostic, ne traite pas la douleur, et ne constitue jamais une raison de modifier ou d'arrêter de vous-même un médicament prescrit.</p>
-  </div>
-</section>
-
-<!-- PROBLEM -->
-<section class="problem" id="problem">
-  <div class="wrap">
-    <div class="reveal">
-      <span class="eyebrow">Si cela vous parle</span>
-      <h2>Les examens sont normaux. La douleur ne l'est pas.</h2>
-    </div>
-    <div class="qgrid reveal">
-      <div class="qcard"><span>·</span>Pourquoi revient-elle sans cesse ?</div>
-      <div class="qcard"><span>·</span>Pourquoi personne ne trouve la cause ?</div>
-      <div class="qcard"><span>·</span>Pourquoi certains jours font-ils bien plus mal ?</div>
-      <div class="qcard"><span>·</span>La gérer, est-ce vraiment tout ce qui reste ?</div>
-    </div>
-    <p class="punch reveal">Plusieurs médecins, des années d'investigations, beaucoup de pistes — et rien de concluant. La cause d'une douleur récurrente est rarement une seule chose. C'est souvent <b>plusieurs facteurs qui s'alignent</b> : le sommeil, le stress, la météo, l'alimentation, la posture, le moment où l'on prend un médicament — une combinaison qu'aucun examen isolé, ni aucune consultation rapide, n'a jamais été conçu pour voir. <b>C'est cette combinaison que l'application cherche.</b></p>
-  </div>
-</section>
-
 <!-- HOW IT WORKS -->
 <section id="how">
   <div class="wrap">
@@ -600,281 +536,6 @@
         <div class="step__n">03</div>
         <h3>Comprenez</h3>
         <p>Elle met tout en balance d'un coup, face aux connaissances médicales et à votre propre histoire, en faisant émerger les schémas multifactoriels à l'origine de votre douleur — et en citant les sources sur lesquelles elle s'appuie.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SOURCES / FEED IT ANYTHING -->
-<section id="sources">
-  <div class="wrap">
-    <div class="sec-head center reveal">
-      <span class="eyebrow">Un seul outil, tous les signaux</span>
-      <h2>Donnez-lui tout. Elle donne du sens à l'ensemble.</h2>
-      <p>La plupart des applications suivent une seule chose. <span class="brandname">What works for me</span> intègre des centaines de signaux, issus de chaque recoin de votre vie — et transforme le désordre en données claires et comparables qu'aucun humain ne pourrait garder en tête.</p>
-    </div>
-    <div class="sources-grid">
-      <div class="source-card reveal">
-        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg></div>
-        <h3>Votre voix</h3>
-        <p>Décrivez la douleur, ce qui l'a déclenchée, ce qui a aidé, ce que vous avez pris. Vous préférez écrire ? Cela fonctionne aussi.</p>
-      </div>
-      <div class="source-card reveal">
-        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2"/><path d="M6 8v8"/><path d="M10 4v16"/><path d="M14 7v10"/><path d="M18 9v6"/><path d="M22 11v2"/></svg></div>
-        <h3>Votre ton, déchiffré</h3>
-        <p>Elle entend <em>comment</em> vous le dites — le stress et un mauvais sommeil amplifient la douleur, et elle suit ce lien dans le temps.</p>
-      </div>
-      <div class="source-card reveal">
-        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07l-1.41 1.41"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.41-1.41"/></svg></div>
-        <h3>Les applications que vous utilisez déjà</h3>
-        <p>Suivis du sommeil, des pas, la météo et la pression barométrique, votre agenda, votre cycle menstruel, et n'importe quelle application de santé.</p>
-      </div>
-      <div class="source-card reveal">
-        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
-        <h3>Une photo suffit</h3>
-        <p>Photographiez un examen d'imagerie, une radio, un compte rendu d'analyses ou votre boîte de médicaments — elle lit ce qui compte et l'enregistre pour vous.</p>
-      </div>
-      <div class="source-card reveal">
-        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></div>
-        <h3>Des années de documents, dans n'importe quelle langue</h3>
-        <p>Courriers de spécialistes, résultats, ordonnances — en image, audio, flux de données ou texte. Structurés proprement, quelle que soit la langue.</p>
-      </div>
-      <div class="source-card reveal">
-        <div class="source-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-12 2 6h6"/></svg></div>
-        <h3>Le lien corps-esprit</h3>
-        <p>Stress, sommeil perturbé, humeur — elle sait qu'ils modifient la façon dont le corps traite la douleur, et les suit en parallèle.</p>
-      </div>
-    </div>
-    <p class="sources-note reveal">Un spécialiste vous voit quelques minutes. <span class="brandname">What works for me</span> lit <b>des centaines de signaux chaque jour</b> — et n'en oublie jamais un seul.</p>
-  </div>
-</section>
-
-<!-- APP SHOWCASE -->
-<section class="showcase" id="app">
-  <div class="wrap">
-    <div class="sec-head center reveal">
-      <span class="eyebrow">L'application</span>
-      <h2>Voyez ce qui fait bouger votre douleur.</h2>
-      <p>Un premier aperçu de <span class="brandname">What works for me</span>.</p>
-    </div>
-
-    <!-- row 1: conversation -->
-    <div class="feature-row reveal">
-      <div class="feature-row__copy">
-        <span class="tag">Conversation</span>
-        <h3>Elle écoute — et apprend quoi demander.</h3>
-        <p>Parlez librement : où vous avez mal, à quel point, ce qui a changé, ce que vous avez pris. Elle perçoit même quand votre voix semble tendue et prend de vos nouvelles — puis classe chaque détail en données propres, et revient sur ce que vous avez oublié de mentionner.</p>
-      </div>
-      <div class="feature-row__media">
-        <div class="phone">
-          <div class="island"></div>
-          <div class="phone__screen">
-            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
-            <div class="app">
-              <div class="app__top"><div><div class="ttl">Aujourd'hui</div><div class="sub">Point du soir</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
-              <div class="app__body chat">
-                <div class="bubble bot" style="max-width:92%">Ce matin, vous avez enregistré une crise à 7/10. S'est-elle apaisée après l'antidouleur — et comment va-t-elle maintenant ?</div>
-                <div class="bubble me voice">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-                  <span class="wave"><i style="height:6px"></i><i style="height:13px"></i><i style="height:18px"></i><i style="height:8px"></i><i style="height:15px"></i><i style="height:5px"></i><i style="height:11px"></i></span>
-                  <span style="font-size:.7rem;opacity:.85">0:15</span>
-                </div>
-                <div class="bubble bot" style="max-width:92%">« Redescendue à 4 vers midi, remontée à 6 ce soir. » Noté 👇 — je vais suivre comment les crises suivent le sommeil et la pression.</div>
-                <div class="logged">
-                  <div class="lh">Capturé</div>
-                  <div class="chips"><span class="chip alert">Douleur 7→4→6</span><span class="chip">Antidouleur · 8:05</span><span class="chip sync">Sommeil 5h · synchronisé</span><span class="chip sync">Pression ↓ · météo</span></div>
-                  <div class="logged-more">+ analyse du ton · plus de 200 signaux fusionnés depuis vos sources</div>
-                </div>
-                <div class="composer"><span class="pill">Appuyez pour parler…</span><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M5 11a7 7 0 0 0 14 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 18v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- row 2: insights -->
-    <div class="feature-row reveal">
-      <div class="feature-row__copy">
-        <span class="tag">Analyses &amp; corrélations</span>
-        <h3>Ce que votre douleur suit — avec les preuves.</h3>
-        <p>Demandez-lui de creuser, ou explorez les corrélations vous-même. Quand des centaines de petits signaux s'alignent, vous verrez ce que suivent vos crises — chaque facteur pesé d'un coup et classé selon la force avec laquelle il explique la douleur.</p>
-      </div>
-      <div class="feature-row__media">
-        <div class="phone">
-          <div class="island"></div>
-          <div class="phone__screen">
-            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
-            <div class="app">
-              <div class="app__top"><div><div class="ttl">Analyses</div><div class="sub">3 nouvelles pistes cette semaine</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
-              <div class="app__body">
-                <div class="insight-card hero-find">
-                  <div class="ic-top"><span class="ic-badge">Schéma trouvé</span><span class="ic-scan">300+ signaux</span></div>
-                  <div class="ic-title">Vos pires crises suivent un sommeil court et une baisse de pression.</div>
-                  <div class="factors">
-                    <div class="factor"><div class="frow"><span>Sommeil sous 6h</span><span>81%</span></div><div class="fbar"><i style="width:81%"></i></div></div>
-                    <div class="factor"><div class="frow"><span>Baisse de la pression barométrique</span><span>74%</span></div><div class="fbar"><i style="width:74%"></i></div></div>
-                    <div class="factor"><div class="frow"><span>Journées à fort stress · agenda</span><span>55%</span></div><div class="fbar"><i style="width:55%"></i></div></div>
-                  </div>
-                  <div class="ic-foot">82% de confiance · explique 10 crises sur 13 · 9 sources</div>
-                </div>
-                <div class="insight-card lead">
-                  <div class="ic-top"><span class="ic-badge">Piste possible</span></div>
-                  <div class="ic-title">Raideur le lendemain des journées passées longtemps assis.</div>
-                  <div class="chips" style="margin-top:10px"><span class="chip">6h+ assis</span><span class="chip">Peu de pas</span><span class="chip alert">Raideur matinale +1 jour</span></div>
-                  <div class="corr"><div class="bar"><i style="width:73%"></i></div><div class="lbl"><span>Signal combiné</span><span>r = 0.73</span></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- row 3: timeline -->
-    <div class="feature-row reveal">
-      <div class="feature-row__copy">
-        <span class="tag">Journal quotidien</span>
-        <h3>Chaque jour, consigné.</h3>
-        <p>Un journal vivant de votre corps — consultable et connecté, qui rassemble notes vocales et données synchronisées en un seul fil : intensité de la douleur, déclencheurs, sommeil, médicaments. Remontez des semaines et des mois en arrière ; rien de ce que vous avez remarqué ne se perd plus jamais.</p>
-      </div>
-      <div class="feature-row__media">
-        <div class="phone">
-          <div class="island"></div>
-          <div class="phone__screen">
-            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
-            <div class="app">
-              <div class="app__top"><div><div class="ttl">Journal</div><div class="sub">Cette semaine</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
-              <div class="app__body">
-                <div class="tl">
-                  <div class="tl-day">
-                    <div class="tl-date">Aujourd'hui · Lun</div>
-                    <div class="tl-card"><div class="chips"><span class="chip alert">Bas du dos · 7/10</span><span class="chip">Antidouleur</span><span class="chip sync">Sommeil 5h10</span><span class="chip sync">Pluie · pression ↓</span></div></div>
-                  </div>
-                  <div class="tl-day">
-                    <div class="tl-date">Dim</div>
-                    <div class="tl-card"><div class="chips"><span class="chip">Douleur 3/10</span><span class="chip sync">Sommeil 7h 20m</span><span class="chip sync">8 400 pas</span></div></div>
-                  </div>
-                  <div class="tl-day muted">
-                    <div class="tl-date">Sam</div>
-                    <div class="tl-card"><div class="chips"><span class="chip alert">Cou · 5/10</span><span class="chip sync">Long trajet en voiture</span><span class="chip sync">Cycle · jour 24</span></div></div>
-                  </div>
-                  <div class="tl-day muted">
-                    <div class="tl-date">Ven</div>
-                    <div class="tl-card"><div class="chips"><span class="chip">Douleur 2/10</span><span class="chip sync">Marche 40 min</span></div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- row 4: dashboard -->
-    <div class="feature-row reveal">
-      <div class="feature-row__copy">
-        <span class="tag">Tableau de bord des tendances</span>
-        <h3>Regardez les facteurs s'aligner.</h3>
-        <p>Douleur, sommeil, météo, stress, activité et médicaments — suivis dans le temps pour que les liens deviennent impossibles à manquer. La vue d'ensemble de ce qui alimente votre douleur, tirée de toutes les sources à la fois.</p>
-      </div>
-      <div class="feature-row__media">
-        <div class="phone">
-          <div class="island"></div>
-          <div class="phone__screen">
-            <div class="statusbar"><span>9:41</span><span class="icons"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="2.6" y="2.6" width="15" height="6.8" rx="1.6" fill="currentColor"/><rect x="22.4" y="4" width="1.6" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
-            <div class="app">
-              <div class="app__top"><div><div class="ttl">Tendances</div><div class="sub">14 derniers jours</div></div><svg class="mini-w" aria-hidden="true"><use href="#wmark"/></svg></div>
-              <div class="app__body">
-                <div class="metrics">
-                  <div class="metric"><div class="v">300+</div><div class="l">Signaux / jour</div></div>
-                  <div class="metric"><div class="v down">5</div><div class="l">Jours de crise</div></div>
-                  <div class="metric"><div class="v">Sommeil</div><div class="l">Facteur clé</div></div>
-                </div>
-                <div class="chart-card">
-                  <div class="ct">Douleur × sommeil court</div>
-                  <div class="cs">Les crises augmentent quand le sommeil baisse</div>
-                  <svg width="100%" height="118" viewBox="0 0 240 118" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F04848" stop-opacity=".28"/><stop offset="1" stop-color="#F04848" stop-opacity="0"/></linearGradient>
-                    </defs>
-                    <line x1="0" y1="30" x2="240" y2="30" stroke="#eee" stroke-width="1"/>
-                    <line x1="0" y1="64" x2="240" y2="64" stroke="#eee" stroke-width="1"/>
-                    <line x1="0" y1="98" x2="240" y2="98" stroke="#eee" stroke-width="1"/>
-                    <path d="M0,72 L34,60 L68,76 L102,40 L136,52 L170,30 L204,46 L240,34 L240,118 L0,118 Z" fill="url(#g1)"/>
-                    <path d="M0,72 L34,60 L68,76 L102,40 L136,52 L170,30 L204,46 L240,34" fill="none" stroke="#F04848" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M0,82 L34,70 L68,84 L102,50 L136,60 L170,40 L204,54 L240,44" fill="none" stroke="#15100F" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>
-                    <circle cx="170" cy="30" r="3.4" fill="#F04848"/>
-                    <circle cx="170" cy="40" r="3.4" fill="#15100F"/>
-                  </svg>
-                  <div class="legend"><span><i style="background:#F04848"></i>Niveau de douleur</span><span><i style="background:#15100F;opacity:.5"></i>Sommeil court</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SUPPORT -->
-<section class="human" id="human">
-  <div class="wrap">
-    <div class="sec-head center reveal">
-      <span class="eyebrow">Au-delà de l'application</span>
-      <h2>Quand vous voulez un humain dans la boucle.</h2>
-      <p>L'application mène l'enquête. Quand vous souhaitez y associer une expertise médicale, les membres peuvent demander un accompagnement humain.</p>
-    </div>
-    <div class="human-grid">
-      <div class="human-card reveal">
-        <div class="human-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <h3>Téléconsultation</h3>
-        <p>Une consultation à distance avec un médecin spécialiste de la douleur, qui peut examiner ce que l'application a fait émerger et discuter des pistes avec vous.</p>
-      </div>
-      <div class="human-card reveal">
-        <div class="human-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <h3>Spécialiste en présentiel</h3>
-        <p>Là où c'est possible, une consultation en présentiel avec un médecin spécialiste de la douleur dans votre ville — pour pousser l'investigation plus loin, ensemble.</p>
-      </div>
-    </div>
-    <div class="human-note reveal">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      <div class="ht">
-        <p><b>Sous réserve de disponibilité et d'éligibilité.</b> L'accompagnement humain est assuré par des médecins spécialistes de la douleur agréés. Dites-nous où vous vous trouvez et nous vous indiquerons ce qui est possible.</p>
-      </div>
-      <a href="#request" class="btn btn--red">Nous contacter</a>
-    </div>
-  </div>
-</section>
-
-<!-- WHY -->
-<section id="why">
-  <div class="wrap">
-    <div class="sec-head center reveal">
-      <span class="eyebrow">Pourquoi c'est différent</span>
-      <h2>Conçue pour vraiment enquêter.</h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-card reveal">
-        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/></svg></div>
-        <h3>La voix d'abord</h3>
-        <p>Un enregistrement qui prend quelques secondes, pas de la discipline. Parlez, c'est tout — l'application fait le reste.</p>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2a.3.3 0 0 0-.2.3Z"/><path d="M8 2v6a4 4 0 0 1-8 0V2"/><path d="M6 14a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg></div>
-        <h3>Fondée, et honnête</h3>
-        <p>Chaque signal est vérifié au regard de connaissances médicales réelles — et elle cite ses sources. Elle n'invente jamais une réponse qu'elle ne peut étayer.</p>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-12 2 6h6"/></svg></div>
-        <h3>Des centaines de signaux à la fois</h3>
-        <p>Elle pèse des centaines de signaux ensemble — des connexions qu'aucun examen isolé, ni aucune consultation rapide, ne peut voir.</p>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-        <h3>Privée par conception</h3>
-        <p>Vos données sont chiffrées, à vous seul, et jamais vendues. C'est votre histoire, et elle vous appartient.</p>
       </div>
     </div>
   </div>
@@ -999,10 +660,7 @@
       <div class="foot__links">
         <div class="foot__col">
           <h4>Produit</h4>
-          <a href="#approach">L'approche</a>
           <a href="#how">Comment ça marche</a>
-          <a href="#app">L'application</a>
-          <a href="#human">Accompagnement humain</a>
           <a href="#security">Sécurité</a>
         </div>
         <div class="foot__col">

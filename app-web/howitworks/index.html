@@ -61,6 +61,8 @@
   .tech-header { background: var(--c-800); color: #fff; border-radius: var(--radius); padding: 22px 24px; margin-bottom: 32px; }
   .tech-header h2 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
   .tech-header p { font-size: .88rem; opacity: .75; line-height: 1.5; }
+  .spec-link { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.14); color:#fff; text-decoration:none; font-weight:700; font-size:.9rem; padding:10px 16px; border-radius:999px; border:1px solid rgba(255,255,255,.28); margin-top:16px; }
+  .spec-link:hover { background:rgba(255,255,255,.24); }
   .tech-block { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; margin-bottom: 16px; }
   .tech-block h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
   .tech-block h3 .tag { font-size: .72rem; font-weight: 700; border-radius: 999px; padding: 2px 9px; }
@@ -293,6 +295,7 @@
   <div class="tech-header">
     <h2>Architecture technique — note pour le futur CTO</h2>
     <p>Cette section décrit les choix d'implémentation de la version démo web, les limites intentionnelles, et les évolutions envisagées. L'app web est un prototype fonctionnel : elle permet de valider les flux utilisateur avant développement de l'app native iOS.</p>
+    <a class="spec-link" href="/app/cahier/">📄 Lire le cahier des charges complet →</a>
   </div>
 
 
@@ -378,7 +381,7 @@
 
 
   <footer>
-    <p>What works for me — version démo web &middot; <a href="/app/">Ouvrir l'app</a></p>
+    <p>What works for me — version démo web &middot; <a href="/app/">Ouvrir l'app</a> &middot; <a href="/app/cahier/">Cahier des charges</a></p>
   </footer>
 
 </div>
