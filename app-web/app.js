@@ -59,6 +59,8 @@
       language: 'Langue', theme: 'Thème', themeTurq: 'Turquoise', themeCoral: 'Corail',
       account: 'Compte', logout: 'Se déconnecter', pwUnknown: 'reconnecte-toi pour l’afficher',
       loadSample: 'Charger des exemples', exportData: 'Exporter mes données (JSON)',
+      importData: 'Importer des données (JSON)', importDone: 'Données importées ✓', importErr: 'Fichier JSON invalide',
+      importConfirm: 'Remplacer les données actuelles de ce compte par celles du fichier ?',
       backupNote: 'Tes données sont sauvegardées sur le serveur : elles survivent à la suppression de l’app et restent accessibles, même ton ordinateur éteint. Jamais envoyées sur GitHub.',
       legal: 'What works for me est un journal de santé et un outil d’exploration de corrélations. Il ne fournit pas de diagnostic et ne remplace pas l’avis d’un professionnel de santé. Les associations présentées sont statistiques, pas des preuves de cause à effet.',
       q_bad: 'plutôt difficile', q_ok: 'noté',
@@ -125,6 +127,8 @@
       language: 'Language', theme: 'Theme', themeTurq: 'Turquoise', themeCoral: 'Coral',
       account: 'Account', logout: 'Sign out', pwUnknown: 'log in again to show it',
       loadSample: 'Load sample entries', exportData: 'Export my data (JSON)',
+      importData: 'Import data (JSON)', importDone: 'Data imported ✓', importErr: 'Invalid JSON file',
+      importConfirm: 'Replace the current data of this account with the file?',
       backupNote: 'Your data is saved on the server: it survives app deletion and stays accessible, even with your computer off. Never pushed to GitHub.',
       legal: 'What works for me is a health journal and a correlation-exploration tool. It does not provide a diagnosis and does not replace professional medical advice. The associations shown are statistical, not proof of cause and effect.',
       q_bad: 'rather rough', q_ok: 'logged',
@@ -574,7 +578,9 @@
       '</div>'+
       '<div class="card list" style="margin-top:14px">'+
         '<div class="row"><button class="btn btn-soft btn-block" data-act="sample">'+esc(t('loadSample'))+'</button></div>'+
-        '<div class="row" style="border-bottom:none"><button class="btn btn-ghost btn-block" data-act="export">'+esc(t('exportData'))+'</button></div>'+
+        '<div class="row"><button class="btn btn-ghost btn-block" data-act="export">'+esc(t('exportData'))+'</button></div>'+
+        '<div class="row" style="border-bottom:none"><button class="btn btn-ghost btn-block" data-act="import">'+esc(t('importData'))+'</button>'+
+          '<input type="file" id="importInput" accept="application/json,.json" style="display:none"></div>'+
       '</div>'+
       '<p class="note">'+esc(t('backupNote'))+'</p><p class="note">'+esc(t('legal'))+'</p>';
   }
@@ -600,7 +606,19 @@
     S.store.entries.sort(function(a,b){return b.createdAt-a.createdAt;}); persistStore(); S.tab='home'; render(); toast(t('saved'));
   }
   function exportData(){ var blob=new Blob([JSON.stringify(S.store,null,2)],{type:'application/json'});
-    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='what-works-for-me.json'; document.body.appendChild(a); a.click(); a.remove(); }
+    var name='wwfm-'+((S.email||'data').split('@')[0])+'.json';
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); }
+  /* Importe un export complet (S.store) dans le compte courant. Remplace les données,
+     mais conserve l'identité du compte (token/email/session) et son mot de passe. */
+  function importData(text){
+    var incoming; try{ incoming=JSON.parse(text); }catch(e){ toast(t('importErr')); return; }
+    if(!incoming || typeof incoming!=='object' || !Array.isArray(incoming.entries)){ toast(t('importErr')); return; }
+    if(S.store.entries && S.store.entries.length){ if(!window.confirm(t('importConfirm'))) return; }
+    var keepPw=prof().password;
+    var s=normStore(incoming);
+    if(keepPw!==undefined) s.profile.password=keepPw; else delete s.profile.password;
+    S.store=s; applyProfile(); applyTheme(); applyTextsize(); persistStore(); S.tab='home'; render(); toast(t('importDone'));
+  }
   function toggleMic(){ var SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){ toast(t('micOff')); return; }
     if(S.recOn && S.rec){ S.rec.stop(); return; }
     var r=new SR(); S.rec=r; r.lang=S.lang==='fr'?'fr-FR':'en-US'; r.interimResults=true; r.continuous=true;
@@ -646,6 +664,7 @@
     if(act==='logout'){ logout(); return; }
     if(act==='sample'){ loadSample(); return; }
     if(act==='export'){ exportData(); return; }
+    if(act==='import'){ var ii=document.getElementById('importInput'); if(ii) ii.click(); return; }
     if(act==='edit-open'){
       var entry=S.store.entries.find(function(e){return e.id===v;}); if(!entry) return;
       S.editingId=v; S.editDraft=entry.text||''; S.editSigs=(entry.signals||[]).slice(); S.editSigsDirty=false; render(); return; }
@@ -664,7 +683,9 @@
         S.editSigs.push({category:v,label:catName(v),value:null,confidence:1.0}); S.editSigsDirty=true; }
       render(); return; }
   });
-  document.addEventListener('change', function(ev){ var el=ev.target; if(el && el.id==='photoInput' && el.files && el.files[0]){ handlePhoto(el.files[0]); el.value=''; } });
+  document.addEventListener('change', function(ev){ var el=ev.target;
+    if(el && el.id==='photoInput' && el.files && el.files[0]){ handlePhoto(el.files[0]); el.value=''; return; }
+    if(el && el.id==='importInput' && el.files && el.files[0]){ var fr=new FileReader(); fr.onload=function(e){ importData(e.target.result); }; fr.readAsText(el.files[0]); el.value=''; return; } });
   document.addEventListener('input', function(ev){
     var el=ev.target; if(!el) return;
     if(el.id==='capInput'){ S.draft=el.value; return; }
