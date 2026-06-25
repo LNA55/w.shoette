@@ -201,14 +201,39 @@ trancher** (consentement, anonymisation).
 - À l'envoi : entrée **horodatée**, **taguée** (`structureEntry`), **sauvegardée**, toast
   de confirmation.
 
-### 7.2 Consulter le journal
+### 7.2 Entrées sollicitées (pull)
+Section **au milieu de l'écran**, entre la saisie libre (7.1) et le journal (7.3) : les
+**saisies sollicitées par l'app** (« pull »), par opposition à la saisie libre spontanée.
+
+- **Présentation** : bac **légèrement teinté** (fond `--c-50`, bordure `--c-100`), badge
+  « **Proposé par l'app** » + titre « **Entrées sollicitées** ». Ce traitement visuel
+  **démarque les entrées « futures » (sollicitées) des entrées passées** du journal
+  (cartes blanches).
+- **Toujours visible** : la section est **affichée en permanence**, même lorsqu'aucune
+  sollicitation n'est en attente — dans ce cas elle conserve son en-tête et affiche le
+  message « *Aucune sollicitation en attente pour le moment.* ». *(Comportement et message
+  validés.)*
+- **Encarts pré-renseignés**, à compléter (ou non) puis envoyer. Deux types :
+  - **Question ouverte** : champ texte pré-rempli (ex. « J'ai mangé … ») + boutons
+    **Envoyer** / **Ignorer**.
+  - **Oui / Non** : boutons **Oui** / **Non** + **Ignorer**.
+- **Effet** : répondre **crée une vraie entrée de journal** (horodatée, **auto-taguée** via
+  `structureEntry`), puis l'encart disparaît ; *Ignorer* le retire sans saisie.
+- **Règles de déclenchement** (quelles sollicitations, et quand) : consignées dans
+  **Réglages → Entrées sollicitées / « Pull Input »** (voir §12).
+- **[ROADMAP]** Le **moteur de déclenchement** (évaluation des conditions + notification
+  *push*) n'est pas encore actif : en démo, les sollicitations d'exemple restent affichées
+  jusqu'à réponse ou *Ignorer*. **[ROADMAP]** Option *« L'IA détermine les triggers »*
+  (Réglages).
+
+### 7.3 Consulter le journal
 - Liste anti-chronologique. Fenêtre par défaut : **dernières 24 h** ; bouton
   *Afficher plus* (+24 h par clic).
 - **Recherche** textuelle temps réel (texte + tags).
 - **Filtres** : plage de dates, tag (catégorie), tranche horaire (double slider).
   Icône filtre **colorée** (fond plein) quand un filtre est actif.
 
-### 7.3 Éditer / supprimer une entrée
+### 7.4 Éditer / supprimer une entrée
 - Bouton crayon ✏️ discret sur chaque carte → **bottom sheet** d'édition.
 - Permet : modifier le **texte**, **ajouter/retirer des tags**, **supprimer** l'entrée.
 - À l'enregistrement : `editedAt = now`, signaux recalculés depuis le nouveau texte (ou
@@ -367,6 +392,15 @@ Accessible via le **nom (avatar + pseudo) en haut à droite**, cliquable.
 - **Récap des données** : 7 (défaut) / 14 / 30 jours, avec note « Nombre de jours analysés
   (7 par défaut) ».
 - **Boutons des corrélations** : Pictogrammes / Pictogrammes et texte.
+- **Entrées sollicitées (« Pull Input »)** : **règles de déclenchement** des saisies
+  sollicitées (cf. §7.2), dépliables (type + déclencheur). En démo : **cosmétique** (cases
+  sans effet, titres marqués `*`). Règles consignées :
+  - *« Qu'as-tu mangé ? »* (ouverte) — 8 h sans saisie concernant une prise alimentaire.
+  - *« Toujours mal aux cuisses ? »* (Oui/Non) — une douleur signalée dans la journée sans
+    entrée ultérieure indiquant sa fin.
+  - *« As-tu dormi depuis ton dernier sommeil ? »* (Oui/Non) — 12 h après la première
+    saisie de la journée (comptée dès 4 h) ; « Oui » enregistre « a dormi à un moment dans
+    la journée ».
 - **Charger des exemples** (jeu de démo).
 - **Exporter mes données (JSON)** : export **complet** de `store` (tout : entrées, tags,
   réglages, profil, corrélations). Nom de fichier **par compte** + **[ROADMAP] date et
