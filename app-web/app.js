@@ -15,7 +15,7 @@
       errMissing: 'Renseigne ton e-mail et ton mot de passe.',
       errExists: 'Ce compte existe déjà — connecte-toi.',
       errNouser: 'Aucun compte avec cet e-mail.', errBadpass: 'Mot de passe incorrect.',
-      navHome: 'Journal', navData: 'Données', navCorr: 'Corr. auto', navCorrMan: 'Corr. manu', navSettings: 'Réglages',
+      navHome: 'Journal', navData: 'Données', navCorr: 'Corrélations automatiques', navCorrMan: 'Corrélations manuelles', navSettings: 'Réglages',
       capturePh: 'Ex : Mal dormi, réveillée à 4h. Dîner fromage hier soir. Mains raides ce matin, temps humide…',
       add: 'Ajouter', listening: 'Écoute…', micOff: 'La dictée vocale arrivera dans l’app native.',
       saved: 'Entrée enregistrée ✓', photo: 'Photo',
@@ -86,7 +86,7 @@
       errMissing: 'Enter your email and password.',
       errExists: 'This account already exists — sign in.',
       errNouser: 'No account with this email.', errBadpass: 'Wrong password.',
-      navHome: 'Journal', navData: 'Data', navCorr: 'Auto corr.', navCorrMan: 'Man. corr.', navSettings: 'Settings',
+      navHome: 'Journal', navData: 'Data', navCorr: 'Automatic correlations', navCorrMan: 'Manual correlations', navSettings: 'Settings',
       capturePh: 'E.g. Slept badly, awake at 4am. Cheese for dinner. Stiff hands this morning, humid weather…',
       add: 'Add', listening: 'Listening…', micOff: 'Voice dictation is coming in the native app.',
       saved: 'Entry saved ✓', photo: 'Photo',
@@ -618,7 +618,9 @@
     S.store.entries.sort(function(a,b){return b.createdAt-a.createdAt;}); persistStore(); S.tab='home'; render(); toast(t('saved'));
   }
   function exportData(){ var blob=new Blob([JSON.stringify(S.store,null,2)],{type:'application/json'});
-    var name='wwfm-'+((S.email||'data').split('@')[0])+'.json';
+    var d=new Date(), p=function(n){return (n<10?'0':'')+n;};
+    var stamp=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'-'+p(d.getHours())+p(d.getMinutes());
+    var name='wwfm-'+((S.email||'data').split('@')[0])+'-'+stamp+'.json';
     var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); }
   /* Importe un export complet (S.store) dans le compte courant. Remplace les données,
      mais conserve l'identité du compte (token/email/session) et son mot de passe. */
