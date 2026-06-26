@@ -113,9 +113,18 @@ Le `store` d'un compte est un objet JSON. `normStore()` garantit les valeurs par
   "corrWindow": 3,               // fenêtre d'analyse auto : 1 | 3 | 7 (jours)
   "recapDays": 7,                // fenêtre du Récap Données : 7 | 14 | 30
   "corrBtnStyle": "icons",       // 'icons' | 'iconstext' (boutons pin/masquer)
-  "manual": {                    // corrélations manuelles
+  "manual": {                    // corrélations manuelles (voir §10)
     "factors": ["heure du coucher", "qualité de la nuit"],
-    "result": null               // dernier résultat calculé (voir §9.5)
+    "saved": [                   // liste PERSISTANTE des analyses lancées, dédupliquée par facteurs
+      {
+        "key": "heure du coucher | qualité de la nuit", // facteurs normalisés (minuscules) + triés
+        "mode": "pair",          // 'pair' (2 facteurs) | 'multi' (3+)
+        "pair": {  },            // OU "multi": { } selon le mode (détails §10.3)
+        "pinned": false,         // épinglée par l'utilisateur (tri en tête)
+        "hidden": false,         // masquée (bascule dans l'archive)
+        "createdAt": 1750000000000
+      }
+    ]
   },
   "lastAnalysisAt": 1750000000000, // dernier run de l'analyse auto
   "insights": []                 // legacy (ne plus utiliser ; remplacé par correlations)
@@ -205,10 +214,10 @@ trancher** (consentement, anonymisation).
 Section **au milieu de l'écran**, entre la saisie libre (7.1) et le journal (7.3) : les
 **saisies sollicitées par l'app** (« pull »), par opposition à la saisie libre spontanée.
 
-- **Présentation** : bac **légèrement teinté** (fond `--c-50`, bordure `--c-100`), badge
-  « **Proposé par l'app** » + titre « **Entrées sollicitées** ». Ce traitement visuel
-  **démarque les entrées « futures » (sollicitées) des entrées passées** du journal
-  (cartes blanches).
+- **Présentation** : encart **sans fond**, simple **bordure fine** (`--c-100`), badge
+  « **Proposé par l'app** » + titre « **Entrées sollicitées** ». Le haut de page (saisie
+  libre + sollicitations) reste **neutre/blanc** ; la démarcation visuelle se fait par le
+  **fond teinté de la section « Ton journal »** en dessous (voir §7.3).
 - **Toujours visible** : la section est **affichée en permanence**, même lorsqu'aucune
   sollicitation n'est en attente — dans ce cas elle conserve son en-tête et affiche le
   message « *Aucune sollicitation en attente pour le moment.* ». *(Comportement et message
@@ -223,8 +232,9 @@ Section **au milieu de l'écran**, entre la saisie libre (7.1) et le journal (7.
   **Réglages → Entrées sollicitées / « Pull Input »** (voir §12).
 - **[ROADMAP]** Le **moteur de déclenchement** (évaluation des conditions + notification
   *push*) n'est pas encore actif : en démo, les sollicitations d'exemple restent affichées
-  jusqu'à réponse ou *Ignorer*. **[ROADMAP]** Option *« L'IA détermine les triggers »*
-  (Réglages).
+  jusqu'à réponse ou *Ignorer*. Le **mode de déclenchement** (à la main / local / IA) est
+  exposé dans **Réglages → « Choix du moteur »**, ligne *moteur de sollicitation d'entrées*
+  (voir §12).
 
 ### 7.3 Consulter le journal
 - Liste anti-chronologique. Fenêtre par défaut : **dernières 24 h** ; bouton
@@ -232,6 +242,10 @@ Section **au milieu de l'écran**, entre la saisie libre (7.1) et le journal (7.
 - **Recherche** textuelle temps réel (texte + tags).
 - **Filtres** : plage de dates, tag (catégorie), tranche horaire (double slider).
   Icône filtre **colorée** (fond plein) quand un filtre est actif.
+- **Fond teinté dédié** : la section « Ton journal » (titre + recherche/filtres + liste)
+  a un **fond de couleur propre, dédié par thème** (`--journal-bg` : turquoise `#CDE7E8`,
+  corail `#FAD8D8`) ; **les cartes d'entrées restent blanches** et ressortent dessus. But :
+  démarquer nettement le **journal (passé)** du **haut de page** (saisie + sollicitations).
 
 ### 7.4 Éditer / supprimer une entrée
 - Bouton crayon ✏️ discret sur chaque carte → **bottom sheet** d'édition.
@@ -265,6 +279,12 @@ Section **au milieu de l'écran**, entre la saisie libre (7.1) et le journal (7.
 - Liste complète regroupée par catégorie, **un thème par ligne** (pas en grille).
 - Chaque bloc dépliable liste les valeurs extraites + horodatage. `sleep/food/pain`
   ouverts par défaut.
+- **Liste à hauteur fixe** (~5 lignes, **identique pour toutes** les catégories) avec
+  **scroll vertical interne**. **Chargement progressif** : **40 lignes** affichées au
+  départ (on scrolle dans la boîte pour les parcourir), puis lien **« Voir plus »** (+20),
+  puis bouton **« Afficher plus »** (+20 par clic) jusqu'à épuisement. La hauteur de la
+  boîte ne change jamais ; seul le contenu défilable grandit. La position de scroll est
+  préservée lors d'un chargement supplémentaire. (Compteur d'en-tête = total réel.)
 
 ---
 
@@ -357,8 +377,22 @@ Génération **on demand** d'analyses choisies par l'utilisateur.
   - Note rédigée : « Coefficient r = {r} sur {n} jours communs. {sens} » ou
     « Schéma commun aux {k} facteurs : force {s}/100, sur {n} jours communs. » + rappel
     « association observée, pas une preuve de cause à effet ».
+- **Graphiques neutres** : le nuage de points et le multi-courbes utilisent une palette
+  **gris/noir** (fond, axes, points, courbes — variables `--chart-*`) **indépendante du
+  thème** — rendu volontairement sobre/professionnel, **identique** en turquoise comme en
+  corail.
 
-### 10.4 [ROADMAP] Robustesse de l'extraction
+### 10.4 Sauvegarde, épingler & masquer
+- Chaque **Run** enregistre le résultat dans `store.manual.saved` (liste **persistante**),
+  **dédupliquée par facteurs** (clé = facteurs en minuscules, triés) : relancer la même
+  combinaison **met à jour** la carte existante en conservant son épinglage/masquage.
+- Chaque carte porte un **pied épingler / masquer** identique à l'écran auto (§9.5) :
+  📌 **épingler** (tri en tête, tag « Épinglée ») et 🚫 **masquer** (bascule dans la section
+  dépliable **« Afficher les corrélations masquées (N) »**, avec réaffichage). Style des
+  boutons réglable (Pictogrammes / Pictogrammes et texte, cf. §12).
+- Tri des visibles : épinglées d'abord, puis par date de calcul décroissante.
+
+### 10.5 [ROADMAP] Robustesse de l'extraction
 L'extraction numérique actuelle (premier nombre) confond deux facteurs chiffrés dans une
 même entrée. Cible : extraction **ciblée par facteur** (fenêtre autour du mot-clé) ou
 **champs structurés/typés** à la saisie (unités explicites).
@@ -392,6 +426,16 @@ Accessible via le **nom (avatar + pseudo) en haut à droite**, cliquable.
 - **Récap des données** : 7 (défaut) / 14 / 30 jours, avec note « Nombre de jours analysés
   (7 par défaut) ».
 - **Boutons des corrélations** : Pictogrammes / Pictogrammes et texte.
+- **Choix du moteur** (cf. §6) : **matrice « fonction × méthode »**. 5 fonctions —
+  *la liste des tags*, *la transformation des entrées en infos ordonnée*, *moteur de
+  sollicitation d'entrées*, *facteurs du Récap*, *moteur de corrélations automatiques* —
+  et **3 méthodes en colonnes** : **à la main dans réglages**, **moteur en local dans
+  l'appareil**, **via un modèle IA/LLM**. Boutons radio dont la sélection **reflète l'état
+  réel de la webapp** (aujourd'hui : tout « en local » sauf la sollicitation, « à la main »).
+  Lien **« Plus d'informations »** dépliable : la **même grille en texte** explique chaque
+  méthode, avec la mention **« Utilise des tokens — option payante »** sur la colonne LLM.
+  **Cosmétique en démo** (changer un bouton n'a pas d'effet). Lié aux [ROADMAP] §6.3
+  (règles utilisateur) et §6.4 (classification LLM).
 - **Entrées sollicitées (« Pull Input »)** : **règles de déclenchement** des saisies
   sollicitées (cf. §7.2), dépliables (type + déclencheur). En démo : **cosmétique** (cases
   sans effet, titres marqués `*`). Règles consignées :
@@ -408,6 +452,29 @@ Accessible via le **nom (avatar + pseudo) en haut à droite**, cliquable.
 - **Importer des données (JSON)** : restaure un export dans le compte courant. Remplace les
   données **mais préserve l'identité** (token/email) et le **mot de passe** du compte
   courant. Confirmation si le compte a déjà des entrées.
+- **Gestion des données personnelles et fonctions associées** : liste d'items à
+  **cocher / déplier** (au clic, le titre déploie une explication). **Cosmétique en démo**
+  (titres marqués `*`, note de bas de section « présentées à titre indicatif — pas encore
+  actives dans cette démo ») :
+  - *Ne jamais transmettre mes données ni mon nom à un tiers* — **coché et verrouillé**,
+    étiquette « **RESTERA TOUJOURS GRATUIT** ».
+  - *Chiffrer le stockage de mes données* — OVH mutualisé par défaut ; option disque dédié
+    + chiffrement de bout en bout, étiquette « **150 €/mois** ».
+  - *Me proposer de tester de nouveaux protocoles de laboratoire*.
+  - *Partager mon journal de façon anonyme*.
+  - *Personnaliser mes valeurs de référence* — option payante, étiquette « **Sur devis** ».
+- **Informations légales** : 3 liens ouvrant chacun un **écran texte** dédié (avec bouton
+  retour vers Réglages) — **Mentions légales**, **Conditions générales d'utilisation
+  (CGU)**, **Conditions générales de vente (CGV)**. Contenu **lorem ipsum** en démo, à
+  remplacer par la version juridique définitive.
+
+**Design de l'écran Réglages** : présentation **neutre et structurée**, **sans le code
+couleur du thème** — palette en **gris**, **cartes plates** à bord net, **en-têtes de
+section en petites capitales**, espacement augmenté (rendu « sérieux »). Exceptions
+colorées (volontaires) : les **pastilles turquoise/corail** du sélecteur de thème (c'est le
+contenu) et la **navigation** (barre d'onglets / haut), communes à toute l'app. La
+**section du haut** (Taille du texte · Langue · Thème) présente ses **3 toggles au même
+format pleine largeur**, libellés **allégés** (non gras, légèrement plus petits).
 
 Le segmented control « actif » doit être lisible : rail teinté + pastille blanche
 surélevée (anneau + ombre), texte inactif atténué.
@@ -454,6 +521,16 @@ en `'`/`'` et casse le JS → page blanche. Vérifier après chaque édition.)
       éditions, sexe, naissance).
 - [ ] Réglages : langue, thème, taille texte, récap jours, style boutons, sample, export
       (nom horodaté), import (préserve identité+mdp).
+- [ ] Journal : section « Entrées sollicitées » (pull) toujours visible (message si vide) ;
+      répondre → vraie entrée auto-taguée ; fond teinté dédié sur « Ton journal » (cartes
+      blanches).
+- [ ] Données « Par thème » : listes à hauteur fixe + scroll interne + chargement
+      progressif (40 puis +20 « Voir plus » / « Afficher plus »).
+- [ ] Corrélations manuelles : liste sauvegardée (dédupliquée) + épingler/masquer +
+      archive « masquées » ; graphiques neutres (gris) indépendants du thème.
+- [ ] Réglages : « Choix du moteur » (matrice fonction × méthode + « Plus d'informations »
+      avec note tokens/payant) ; « Gestion des données personnelles » (cosmétique, `*`) ;
+      écrans légaux (mentions / CGU / CGV) ; design neutre de l'écran (hors navigation).
 - [ ] 5 onglets, libellés complets 2 lignes, séparateurs fins.
 - [ ] Bilingue FR/EN ; thèmes turquoise/corail ; grand texte.
 - [ ] **[ROADMAP]** userRules ; portée tout l'historique ; export horodaté ; vraie date
