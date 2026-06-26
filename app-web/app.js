@@ -111,13 +111,29 @@
       pdpFootnote: '* Fonctionnalités présentées à titre indicatif — pas encore actives dans cette démo.',
       pdpAlwaysOn: 'Toujours activé',
       /* Fonctions IA (section cosmétique) */
-      aiTitle: 'Fonctions basées sur des moteurs d’intelligence artificielle',
-      ai1: 'Pousser des invitations à faire des saisies dans le journal',
-      ai2: 'Générer automatiquement la liste des tags',
-      ai3: 'Sélectionner automatiquement les facteurs à inclure dans le Récap de l’écran Données',
-      ai4: 'Faire tourner un moteur d’IA pour établir les corrélations automatiques',
-      ai4Tag: 'Payant à l’usage', ai4Note: 'Facturé au prorata des tokens consommés.',
-      ai5: 'L’IA détermine les triggers pour solliciter une entrée',
+      aiTitle: 'Choix du moteur',
+      aiMethodManual: 'À la main dans réglages', aiMethodLocal: 'Moteur en local dans l’appareil', aiMethodLLM: 'Via un modèle IA/LLM',
+      aiFn1: 'La liste des tags',
+      aiFn2: 'La transformation des entrées en infos ordonnée',
+      aiFn3: 'Moteur de sollicitation d’entrées dans le journal',
+      aiFn4: 'Facteurs à inclure dans le Récap de l’écran Données',
+      aiFn5: 'Moteur de corrélations automatiques',
+      aiMoreInfo: 'Plus d’informations', aiCurrent: 'Actuel', aiTokenNote: 'Utilise des tokens — option payante.',
+      aiInfo_fn1_manual: 'Vous définissez vous-même la liste des tags.',
+      aiInfo_fn1_local: 'Liste figée fournie par l’app (~11 catégories).',
+      aiInfo_fn1_llm: 'Un modèle propose et enrichit la liste de tags.',
+      aiInfo_fn2_manual: 'Vous taguez et structurez chaque entrée à la main.',
+      aiInfo_fn2_local: 'Mots-clés + extraction de valeurs (ex. « 6,5 h », « 120/80 »), dans le navigateur.',
+      aiInfo_fn2_llm: 'Un modèle lit l’entrée et la structure.',
+      aiInfo_fn3_manual: 'Vous définissez les règles de sollicitation dans les réglages.',
+      aiInfo_fn3_local: 'Déclencheurs calculés en local (ex. 8 h sans saisie alimentaire).',
+      aiInfo_fn3_llm: 'Un modèle décide quand et quoi vous demander.',
+      aiInfo_fn4_manual: 'Vous choisissez les facteurs affichés dans le Récap.',
+      aiInfo_fn4_local: 'Sélection automatique locale (catégories par défaut / fréquence).',
+      aiInfo_fn4_llm: 'Un modèle choisit les facteurs les plus pertinents.',
+      aiInfo_fn5_manual: 'Vous créez les corrélations à la main (onglet Corrélations manuelles).',
+      aiInfo_fn5_local: 'Moteur statistique local (coefficient de Pearson).',
+      aiInfo_fn5_llm: 'Un modèle repère et explique les liens.',
       /* Journal — entrées sollicitées (pull) */
       pullTitle: 'Entrées sollicitées', pullBadge: 'Proposé par l’app',
       pullEmpty: 'Aucune sollicitation en attente pour le moment.',
@@ -250,13 +266,29 @@
       pdpFootnote: '* Features shown for illustration only — not active in this demo yet.',
       pdpAlwaysOn: 'Always on',
       /* AI features (cosmetic section) */
-      aiTitle: 'Features powered by artificial-intelligence engines',
-      ai1: 'Push me invitations to add journal entries',
-      ai2: 'Automatically generate the list of tags',
-      ai3: 'Automatically select the factors shown in the Data screen Recap',
-      ai4: 'Run an AI engine to compute automatic correlations',
-      ai4Tag: 'Pay per use', ai4Note: 'Billed in proportion to the tokens used.',
-      ai5: 'Let AI decide when to request an entry',
+      aiTitle: 'Engine choice',
+      aiMethodManual: 'Manually, in settings', aiMethodLocal: 'On-device engine', aiMethodLLM: 'Via an AI/LLM model',
+      aiFn1: 'The list of tags',
+      aiFn2: 'Turning entries into structured info',
+      aiFn3: 'Journal entry solicitation engine',
+      aiFn4: 'Factors included in the Data screen Recap',
+      aiFn5: 'Automatic correlation engine',
+      aiMoreInfo: 'More information', aiCurrent: 'Current', aiTokenNote: 'Uses tokens — paid option.',
+      aiInfo_fn1_manual: 'You define the list of tags yourself.',
+      aiInfo_fn1_local: 'Fixed list provided by the app (~11 categories).',
+      aiInfo_fn1_llm: 'A model suggests and enriches the tag list.',
+      aiInfo_fn2_manual: 'You tag and structure each entry by hand.',
+      aiInfo_fn2_local: 'Keywords + value extraction (e.g. “6.5 h”, “120/80”), in the browser.',
+      aiInfo_fn2_llm: 'A model reads the entry and structures it.',
+      aiInfo_fn3_manual: 'You define the solicitation rules in settings.',
+      aiInfo_fn3_local: 'Triggers computed on-device (e.g. 8 h with no meal entry).',
+      aiInfo_fn3_llm: 'A model decides when and what to ask you.',
+      aiInfo_fn4_manual: 'You choose the factors shown in the Recap.',
+      aiInfo_fn4_local: 'Automatic local selection (default categories / frequency).',
+      aiInfo_fn4_llm: 'A model picks the most relevant factors.',
+      aiInfo_fn5_manual: 'You create correlations by hand (Manual correlations tab).',
+      aiInfo_fn5_local: 'Local statistical engine (Pearson coefficient).',
+      aiInfo_fn5_llm: 'A model surfaces and explains the links.',
       /* Journal — requested entries (pull) */
       pullTitle: 'Requested entries', pullBadge: 'Suggested by the app',
       pullEmpty: 'No pending requests right now.',
@@ -970,9 +1002,10 @@
       '</div>';
   }
   function settingsHtml(){
-    return '<h1 class="page-title">'+esc(t('settingsTitle'))+'</h1>'+
-      '<div class="card list">'+
-        '<div class="row"><span class="k">'+esc(t('accTitle'))+' · '+esc(t('textSize'))+'</span><span class="sp"></span>'+ seg([['normal',t('tsNormal')],['large',t('tsLarge')]], S.textsize, 'textsize')+'</div>'+
+    return '<div class="settings-screen">'+
+      '<h1 class="page-title">'+esc(t('settingsTitle'))+'</h1>'+
+      '<div class="card list prefs-card">'+
+        '<div class="row"><span class="k">'+esc(t('textSize'))+'</span><span class="sp"></span>'+ seg([['normal',t('tsNormal')],['large',t('tsLarge')]], S.textsize, 'textsize')+'</div>'+
         '<div class="row"><span class="k">'+esc(t('language'))+'</span><span class="sp"></span>'+ seg([['fr','Français'],['en','English']], S.lang, 'lang')+'</div>'+
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
       '</div>'+
@@ -990,7 +1023,8 @@
       '</div>'+
       pdpSectionHtml()+
       legalLinksHtml()+
-      '<p class="note">'+esc(t('backupNote'))+'</p><p class="note">'+esc(t('legal'))+'</p>';
+      '<p class="note">'+esc(t('backupNote'))+'</p><p class="note">'+esc(t('legal'))+'</p>'+
+      '</div>';
   }
   /* Section « Gestion des données personnelles » — items à checkbox + explication dépliable.
      Purement cosmétique : aucune fonction n'est branchée (cf. astérisque + note de bas de section). */
@@ -1039,25 +1073,44 @@
       '<h1 class="page-title">'+esc(t(titleKey))+'</h1>'+
       '<div class="card legal-doc">'+ t('legalLorem') +'</div>';
   }
-  /* Section « Fonctions IA » — liste front cosmétique (cases sans effet). */
-  function aiSectionHtml(){
-    function item(o){
-      var tag = o.tag ? '<div class="ai-tagrow"><span class="price-tag price-tag--paid">'+esc(o.tag)+'</span></div>' : '';
-      var note = o.note ? '<span class="ai-note">'+esc(o.note)+'</span>' : '';
-      return '<div class="ai-item">'+
-        '<label class="pdp-check"><input type="checkbox" class="pdp-cb"'+(o.checked?' checked':'')+'></label>'+
-        '<div class="ai-body"><span class="pdp-title">'+esc(o.title)+' <span class="pdp-star">*</span></span>'+ tag + note +'</div>'+
-      '</div>';
+  /* Section « Fonctions IA » — matrice : par fonction, la méthode de fonctionnement.
+     3 méthodes en colonnes ; les boutons sélectionnés reflètent la réalité de la webapp
+     actuelle (cosmétique, sans effet). « Plus d'informations » déplie la même grille en texte. */
+  function aiMatrix(){
+    var methods=['manual','local','llm'];
+    var head={manual:'aiMethodManual', local:'aiMethodLocal', llm:'aiMethodLLM'};
+    var fns=[
+      {key:'fn1', title:t('aiFn1'), real:'local'},
+      {key:'fn2', title:t('aiFn2'), real:'local'},
+      {key:'fn3', title:t('aiFn3'), real:'manual'},
+      {key:'fn4', title:t('aiFn4'), real:'local'},
+      {key:'fn5', title:t('aiFn5'), real:'local'}
+    ];
+    function thead(){ return '<thead><tr><th></th>'+methods.map(function(m){return '<th>'+esc(t(head[m]))+'</th>';}).join('')+'</tr></thead>'; }
+    function radioTable(){
+      var rows=fns.map(function(f){
+        return '<tr><td class="ai-fn">'+esc(f.title)+'</td>'+methods.map(function(m){ var on=f.real===m;
+          return '<td class="ai-cell'+(on?' is-current':'')+'"><label class="ai-radio"><input type="radio" name="ai_'+f.key+'"'+(on?' checked':'')+' aria-label="'+esc(t(head[m]))+'"></label></td>';
+        }).join('')+'</tr>';
+      }).join('');
+      return '<div class="ai-matrix-wrap"><table class="ai-matrix">'+thead()+'<tbody>'+rows+'</tbody></table></div>';
     }
+    function infoTable(){
+      var rows=fns.map(function(f){
+        return '<tr><td class="ai-fn">'+esc(f.title)+'</td>'+methods.map(function(m){ var on=f.real===m;
+          var token=(m==='llm')?'<span class="ai-token">'+esc(t('aiTokenNote'))+'</span>':'';
+          var cur=on?'<span class="ai-cur">'+esc(t('aiCurrent'))+'</span>':'';
+          return '<td class="ai-cell ai-cell-txt'+(on?' is-current':'')+'">'+esc(t('aiInfo_'+f.key+'_'+m))+cur+token+'</td>';
+        }).join('')+'</tr>';
+      }).join('');
+      return '<div class="ai-matrix-wrap ai-matrix-scroll"><table class="ai-matrix ai-matrix-info">'+thead()+'<tbody>'+rows+'</tbody></table></div>';
+    }
+    return radioTable()+
+      '<details class="ai-more"><summary>'+esc(t('aiMoreInfo'))+'</summary>'+infoTable()+'</details>';
+  }
+  function aiSectionHtml(){
     return '<h3 class="sec">'+esc(t('aiTitle'))+'</h3>'+
-      '<div class="card pdp-card">'+
-        item({title:t('ai1'), checked:true})+
-        item({title:t('ai2'), checked:true})+
-        item({title:t('ai3'), checked:true})+
-        item({title:t('ai4'), checked:false, tag:t('ai4Tag'), note:t('ai4Note')})+
-        item({title:t('ai5'), checked:false})+
-      '</div>'+
-      '<p class="note pdp-foot">'+esc(t('pdpFootnote'))+'</p>';
+      '<div class="card ai-card">'+ aiMatrix() +'</div>';
   }
   /* Section « Entrées sollicitées » (Pull Input) — règles de déclenchement consignées. */
   function pullRulesHtml(){

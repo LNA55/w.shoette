@@ -292,12 +292,63 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .pdp-tagrow{margin-top:12px}
 .pdp-foot{font-style:italic}
 
-/* Réglages — fonctions IA (liste simple, non dépliable) */
-.ai-item{display:flex;gap:13px;align-items:flex-start;padding:15px 0;border-bottom:1px solid var(--line)}
-.ai-item:last-child{border-bottom:none}
-.ai-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
-.ai-note{font-size:.8rem;color:var(--muted);line-height:1.45}
-.ai-tagrow{margin-top:2px}
+/* Réglages — Fonctions IA : matrice (3 méthodes en colonnes) */
+.ai-card{margin-top:14px;padding:14px}
+.ai-matrix-wrap{width:100%}
+.ai-matrix-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px}
+.ai-matrix{width:100%;border-collapse:collapse;table-layout:fixed}
+.ai-matrix th,.ai-matrix td{padding:9px 5px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+.ai-matrix tbody tr:last-child td{border-bottom:none}
+.ai-matrix thead th{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.02em;color:var(--c-700);vertical-align:bottom;line-height:1.18}
+.ai-matrix th:first-child,.ai-matrix td:first-child{width:39%;text-align:left}
+.ai-matrix .ai-fn{font-weight:600;font-size:.82rem;line-height:1.3}
+.ai-cell.is-current{background:var(--c-50)}
+.ai-radio{display:inline-flex;cursor:pointer}
+.ai-radio input{width:20px;height:20px;accent-color:var(--c-600);cursor:pointer;margin:0}
+.ai-cur{display:inline-block;margin-top:5px;font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--c-700);background:var(--c-100);border-radius:999px;padding:1px 7px;white-space:nowrap}
+/* Tableau d'infos (texte) — même grille, défilable horizontalement sur mobile */
+.ai-matrix-info{table-layout:auto;min-width:560px}
+.ai-matrix-info th,.ai-matrix-info td{text-align:left;vertical-align:top;padding:10px 11px}
+.ai-matrix-info td{font-size:.78rem;line-height:1.42}
+.ai-matrix-info th:first-child,.ai-matrix-info td:first-child{width:auto;min-width:120px}
+.ai-cell-txt{min-width:150px}
+.ai-token{display:block;margin-top:5px;font-size:.72rem;font-weight:700;color:#9a7400}
+/* « Plus d'informations » discret + repliable */
+.ai-more{margin-top:14px}
+.ai-more>summary{list-style:none;cursor:pointer;color:var(--c-700);font-weight:600;font-size:.86rem;display:inline-flex;align-items:center;gap:6px}
+.ai-more>summary::-webkit-details-marker{display:none}
+.ai-more>summary::before{content:'▸';color:var(--c-400);font-size:.78rem}
+.ai-more[open]>summary::before{content:'▾'}
+.ai-more[open]>summary{margin-bottom:12px}
+
+/* ===== Réglages — design neutre & structuré (sans code couleur de thème) =====
+   On redéfinit la palette --c-* en niveaux de gris UNIQUEMENT sous .settings-screen :
+   tous les éléments « teintés » (boutons, segments, cases, radios, surlignages, carets…)
+   deviennent neutres d'un coup, sans toucher aux autres écrans. */
+.settings-screen{
+  --c-50:#f4f4f5; --c-100:#e4e4e7; --c-200:#d4d4d8; --c-300:#a1a1aa; --c-400:#71717a;
+  --c-500:#3f3f46; --c-600:#27272a; --c-700:#3f3f46; --c-800:#27272a; --c-900:#18181b;
+  --muted:#71717a; --line:#e6e6e9;
+}
+/* En-têtes de section : petites capitales discrètes (style réglages « sérieux ») */
+.settings-screen h3.sec{font-family:var(--font-body);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--c-400);margin:34px 2px 12px}
+/* Cartes : plates, bord net, coins un peu moins ronds — plus structuré */
+.settings-screen .card{box-shadow:none;border:1px solid var(--line);border-radius:14px}
+.settings-screen .page-title{margin-bottom:10px}
+/* Un peu plus d'air dans les lignes et entre les blocs */
+.settings-screen .list .row{padding:17px 0}
+.settings-screen .note{margin-top:18px;line-height:1.6}
+/* Étiquettes « prix » neutralisées : gratuit = gris moyen, payant = anthracite */
+.settings-screen .price-tag--free{background:#71717a}
+.settings-screen .price-tag--paid{background:#27272a}
+.settings-screen .ai-token{color:#52525b}
+/* Section préférences (haut) : libellés allégés + 3 toggles au même format (pleine largeur) */
+.settings-screen .prefs-card .row{flex-direction:column;align-items:stretch;gap:9px;padding:14px 0}
+.settings-screen .prefs-card .row .k{font-weight:500;font-size:.9rem}
+.settings-screen .prefs-card .row .sp{display:none}
+.settings-screen .prefs-card .seg{display:flex;width:100%}
+.settings-screen .prefs-card .seg button{flex:1;font-weight:500;font-size:.83rem}
+.settings-screen .prefs-card .seg button.on{font-weight:600}
 
 /* Étiquette « prix » (forme d'étiquette de commerce, avec pointe + œillet) */
 .price-tag{position:relative;display:inline-flex;align-items:center;padding:5px 11px 5px 18px;background:var(--c-500);color:#fff;font-weight:800;font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;border-radius:0 5px 5px 0;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);white-space:nowrap}
