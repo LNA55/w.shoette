@@ -7,7 +7,15 @@ cohort0.csv
 requests.csv
 **/requests.csv
 
-# Local agent / editor / OS
-.claude/
+# Données runtime des comptes (santé + auth) — JAMAIS sur GitHub.
+# Le .htaccess du dossier data/ reste suivi (protection d'accès).
+app-web/data/*.json
+**/data/store_*.json
+**/data/users.json
+
+# Local agent / editor / OS — SAUF les skills du projet (à versionner)
+.claude/*
+!.claude/skills/
+!.claude/skills/**
 .DS_Store
 *.log
