@@ -164,7 +164,7 @@
       <span class="chip">💊 Médicaments</span>
       <span class="chip">🏃 Activité</span>
       <span class="chip">📊 Mesures</span>
-      <span class="chip">⛅️ Environnement</span>
+      <span class="chip">⛅️ Climat</span>
     </div>
 
     <p style="margin-top:14px">Les tags apparaissent sous chaque entrée du journal sous forme de chips colorées. Si aucun mot-clé n'est reconnu, l'entrée reçoit le tag <em>Divers</em>.</p>
@@ -340,7 +340,7 @@
   <div class="tech-block">
     <h3>Moteur de corrélations <span class="tag tag-local">100 % client</span></h3>
     <p>L'analyse tourne intégralement <strong>dans le navigateur</strong> à la demande de l'utilisateur. Aucun token LLM n'est consommé.</p>
-    <p>Algorithme (auto) : sur les <strong>14 derniers jours</strong>, l'app construit une carte jour par jour. Chaque jour est marqué <em>flag</em> s'il contient <strong>Douleur</strong>, <strong>Symptôme</strong> ou <strong>Brouillard mental</strong>. Les tags <strong>Alimentation</strong> et <strong>Environnement</strong> sont des <em>triggers</em>. Un trigger co-occure avec un flag si un symptôme apparaît dans la <strong>fenêtre glissante choisie</strong> (24 h, 3 jours ou 1 semaine après). À partir de 2 co-occurrences, l'association s'affiche.</p>
+    <p>Algorithme (auto) : sur les <strong>14 derniers jours</strong>, l'app construit une carte jour par jour. Chaque jour est marqué <em>flag</em> s'il contient <strong>Douleur</strong>, <strong>Symptôme</strong> ou <strong>Brouillard mental</strong>. Les tags <strong>Alimentation</strong> et <strong>Climat</strong> sont des <em>triggers</em>. Un trigger co-occure avec un flag si un symptôme apparaît dans la <strong>fenêtre glissante choisie</strong> (24 h, 3 jours ou 1 semaine après). À partir de 2 co-occurrences, l'association s'affiche.</p>
     <ul>
       <li>Force : faible (&lt; 4 co-occurrences), modérée (4–5), forte (≥ 6) ; max 6 associations, triées par occurrences</li>
       <li>Dictionnaire persistant : conserve les états <em>épinglé</em> / <em>masqué</em> entre analyses, marque <em>obsolètes</em> celles absentes du dernier run</li>
