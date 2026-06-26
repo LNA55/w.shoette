@@ -13,6 +13,9 @@ app-web/data/*.json
 **/data/store_*.json
 **/data/users.json
 
+# Sauvegarde locale des données serveur confidentielles — JAMAIS sur GitHub.
+sauvegarde donnees serveur confidentielles/
+
 # Local agent / editor / OS — SAUF les skills du projet (à versionner)
 .claude/*
 !.claude/skills/
