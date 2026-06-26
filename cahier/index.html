@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cahier des charges — Application iOS « What works for me »</title>
+<meta name="description" content="Versions successives, datées, du cahier des charges de l'application iOS « What works for me ». Archive des spécifications, téléchargeables.">
+<meta name="theme-color" content="#F04848">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cahier des charges — Application iOS « What works for me »">
+<meta property="og:url" content="https://w.shoette.com/cahier/">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#F04848;--red-bright:#FF8472;--red-deep:#C92E4E;
+    --grad:linear-gradient(135deg,#FF8472 0%,#F04848 50%,#C92E4E 100%);
+    --ink:#190F12;--ink-soft:#2C2023;--paper:#fff;--cream:#FFF4F1;--cream-2:#FCE4DE;
+    --line:rgba(25,15,18,.10);--shadow:0 30px 60px -20px rgba(25,15,18,.28);--shadow-soft:0 18px 40px -18px rgba(25,15,18,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--cream);
+    line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  h1,h2,h3{font-family:'Space Grotesk','Inter',sans-serif;letter-spacing:-.02em;font-weight:700;line-height:1.1}
+  a{color:inherit;text-decoration:none}
+  svg{display:block}
+  .wrap{width:100%;max-width:860px;margin:0 auto;padding:0 24px}
+
+  /* header band */
+  .top{background:var(--red);color:#fff;position:relative;overflow:hidden}
+  .top::before{content:"";position:absolute;inset:0;background:radial-gradient(110% 90% at 88% -20%,rgba(255,170,150,.30),transparent 55%)}
+  .top__in{position:relative;padding:30px 0 44px}
+  .top__nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:34px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:700;color:#fff}
+  .brand .logo{width:32px;height:32px}
+  .back{color:rgba(255,255,255,.9);font-weight:600;font-size:.9rem;border:1px solid rgba(255,255,255,.4);padding:7px 14px;border-radius:999px;transition:background .15s}
+  .back:hover{background:rgba(255,255,255,.12)}
+  .eyebrow{font-weight:800;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;opacity:.92;margin-bottom:12px}
+  .top h1{font-size:clamp(1.8rem,4.6vw,2.9rem);max-width:18ch;margin-bottom:14px}
+  .top p{color:rgba(255,255,255,.92);max-width:60ch;font-size:1.05rem}
+
+  /* doc list */
+  main{padding:44px 0 80px}
+  .doc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 26px;margin-bottom:16px;
+    box-shadow:var(--shadow-soft);transition:transform .15s,box-shadow .15s}
+  .doc:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .doc__head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+  .doc__v{font-family:'Space Grotesk';font-weight:700;font-size:1.25rem;letter-spacing:-.01em}
+  .doc__date{font-size:.86rem;color:#9a8f8d;font-weight:600}
+  .doc__badge{font-size:.64rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--red);padding:4px 10px;border-radius:999px}
+  .doc__badge.archive{background:#efe7e9;color:#8a7f82}
+  .doc__desc{color:var(--ink-soft);font-size:.98rem;margin-bottom:16px;max-width:64ch}
+  .doc__actions{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Inter';font-weight:700;font-size:.92rem;cursor:pointer;
+    padding:10px 18px;border-radius:999px;border:none;transition:transform .15s,background .15s,box-shadow .15s}
+  .btn svg{width:16px;height:16px}
+  .btn--red{background:var(--red);color:#fff;box-shadow:0 10px 24px -12px rgba(240,72,72,.8)}
+  .btn--red:hover{transform:translateY(-1px);background:var(--red-deep)}
+  .btn--ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .btn--ghost:hover{transform:translateY(-1px);border-color:var(--red);color:var(--red-deep)}
+
+  .note{margin-top:26px;font-size:.9rem;color:var(--ink-soft);opacity:.8;display:flex;gap:10px;align-items:flex-start}
+  .note svg{flex:0 0 auto;margin-top:2px;color:var(--red)}
+  footer{border-top:1px solid var(--line);padding:22px 0;color:#9a8f8d;font-size:.85rem;text-align:center}
+
+  @media(max-width:560px){ .doc{padding:20px} .top__in{padding:24px 0 36px} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="wgrad" x1="0.08" y1="0" x2="0.92" y2="1"><stop offset="0" stop-color="#FF8472"/><stop offset="0.5" stop-color="#F04848"/><stop offset="1" stop-color="#C92E4E"/></linearGradient>
+  <symbol id="wmarkRed" viewBox="0 0 512 512"><rect width="512" height="512" rx="116" fill="#fff"/><path d="M120 164 L196 354 L256 258 L316 354 L392 164" fill="none" stroke="url(#wgrad)" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<header class="top">
+  <div class="wrap top__in">
+    <div class="top__nav">
+      <a class="brand" href="/"><svg class="logo" aria-hidden="true"><use href="#wmarkRed"/></svg><span>What works for me</span></a>
+      <a class="back" href="/">← Accueil</a>
+    </div>
+    <div class="eyebrow">Application iOS</div>
+    <h1>Cahier des charges</h1>
+    <p>Versions successives, datées, de la spécification de l'application. Chaque nouvelle version consolide et remplace les précédentes — la plus récente fait foi. Les versions antérieures sont conservées ici pour archive.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <article class="doc">
+      <div class="doc__head">
+        <span class="doc__v">Version 3</span>
+        <span class="doc__date">25 juin 2026 à 23h12</span>
+        <span class="doc__badge">Version actuelle</span>
+      </div>
+      <p class="doc__desc">Spécification complète et faisant autorité. Consolide toutes les décisions des derniers jours — y compris des fonctions pas encore présentes dans la démo web. Remplace les versions 1 et 2.</p>
+      <div class="doc__actions">
+        <a class="btn btn--red" href="/cahier/view.html?doc=cahier-des-charges-v3.md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Lire en ligne
+        </a>
+        <a class="btn btn--ghost" href="/cahier/cahier-des-charges-v3.md" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Télécharger (.md)
+        </a>
+      </div>
+    </article>
+
+    <article class="doc">
+      <div class="doc__head">
+        <span class="doc__v">Version 2</span>
+        <span class="doc__date">24 juin 2026 à 20h55</span>
+        <span class="doc__badge archive">Archivée</span>
+      </div>
+      <p class="doc__desc">Spécification technique « staffable » : taxonomie, schémas IA, contrat d'API, modèle SQL + RLS, design system, critères d'acceptation, QA &amp; observabilité, gate de conformité, plan détaillé.</p>
+      <div class="doc__actions">
+        <a class="btn btn--red" href="/cahier/view.html?doc=cahier-des-charges-v2.md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Lire en ligne
+        </a>
+        <a class="btn btn--ghost" href="/cahier/cahier-des-charges-v2.md" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Télécharger (.md)
+        </a>
+      </div>
+    </article>
+
+    <article class="doc">
+      <div class="doc__head">
+        <span class="doc__v">Version 1</span>
+        <span class="doc__date">24 juin 2026 à 20h55</span>
+        <span class="doc__badge archive">Archivée · MVP</span>
+      </div>
+      <p class="doc__desc">Document de référence initial (MVP) : périmètre, écrans, principes produit et conformité.</p>
+      <div class="doc__actions">
+        <a class="btn btn--red" href="/cahier/view.html?doc=cahier-des-charges-v1.md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Lire en ligne
+        </a>
+        <a class="btn btn--ghost" href="/cahier/cahier-des-charges-v1.md" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Télécharger (.md)
+        </a>
+      </div>
+    </article>
+
+    <p class="note">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>Pour archiver une nouvelle version : déposer le fichier <code>.md</code> dans <code>/cahier/</code> et ajouter une entrée ci-dessus. Astuce : « Lire en ligne » s'imprime proprement en PDF (⌘P).</span>
+    </p>
+
+  </div>
+</main>
+
+<footer>© <span id="y">2026</span> · <span style="font-family:'Space Grotesk','Inter',sans-serif;font-weight:600">What works for me</span> — document interne</footer>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>

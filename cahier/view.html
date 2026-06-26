@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cahier des charges — lecture</title>
+<meta name="theme-color" content="#F04848">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#F04848;--red-deep:#C92E4E;--ink:#190F12;--ink-soft:#2C2023;
+    --paper:#fff;--cream:#FFF4F1;--cream-2:#FCE4DE;--line:rgba(25,15,18,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--cream);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--red-deep)}
+  svg{display:block}
+
+  /* sticky toolbar */
+  .bar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .bar__in{max-width:880px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .bar a.back{display:inline-flex;align-items:center;gap:7px;color:var(--ink);font-weight:600;font-size:.9rem}
+  .bar a.back:hover{color:var(--red-deep)}
+  .bar__right{display:flex;gap:8px}
+  .btn{display:inline-flex;align-items:center;gap:7px;font-family:'Inter';font-weight:700;font-size:.86rem;cursor:pointer;
+    padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);transition:transform .15s,border-color .15s,color .15s}
+  .btn svg{width:15px;height:15px}
+  .btn:hover{transform:translateY(-1px);border-color:var(--red);color:var(--red-deep)}
+  .btn--red{background:var(--red);color:#fff;border-color:transparent}
+  .btn--red:hover{background:var(--red-deep);color:#fff}
+
+  /* document */
+  .sheet{max-width:880px;margin:26px auto;background:#fff;border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 30px 60px -28px rgba(25,15,18,.22);padding:clamp(26px,5vw,60px)}
+  .md{color:var(--ink)}
+  .md h1,.md h2,.md h3,.md h4{font-family:'Space Grotesk','Inter',sans-serif;letter-spacing:-.02em;line-height:1.15;color:var(--ink)}
+  .md h1{font-size:clamp(1.7rem,4vw,2.3rem);margin:.2em 0 .5em;padding-bottom:.3em;border-bottom:2px solid var(--cream-2)}
+  .md h2{font-size:1.5rem;margin:1.5em 0 .5em;padding-bottom:.25em;border-bottom:1px solid var(--line)}
+  .md h3{font-size:1.2rem;margin:1.4em 0 .4em}
+  .md h4{font-size:1.02rem;margin:1.2em 0 .3em}
+  .md p{margin:.7em 0}
+  .md ul,.md ol{margin:.6em 0 .9em 1.4em}
+  .md li{margin:.25em 0}
+  .md blockquote{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--red);background:var(--cream);border-radius:0 10px 10px 0;color:var(--ink-soft)}
+  .md code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:var(--cream);border:1px solid var(--cream-2);border-radius:6px;padding:.1em .4em}
+  .md pre{background:#190F12;color:#f5efe9;border-radius:12px;padding:16px 18px;overflow:auto;margin:1em 0}
+  .md pre code{background:none;border:none;color:inherit;padding:0;font-size:.85em}
+  .md hr{border:none;border-top:1px solid var(--line);margin:1.8em 0}
+  .md table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.92rem}
+  .md th,.md td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+  .md th{background:var(--cream);font-weight:700}
+  .md tr:nth-child(even) td{background:#fdfbfa}
+  .md a{color:var(--red-deep);text-decoration:underline}
+  .md img{max-width:100%}
+  .md strong{font-weight:700}
+  .status{max-width:880px;margin:26px auto;padding:0 24px;color:var(--ink-soft)}
+
+  @media print{
+    .bar{display:none}
+    body{background:#fff}
+    .sheet{box-shadow:none;border:none;border-radius:0;margin:0;max-width:none;padding:0}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="wgrad" x1="0.08" y1="0" x2="0.92" y2="1"><stop offset="0" stop-color="#FF8472"/><stop offset="0.5" stop-color="#F04848"/><stop offset="1" stop-color="#C92E4E"/></linearGradient>
+  <symbol id="wmarkRed" viewBox="0 0 512 512"><rect width="512" height="512" rx="116" fill="#fff"/><path d="M120 164 L196 354 L256 258 L316 354 L392 164" fill="none" stroke="url(#wgrad)" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<div class="bar">
+  <div class="bar__in">
+    <a class="back" href="/cahier/">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Tous les cahiers
+    </a>
+    <div class="bar__right">
+      <button class="btn" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        Imprimer / PDF
+      </button>
+      <a class="btn btn--red" id="dl" href="#" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        .md
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="sheet"><div class="md" id="md">Chargement…</div></div>
+<div class="status" id="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+<script>
+  (function(){
+    var params = new URLSearchParams(location.search);
+    var doc = params.get('doc') || '';
+    var mdEl = document.getElementById('md');
+    var statusEl = document.getElementById('status');
+    var dl = document.getElementById('dl');
+
+    // Sécurité : n'autoriser que les fichiers de cahier des charges versionnés.
+    if(!/^cahier-des-charges-v\d+\.md$/.test(doc)){
+      mdEl.textContent = '';
+      statusEl.innerHTML = 'Document inconnu. <a href="/cahier/">Revenir à la liste</a>.';
+      dl.style.display = 'none';
+      return;
+    }
+    dl.href = '/cahier/' + doc;
+    dl.setAttribute('download', doc);
+
+    fetch('/cahier/' + doc, {cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+      .then(function(text){
+        document.title = (text.split('\n')[0] || 'Cahier des charges').replace(/^#+\s*/, '') + ' — lecture';
+        if(window.marked && marked.parse){
+          marked.setOptions({gfm:true, breaks:false});
+          mdEl.innerHTML = marked.parse(text);
+        } else {
+          // Fallback si marked.js ne charge pas : texte brut lisible.
+          var pre = document.createElement('pre');
+          pre.style.whiteSpace = 'pre-wrap';
+          pre.textContent = text;
+          mdEl.innerHTML = '';
+          mdEl.appendChild(pre);
+          statusEl.innerHTML = 'Rendu Markdown indisponible — affichage brut. <a href="/cahier/'+doc+'" download>Télécharger le fichier</a>.';
+        }
+      })
+      .catch(function(e){
+        mdEl.textContent = '';
+        statusEl.innerHTML = 'Impossible de charger le document ('+e.message+'). <a href="/cahier/'+doc+'" download>Télécharger le .md</a> · <a href="/cahier/">retour</a>.';
+      });
+  })();
+</script>
+</body>
+</html>
