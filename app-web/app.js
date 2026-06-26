@@ -85,7 +85,7 @@
       q_bad: 'plutôt difficile', q_ok: 'noté',
       cat_sleep: 'Sommeil', cat_food: 'Alimentation', cat_mood: 'Humeur', cat_energy: 'Énergie',
       cat_pain: 'Douleur', cat_stress: 'Stress', cat_symptom: 'Symptômes', cat_brain_fog: 'Brouillard mental',
-      cat_meds: 'Médicaments', cat_activity: 'Activité', cat_measure: 'Mesures', cat_environment: 'Environnement', cat_other: 'Divers',
+      cat_meds: 'Médicaments', cat_activity: 'Activité', cat_measure: 'Mesures', cat_environment: 'Climat', cat_other: 'Divers',
       quick1: '😴 Ma nuit', quick2: '🍽️ Mon repas', quick3: '🩹 Une douleur', quick4: '🙂 Mon humeur',
       qs1: 'Cette nuit, j’ai ', qs2: 'Au repas, j’ai mangé ', qs3: 'J’ai mal ', qs4: 'Mon humeur est ',
       editTitle: 'Modifier l’entrée', editSave: 'Enregistrer', editCancel: 'Annuler',
@@ -114,10 +114,12 @@
       aiTitle: 'Choix du moteur',
       aiMethodManual: 'À la main dans réglages', aiMethodLocal: 'Moteur en local dans l’appareil', aiMethodLLM: 'Via un modèle IA/LLM',
       aiFn1: 'La liste des tags',
-      aiFn2: 'La transformation des entrées en infos ordonnée',
+      aiFn2: 'La transformation des entrées en infos ordonnées',
       aiFn3: 'Moteur de sollicitation d’entrées dans le journal',
       aiFn4: 'Facteurs à inclure dans le Récap de l’écran Données',
       aiFn5: 'Moteur de corrélations automatiques',
+      aiFn6: 'Analyse du ton de la voix',
+      aiUnavailable: 'Indisponible',
       aiMoreInfo: 'Plus d’informations', aiCurrent: 'Actuel', aiTokenNote: 'Utilise des tokens — option payante.',
       aiInfo_fn1_manual: 'Vous définissez vous-même la liste des tags.',
       aiInfo_fn1_local: 'Liste figée fournie par l’app (~11 catégories).',
@@ -134,6 +136,9 @@
       aiInfo_fn5_manual: 'Vous créez les corrélations à la main (onglet Corrélations manuelles).',
       aiInfo_fn5_local: 'Moteur statistique local (coefficient de Pearson).',
       aiInfo_fn5_llm: 'Un modèle repère et explique les liens.',
+      aiInfo_fn6_manual: 'Indisponible',
+      aiInfo_fn6_local: 'Indisponible',
+      aiInfo_fn6_llm: 'Analyse du son de la voix pour détecter l’humeur (stress, énervement, joie, etc.).',
       /* Journal — entrées sollicitées (pull) */
       pullTitle: 'Entrées sollicitées', pullBadge: 'Proposé par l’app',
       pullEmpty: 'Aucune sollicitation en attente pour le moment.',
@@ -147,7 +152,7 @@
       pullSettingsTitle: 'Entrées sollicitées',
       pullRuleFood: '<p><strong>Type :</strong> question ouverte.</p><p><strong>Déclencheur :</strong> 8 h se sont écoulées depuis ta dernière saisie concernant une prise alimentaire.</p>',
       pullRulePain: '<p><strong>Type :</strong> Oui / Non.</p><p><strong>Déclencheur :</strong> une entrée du jour signale une douleur, sans qu’aucune entrée ultérieure n’indique sa disparition.</p>',
-      pullRuleSleep: '<p><strong>Type :</strong> Oui / Non.</p><p><strong>Déclencheur :</strong> 12 h après la première saisie de la journée (journée comptée à partir de 4 h du matin).</p><p>« Oui » enregistre : « Éléna a dormi à un moment dans la journée ».</p>',
+      pullRuleSleep: '<p><strong>Type :</strong> Oui / Non.</p><p><strong>Déclencheur :</strong> 12 h après la première saisie de la journée (journée comptée à partir de 4 h du matin).</p><p>« Oui » enregistre : « Elena a dormi à un moment dans la journée ».</p>',
       pdp1Title: 'Ne jamais transmettre mes données ni mon nom à un tiers',
       pdp1Tag: 'RESTERA TOUJOURS GRATUIT',
       pdp1Expl: '<p>Vos données de santé et votre identité ne sont <strong>jamais</strong> vendues, louées ni communiquées à un annonceur, un assureur ou un partenaire commercial.</p>'+
@@ -168,7 +173,56 @@
       pdp5Expl: '<p>Lorsque vous saisissez un résultat d’analyse, il est comparé à une plage de référence — la « norme » — fournie par les laboratoires et le corps médical. Cette norme dépend notamment de votre âge et de votre sexe.</p>'+
         '<p>Or certains profils s’écartent de ces standards : prise de traitements particuliers, personnes non binaires (ni totalement homme, ni totalement femme), sportifs de haut niveau…</p>'+
         '<p>Cette option permettra d’ajuster ces valeurs de référence à votre situation, manuellement, par un membre de notre équipe — un réglage unique réalisé sur mesure (« one shot »).</p>'+
-        '<p><em>Option payante, pas encore disponible. Contactez-nous pour en savoir plus.</em></p>'
+        '<p><em>Option payante, pas encore disponible. Contactez-nous pour en savoir plus.</em></p>',
+      /* Réglages — parties structurées (entrées de données / traitement) */
+      partInputsTitle: 'Les entrées de données',
+      partProcTitle: 'Traitement et présentation des données',
+      corrPartTitle: 'Corrélations',
+      medSrcTitle: 'Sources médicales',
+      medSrcApiTitle: 'URL d’API', medSrcDataTitle: 'Jeux de données',
+      medSrcUrlPh: 'URL de l’API', medSrcApiAddPh: 'Nom + URL de l’API…', medSrcDataAddPh: 'Nom du jeu de données…',
+      medSrcAddSource: 'Ajouter une source', medSrcImport: 'Importer un fichier', medSrcImportNote: 'Format à déterminer',
+      medSrcSearchPh: 'Browse the market place to buy a program',
+      medSrcNote: 'Présenté à titre indicatif — pas encore actif dans cette démo.',
+      srcGho: 'OMS — Global Health Observatory', srcIcd11: 'OMS — CIM-11',
+      greyNote: 'Les fonctions en gris ne sont pas encore actives.',
+      subAppsTitle: 'Applications à connecter',
+      subTransformTitle: 'Transformation des entrées en informations ordonnées',
+      subTagsTitle: 'Listes de tags',
+      subScopeTitle: 'Portée de l’analyse',
+      subDoctorTitle: 'Rapport pour mon médecin',
+      /* Réglages — grandes parties I–IV + sous-groupes */
+      partDesign: 'I. Design', partMoteur: 'II. Moteur',
+      partGestion: 'III. Gestion des données personnelles', partLegal: 'IV. Informations légales',
+      grpInputs: 'Les données entrées', grpCapture: 'Les entrées saisie',
+      grpImport: 'Import', grpExportShare: 'Export et partage', grpFonctions: 'Fonctions',
+      subStructTitle: 'Structure des données', subCampaignsTitle: 'Campagnes de sollicitation',
+      importJournalTitle: 'Importer des données dans le journal',
+      importJournalDesc: 'Ajouter des entrées au journal depuis un fichier ou une autre source.',
+      importBtn: 'Importer un fichier', importJsonDesc: 'Restaurer un export complet (remplace les données, conserve le compte).',
+      exportJournalTitle: 'Exporter le journal (JSON)', exportJournalDesc: 'Télécharger uniquement les entrées du journal.',
+      exportAllTitle: 'Exporter toutes les données', exportAllDesc: 'Télécharger l’intégralité de tes données (entrées, tags, réglages, corrélations).',
+      exportBtn: 'Télécharger (JSON)',
+      appd_applehealth: 'Sommeil, fréquence cardiaque, activité, poids, cycle menstruel.',
+      appd_googlefit: 'Pas, activité, sommeil, fréquence cardiaque.',
+      appd_oura: 'Sommeil détaillé, température corporelle, variabilité cardiaque.',
+      appd_fitbit: 'Sommeil, pas, fréquence cardiaque, activité.',
+      appd_withings: 'Poids, tension artérielle, sommeil.',
+      appd_dexcom: 'Glycémie en continu.',
+      appn_weather: 'Localisation & météo',
+      appd_weather: 'Température et humidité de l’endroit où vous êtes, en continu, via la localisation de l’appareil — pour rattacher chaque saisie au climat local.',
+      transformIntro: 'Chaque saisie en langage naturel devient automatiquement une donnée structurée, sans formulaire — c’est le cœur de l’app.',
+      transformP1: 'Catégorisation en 12 thèmes (sommeil, alimentation, douleur, humeur…).',
+      transformP2: 'Extraction des valeurs chiffrées (heures de sommeil, tension, glycémie, poids…).',
+      transformP3: 'Détection des négations et nuances (ex. « pas bien dormi »).',
+      transformActive: 'Aujourd’hui : moteur de mots-clés, en local sur l’appareil.',
+      transformFuture: 'À venir : apprentissage de vos corrections, puis classification par IA/LLM (voir « Choix du moteur »).',
+      tagsIntro: 'Thèmes utilisés pour ranger automatiquement vos saisies.',
+      addTagPh: 'Ajouter un tag…', addTagBtn: '+ Ajouter',
+      scopeBody: 'Choisir la période analysée pour les corrélations : les 14 derniers jours (actuel) ou tout l’historique.',
+      scopeOpt1: '14 derniers jours', scopeOpt2: 'Tout l’historique',
+      doctorBody: 'Générer un résumé clair de vos données et corrélations à présenter à un professionnel de santé.',
+      doctorBtn: 'Générer le rapport'
     },
     en: {
       tagline: 'The health journal you talk to',
@@ -249,7 +303,7 @@
       q_bad: 'rather rough', q_ok: 'logged',
       cat_sleep: 'Sleep', cat_food: 'Food', cat_mood: 'Mood', cat_energy: 'Energy',
       cat_pain: 'Pain', cat_stress: 'Stress', cat_symptom: 'Symptoms', cat_brain_fog: 'Brain fog',
-      cat_meds: 'Medication', cat_activity: 'Activity', cat_measure: 'Measurements', cat_environment: 'Environment', cat_other: 'Other',
+      cat_meds: 'Medication', cat_activity: 'Activity', cat_measure: 'Measurements', cat_environment: 'Climate', cat_other: 'Other',
       quick1: '😴 My night', quick2: '🍽️ My meal', quick3: '🩹 Some pain', quick4: '🙂 My mood',
       qs1: 'Last night I ', qs2: 'For my meal I ate ', qs3: 'I have pain ', qs4: 'My mood is ',
       editTitle: 'Edit entry', editSave: 'Save', editCancel: 'Cancel',
@@ -273,6 +327,8 @@
       aiFn3: 'Journal entry solicitation engine',
       aiFn4: 'Factors included in the Data screen Recap',
       aiFn5: 'Automatic correlation engine',
+      aiFn6: 'Voice tone analysis',
+      aiUnavailable: 'Unavailable',
       aiMoreInfo: 'More information', aiCurrent: 'Current', aiTokenNote: 'Uses tokens — paid option.',
       aiInfo_fn1_manual: 'You define the list of tags yourself.',
       aiInfo_fn1_local: 'Fixed list provided by the app (~11 categories).',
@@ -289,6 +345,9 @@
       aiInfo_fn5_manual: 'You create correlations by hand (Manual correlations tab).',
       aiInfo_fn5_local: 'Local statistical engine (Pearson coefficient).',
       aiInfo_fn5_llm: 'A model surfaces and explains the links.',
+      aiInfo_fn6_manual: 'Unavailable',
+      aiInfo_fn6_local: 'Unavailable',
+      aiInfo_fn6_llm: 'Analysis of the voice’s sound to detect mood (stress, irritation, joy, etc.).',
       /* Journal — requested entries (pull) */
       pullTitle: 'Requested entries', pullBadge: 'Suggested by the app',
       pullEmpty: 'No pending requests right now.',
@@ -323,7 +382,56 @@
       pdp5Expl: '<p>When you enter a test result, it is compared against a reference range — the « norm » — provided by laboratories and the medical community. This norm depends notably on your age and sex.</p>'+
         '<p>Yet some profiles fall outside these standards: specific treatments, non-binary people (neither fully male nor fully female), elite athletes…</p>'+
         '<p>This option will let a member of our team adjust these reference values to your situation, by hand — a one-off, tailor-made setup (« one shot »).</p>'+
-        '<p><em>Paid option, not available yet. Contact us to learn more.</em></p>'
+        '<p><em>Paid option, not available yet. Contact us to learn more.</em></p>',
+      /* Settings — structured parts (data inputs / processing) */
+      partInputsTitle: 'Data inputs',
+      partProcTitle: 'Data processing & presentation',
+      corrPartTitle: 'Correlations',
+      medSrcTitle: 'Medical sources',
+      medSrcApiTitle: 'API URLs', medSrcDataTitle: 'Datasets',
+      medSrcUrlPh: 'API URL', medSrcApiAddPh: 'Name + API URL…', medSrcDataAddPh: 'Dataset name…',
+      medSrcAddSource: 'Add a source', medSrcImport: 'Import a file', medSrcImportNote: 'Format to be determined',
+      medSrcSearchPh: 'Browse the market place to buy a program',
+      medSrcNote: 'Shown for illustration — not yet active in this demo.',
+      srcGho: 'WHO — Global Health Observatory', srcIcd11: 'WHO — ICD-11',
+      greyNote: 'Greyed-out features are not active yet.',
+      subAppsTitle: 'Apps to connect',
+      subTransformTitle: 'Turning entries into structured information',
+      subTagsTitle: 'Tag lists',
+      subScopeTitle: 'Analysis scope',
+      subDoctorTitle: 'Report for my doctor',
+      /* Settings — top-level parts I–IV + sub-groups */
+      partDesign: 'I. Design', partMoteur: 'II. Engine',
+      partGestion: 'III. Personal data', partLegal: 'IV. Legal',
+      grpInputs: 'Incoming data', grpCapture: 'Data entry',
+      grpImport: 'Import', grpExportShare: 'Export & sharing', grpFonctions: 'Functions',
+      subStructTitle: 'Data structure', subCampaignsTitle: 'Solicitation campaigns',
+      importJournalTitle: 'Import data into the journal',
+      importJournalDesc: 'Add entries to the journal from a file or another source.',
+      importBtn: 'Import a file', importJsonDesc: 'Restore a full export (replaces data, keeps the account).',
+      exportJournalTitle: 'Export the journal (JSON)', exportJournalDesc: 'Download only the journal entries.',
+      exportAllTitle: 'Export all data', exportAllDesc: 'Download all your data (entries, tags, settings, correlations).',
+      exportBtn: 'Download (JSON)',
+      appd_applehealth: 'Sleep, heart rate, activity, weight, menstrual cycle.',
+      appd_googlefit: 'Steps, activity, sleep, heart rate.',
+      appd_oura: 'Detailed sleep, body temperature, heart-rate variability.',
+      appd_fitbit: 'Sleep, steps, heart rate, activity.',
+      appd_withings: 'Weight, blood pressure, sleep.',
+      appd_dexcom: 'Continuous glucose.',
+      appn_weather: 'Location & weather',
+      appd_weather: 'Temperature and humidity of where you are, continuously, via the device location — to tie each entry to the local climate.',
+      transformIntro: 'Each natural-language entry automatically becomes structured data, with no form — this is the heart of the app.',
+      transformP1: 'Categorization into 12 topics (sleep, food, pain, mood…).',
+      transformP2: 'Extraction of numeric values (sleep hours, blood pressure, glucose, weight…).',
+      transformP3: 'Detection of negations and nuances (e.g. “slept poorly”).',
+      transformActive: 'Today: keyword engine, locally on the device.',
+      transformFuture: 'Coming: learning from your corrections, then AI/LLM classification (see “Engine choice”).',
+      tagsIntro: 'Topics used to automatically sort your entries.',
+      addTagPh: 'Add a tag…', addTagBtn: '+ Add',
+      scopeBody: 'Choose the period analyzed for correlations: the last 14 days (current) or the full history.',
+      scopeOpt1: 'Last 14 days', scopeOpt2: 'Full history',
+      doctorBody: 'Generate a clear summary of your data and correlations to share with a health professional.',
+      doctorBtn: 'Generate the report'
     }
   };
 
@@ -1004,25 +1112,49 @@
   function settingsHtml(){
     return '<div class="settings-screen">'+
       '<h1 class="page-title">'+esc(t('settingsTitle'))+'</h1>'+
+
+      /* I. DESIGN — le tableau des 4 préférences */
+      partHeading(t('partDesign'))+
       '<div class="card list prefs-card">'+
         '<div class="row"><span class="k">'+esc(t('textSize'))+'</span><span class="sp"></span>'+ seg([['normal',t('tsNormal')],['large',t('tsLarge')]], S.textsize, 'textsize')+'</div>'+
         '<div class="row"><span class="k">'+esc(t('language'))+'</span><span class="sp"></span>'+ seg([['fr','Français'],['en','English']], S.lang, 'lang')+'</div>'+
-        '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
-      '</div>'+
-      aiSectionHtml()+
-      pullRulesHtml()+
-      '<div class="card list" style="margin-top:14px">'+
-        '<div class="row"><span class="k">'+esc(t('recapDaysLabel'))+'<small class="row-note">'+esc(t('recapDaysNote'))+'</small></span><span class="sp"></span>'+ seg([[7,'7 j'],[14,'14 j'],[30,'30 j']], S.store.recapDays||7, 'recapdays')+'</div>'+
+        '<div class="row"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('corrBtnLabel'))+'<small class="row-note">'+esc(t('corrBtnNote'))+'</small></span><span class="sp"></span>'+ seg([['icons',t('btnIcons')],['iconstext',t('btnIconsText')]], S.store.corrBtnStyle||'icons', 'corrbtnstyle')+'</div>'+
       '</div>'+
-      '<div class="card list" style="margin-top:14px">'+
-        '<div class="row"><button class="btn btn-soft btn-block" data-act="sample">'+esc(t('loadSample'))+'</button></div>'+
-        '<div class="row"><button class="btn btn-ghost btn-block" data-act="export">'+esc(t('exportData'))+'</button></div>'+
-        '<div class="row" style="border-bottom:none"><button class="btn btn-ghost btn-block" data-act="import">'+esc(t('importData'))+'</button>'+
-          '<input type="file" id="importInput" accept="application/json,.json" style="display:none"></div>'+
-      '</div>'+
+
+      /* II. MOTEUR — la matrice « choix du moteur » éclatée en « Fonctions » par étape */
+      partHeading(t('partMoteur'))+
+      '<p class="note grey-note">'+esc(t('greyNote'))+'</p>'+
+      groupHeading(t('grpInputs'))+
+        settingsSub({title:t('subAppsTitle'), body:appsBody(), future:true})+
+      groupHeading(t('grpCapture'))+
+        settingsSub({title:t('grpFonctions'), body:aiMatrixFor(['fn1','fn2','fn3','fn6'])})+
+        settingsSub({title:t('subTagsTitle'), body:tagsBody()})+
+        settingsSub({title:t('subStructTitle'), body:transformBody()})+
+        settingsSub({title:t('subCampaignsTitle'), body:pullRulesBody(), future:true})+
+      groupHeading(t('partProcTitle'))+
+        settingsSub({title:t('grpFonctions'), body:aiMatrixFor(['fn4'])})+
+        settingsSub({title:t('recapDaysLabel'), body:recapBody(), open:true})+
+        settingsSub({title:t('subScopeTitle'), body:scopeBody(), future:true})+
+      groupHeading(t('corrPartTitle'))+
+        settingsSub({title:t('grpFonctions'), body:aiMatrixFor(['fn5'])})+
+        settingsSub({title:t('medSrcTitle'), body:medSourcesBody(), future:true})+
+
+      /* III. GESTION DES DONNÉES PERSONNELLES */
+      partHeading(t('partGestion'))+
+      groupHeading(t('grpImport'))+
+        settingsSub({title:t('importJournalTitle'), body:importJournalBody(), future:true})+
+        settingsSub({title:t('importData'), body:importJsonBody()})+
+      groupHeading(t('grpExportShare'))+
+        settingsSub({title:t('exportJournalTitle'), body:exportJournalBody(), future:true})+
+        settingsSub({title:t('exportAllTitle'), body:exportAllBody()})+
+        settingsSub({title:t('subDoctorTitle'), body:doctorBody(), future:true})+
       pdpSectionHtml()+
-      legalLinksHtml()+
+
+      /* IV. INFORMATIONS LÉGALES */
+      partHeading(t('partLegal'))+
+      legalLinksBody()+
+
       '<p class="note">'+esc(t('backupNote'))+'</p><p class="note">'+esc(t('legal'))+'</p>'+
       '</div>';
   }
@@ -1039,21 +1171,20 @@
         '<label class="pdp-check'+(o.locked?' is-locked':'')+'">'+box+'</label>'+
         '<details class="pdp-body">'+
           '<summary class="pdp-sum"><span class="pdp-titlewrap">'+
-            '<span class="pdp-title">'+esc(o.title)+' <span class="pdp-star">*</span></span>'+ sumTag +
+            '<span class="pdp-title">'+esc(o.title)+'</span>'+ sumTag +
           '</span><span class="pdp-caret" aria-hidden="true">▾</span></summary>'+
           '<div class="pdp-expl">'+ o.expl + explTag +'</div>'+
         '</details>'+
       '</div>';
     }
     return '<h3 class="sec">'+esc(t('pdpTitle'))+'</h3>'+
-      '<div class="card pdp-card">'+
+      '<div class="card pdp-card is-future">'+
         item({title:t('pdp1Title'), expl:t('pdp1Expl'), locked:true, sumTag:t('pdp1Tag'), tagClass:'price-tag--free'})+
         item({title:t('pdp2Title'), expl:t('pdp2Expl'), explTag:t('pdp2Tag'), tagClass:'price-tag--paid'})+
         item({title:t('pdp3Title'), expl:t('pdp3Expl')})+
         item({title:t('pdp4Title'), expl:t('pdp4Expl')})+
         item({title:t('pdp5Title'), expl:t('pdp5Expl'), explTag:t('pdp5Tag'), tagClass:'price-tag--paid'})+
-      '</div>'+
-      '<p class="note pdp-foot">'+esc(t('pdpFootnote'))+'</p>';
+      '</div>';
   }
   /* Liens vers les écrans légaux (mentions, CGU, CGV). */
   function legalLinksHtml(){
@@ -1076,20 +1207,27 @@
   /* Section « Fonctions IA » — matrice : par fonction, la méthode de fonctionnement.
      3 méthodes en colonnes ; les boutons sélectionnés reflètent la réalité de la webapp
      actuelle (cosmétique, sans effet). « Plus d'informations » déplie la même grille en texte. */
-  function aiMatrix(){
+  function aiFns(){ return [
+    {key:'fn1', title:t('aiFn1'), real:'local'},
+    {key:'fn2', title:t('aiFn2'), real:'local'},
+    {key:'fn3', title:t('aiFn3'), real:'manual'},
+    {key:'fn4', title:t('aiFn4'), real:'local'},
+    {key:'fn5', title:t('aiFn5'), real:'local'},
+    {key:'fn6', title:t('aiFn6'), real:null, unavail:['manual','local']}
+  ]; }
+  function aiMatrix(){ return aiMatrixHtml(aiFns()); }
+  function aiMatrixFor(keys){ return aiMatrixHtml(aiFns().filter(function(f){return keys.indexOf(f.key)>=0;})); }
+  function aiMatrixHtml(fns){
     var methods=['manual','local','llm'];
     var head={manual:'aiMethodManual', local:'aiMethodLocal', llm:'aiMethodLLM'};
-    var fns=[
-      {key:'fn1', title:t('aiFn1'), real:'local'},
-      {key:'fn2', title:t('aiFn2'), real:'local'},
-      {key:'fn3', title:t('aiFn3'), real:'manual'},
-      {key:'fn4', title:t('aiFn4'), real:'local'},
-      {key:'fn5', title:t('aiFn5'), real:'local'}
-    ];
     function thead(){ return '<thead><tr><th></th>'+methods.map(function(m){return '<th>'+esc(t(head[m]))+'</th>';}).join('')+'</tr></thead>'; }
     function radioTable(){
       var rows=fns.map(function(f){
-        return '<tr><td class="ai-fn">'+esc(f.title)+'</td>'+methods.map(function(m){ var on=f.real===m;
+        return '<tr><td class="ai-fn">'+esc(f.title)+'</td>'+methods.map(function(m){
+          if(f.unavail && f.unavail.indexOf(m)>=0){
+            return '<td class="ai-cell ai-cell-na"><span class="ai-na" title="'+esc(t('aiUnavailable'))+'" aria-label="'+esc(t('aiUnavailable'))+'">—</span></td>';
+          }
+          var on=f.real===m;
           return '<td class="ai-cell'+(on?' is-current':'')+'"><label class="ai-radio"><input type="radio" name="ai_'+f.key+'"'+(on?' checked':'')+' aria-label="'+esc(t(head[m]))+'"></label></td>';
         }).join('')+'</tr>';
       }).join('');
@@ -1098,9 +1236,10 @@
     function infoTable(){
       var rows=fns.map(function(f){
         return '<tr><td class="ai-fn">'+esc(f.title)+'</td>'+methods.map(function(m){ var on=f.real===m;
-          var token=(m==='llm')?'<span class="ai-token">'+esc(t('aiTokenNote'))+'</span>':'';
+          var na=f.unavail && f.unavail.indexOf(m)>=0;
+          var token=(m==='llm' && !na)?'<span class="ai-token">'+esc(t('aiTokenNote'))+'</span>':'';
           var cur=on?'<span class="ai-cur">'+esc(t('aiCurrent'))+'</span>':'';
-          return '<td class="ai-cell ai-cell-txt'+(on?' is-current':'')+'">'+esc(t('aiInfo_'+f.key+'_'+m))+cur+token+'</td>';
+          return '<td class="ai-cell ai-cell-txt'+(on?' is-current':'')+(na?' ai-cell-na':'')+'">'+esc(t('aiInfo_'+f.key+'_'+m))+cur+token+'</td>';
         }).join('')+'</tr>';
       }).join('');
       return '<div class="ai-matrix-wrap ai-matrix-scroll"><table class="ai-matrix ai-matrix-info">'+thead()+'<tbody>'+rows+'</tbody></table></div>';
@@ -1112,26 +1251,145 @@
     return '<h3 class="sec">'+esc(t('aiTitle'))+'</h3>'+
       '<div class="card ai-card">'+ aiMatrix() +'</div>';
   }
-  /* Section « Entrées sollicitées » (Pull Input) — règles de déclenchement consignées. */
-  function pullRulesHtml(){
+  /* Corps « Entrées sollicitées » (règles de déclenchement) — rendu comme sous-section. */
+  function pullRulesBody(){
     function rule(o){
       return '<div class="pdp-item">'+
         '<label class="pdp-check"><input type="checkbox" class="pdp-cb" checked></label>'+
         '<details class="pdp-body">'+
           '<summary class="pdp-sum"><span class="pdp-titlewrap">'+
-            '<span class="pdp-title">'+esc(o.title)+' <span class="pdp-star">*</span></span>'+
+            '<span class="pdp-title">'+esc(o.title)+'</span>'+
           '</span><span class="pdp-caret" aria-hidden="true">▾</span></summary>'+
           '<div class="pdp-expl">'+ o.expl +'</div>'+
         '</details>'+
       '</div>';
     }
-    return '<h3 class="sec">'+esc(t('pullSettingsTitle'))+'</h3>'+
-      '<div class="card pdp-card">'+
-        rule({title:t('pullQFood'), expl:t('pullRuleFood')})+
-        rule({title:t('pullQPain'), expl:t('pullRulePain')})+
-        rule({title:t('pullQSleep'), expl:t('pullRuleSleep')})+
+    return rule({title:t('pullQFood'), expl:t('pullRuleFood')})+
+      rule({title:t('pullQPain'), expl:t('pullRulePain')})+
+      rule({title:t('pullQSleep'), expl:t('pullRuleSleep')});
+  }
+  /* ---------------- Réglages : parties structurées (front cosmétique) ---------------- */
+  var CONNECT_APPS=[
+    {key:'applehealth', name:'Apple Santé'}, {key:'googlefit', name:'Google Fit'},
+    {key:'oura', name:'Oura'}, {key:'fitbit', name:'Fitbit'},
+    {key:'withings', name:'Withings'}, {key:'dexcom', name:'Dexcom'},
+    {key:'weather', nameKey:'appn_weather'}
+  ];
+  function appName(a){ return a.nameKey ? t(a.nameKey) : a.name; }
+  /* Sous-section repliable générique. o:{title, body, future, open} */
+  function settingsSub(o){
+    return '<details class="settings-sub'+(o.future?' is-future':'')+'"'+(o.open?' open':'')+'>'+
+      '<summary class="settings-sub-sum"><span class="settings-sub-title">'+esc(o.title)+'</span><span class="settings-sub-caret" aria-hidden="true">▾</span></summary>'+
+      '<div class="settings-sub-body">'+ o.body +'</div>'+
+    '</details>';
+  }
+  function appsBody(){
+    var rows=CONNECT_APPS.map(function(a){
+      return '<div class="app-row"><span class="app-name">'+esc(appName(a))+'</span><span class="sp"></span>'+
+        '<label class="switch"><input type="checkbox" class="switch-cb"><span class="switch-track"></span></label></div>';
+    }).join('');
+    var info=CONNECT_APPS.map(function(a){ return '<li><strong>'+esc(appName(a))+'</strong> — '+esc(t('appd_'+a.key))+'</li>'; }).join('');
+    return '<div class="app-list">'+rows+'</div>'+
+      '<details class="ai-more"><summary>'+esc(t('aiMoreInfo'))+'</summary><ul class="app-info">'+info+'</ul></details>';
+  }
+  function transformBody(){
+    return '<p class="sub-intro">'+esc(t('transformIntro'))+'</p>'+
+      '<ul class="sub-list"><li>'+esc(t('transformP1'))+'</li><li>'+esc(t('transformP2'))+'</li><li>'+esc(t('transformP3'))+'</li></ul>'+
+      '<p class="sub-note">'+esc(t('transformActive'))+'</p>'+
+      '<p class="sub-note is-future">'+esc(t('transformFuture'))+'</p>';
+  }
+  function tagsBody(){
+    var chips=CAT_ORDER.map(function(k){ return '<span class="tag-chip">'+CAT_EMOJI[k]+' '+esc(catName(k))+'</span>'; }).join('');
+    return '<p class="sub-intro">'+esc(t('tagsIntro'))+'</p>'+
+      '<div class="tag-chips">'+chips+'</div>'+
+      '<div class="add-tag is-future"><input class="field sm" placeholder="'+esc(t('addTagPh'))+'" disabled><button class="btn btn-ghost btn-sm" disabled>'+esc(t('addTagBtn'))+'</button></div>';
+  }
+  function recapBody(){
+    return '<div class="list" style="margin-top:0"><div class="row" style="border-bottom:none"><span class="k">'+esc(t('recapDaysLabel'))+'<small class="row-note">'+esc(t('recapDaysNote'))+'</small></span><span class="sp"></span>'+ seg([[7,'7 j'],[14,'14 j'],[30,'30 j']], S.store.recapDays||7, 'recapdays')+'</div></div>';
+  }
+  function scopeBody(){
+    return '<p class="sub-intro">'+esc(t('scopeBody'))+'</p>'+
+      '<span class="seg seg-static"><button class="on">'+esc(t('scopeOpt1'))+'</button><button>'+esc(t('scopeOpt2'))+'</button></span>';
+  }
+  function doctorBody(){
+    return '<p class="sub-intro">'+esc(t('doctorBody'))+'</p>'+
+      '<button class="btn btn-ghost btn-sm" disabled>'+esc(t('doctorBtn'))+'</button>';
+  }
+  function inputsPartHtml(){
+    return '<h3 class="sec">'+esc(t('partInputsTitle'))+'</h3>'+
+      settingsSub({title:t('subAppsTitle'), body:appsBody(), future:true})+
+      settingsSub({title:t('subTransformTitle'), body:transformBody()})+
+      settingsSub({title:t('subTagsTitle'), body:tagsBody()})+
+      settingsSub({title:t('pullSettingsTitle'), body:pullRulesBody(), future:true});
+  }
+  function procPartHtml(){
+    return '<h3 class="sec">'+esc(t('partProcTitle'))+'</h3>'+
+      settingsSub({title:t('recapDaysLabel'), body:recapBody(), open:true})+
+      settingsSub({title:t('subScopeTitle'), body:scopeBody(), future:true})+
+      settingsSub({title:t('subDoctorTitle'), body:doctorBody(), future:true});
+  }
+  /* Réglages → partie « Corrélations » → section « Sources médicales » (cosmétique : aucun système branché). */
+  var MED_API_SOURCES=[
+    {key:'gho', nameKey:'srcGho', url:'https://ghoapi.azureedge.net/api'},
+    {key:'icd11', nameKey:'srcIcd11', url:'https://id.who.int/icd'},
+    {key:'has', name:'HAS — Recommandations', url:'https://www.has-sante.fr'},
+    {key:'bdpm', name:'ANSM — BDPM', url:'https://base-donnees-publique.medicaments.gouv.fr'},
+    {key:'ciqual', name:'ANSES — Ciqual', url:'https://ciqual.anses.fr'},
+    {key:'pubmed', name:'PubMed / MEDLINE', url:'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/'},
+    {key:'openfda', name:'openFDA', url:'https://api.fda.gov'},
+    {key:'umls', name:'SNOMED CT / UMLS', url:'https://uts-ws.nlm.nih.gov/rest'}
+  ];
+  var MED_DATASETS=[
+    {key:'atkins', name:'Régime Atkins'}, {key:'dukan', name:'Régime Dukan'},
+    {key:'jch', name:'Régime JCH cétose'}, {key:'keto', name:'Kétogène'}
+  ];
+  function msSrcName(s){ return s.nameKey ? t(s.nameKey) : s.name; }
+  function msSwitch(on){ return '<label class="switch"><input type="checkbox" class="switch-cb"'+(on?' checked':'')+'><span class="switch-track"></span></label>'; }
+  function msApiRow(s){
+    return '<div class="ms-item"><div class="ms-head"><span class="ms-name">'+esc(msSrcName(s))+'</span><span class="sp"></span>'+msSwitch(true)+'</div>'+
+      '<input class="field sm ms-field" value="'+esc(s.url)+'" aria-label="'+esc(t('medSrcUrlPh'))+'"></div>';
+  }
+  function msDataRow(s){
+    return '<div class="ms-item"><div class="ms-head"><span class="ms-name">'+esc(s.name)+'</span><span class="sp"></span>'+msSwitch(false)+'</div>'+
+      '<div class="ms-import"><button class="btn btn-ghost btn-sm" disabled>'+esc(t('medSrcImport'))+'</button><span class="ms-import-note">'+esc(t('medSrcImportNote'))+'</span></div></div>';
+  }
+  function msAdd(ph){ return '<div class="ms-add"><input class="field sm" placeholder="'+esc(ph)+'" disabled><button class="btn btn-ghost btn-sm" disabled>+ '+esc(t('medSrcAddSource'))+'</button></div>'; }
+  function medSourcesBody(){
+    return '<div class="ms-sub"><div class="ms-subhead">'+esc(t('medSrcApiTitle'))+'</div>'+
+        MED_API_SOURCES.map(msApiRow).join('')+ msAdd(t('medSrcApiAddPh'))+'</div>'+
+      '<div class="ms-sub"><div class="ms-subhead">'+esc(t('medSrcDataTitle'))+'</div>'+
+        MED_DATASETS.map(msDataRow).join('')+
+        '<div class="ms-tools">'+msAdd(t('medSrcDataAddPh'))+'<input class="field sm ms-search" placeholder="'+esc(t('medSrcSearchPh'))+'" disabled></div>'+
       '</div>'+
-      '<p class="note pdp-foot">'+esc(t('pdpFootnote'))+'</p>';
+      '<p class="sub-note is-future">'+esc(t('medSrcNote'))+'</p>';
+  }
+  function corrPartHtml(){
+    return '<h3 class="sec">'+esc(t('corrPartTitle'))+'</h3>'+
+      settingsSub({title:t('medSrcTitle'), body:medSourcesBody(), future:true, open:true});
+  }
+  /* ---- Réglages réorganisés : en-têtes de partie (I–IV) + sous-groupes, import/export, légal ---- */
+  function partHeading(txt){ return '<h2 class="set-part">'+esc(txt)+'</h2>'; }
+  function groupHeading(txt){ return '<h3 class="sec">'+esc(txt)+'</h3>'; }
+  function importJsonBody(){
+    return '<p class="sub-intro">'+esc(t('importJsonDesc'))+'</p>'+
+      '<button class="btn btn-ghost btn-block" data-act="import">'+esc(t('importBtn'))+'</button>'+
+      '<input type="file" id="importInput" accept="application/json,.json" style="display:none">';
+  }
+  function importJournalBody(){
+    return '<p class="sub-intro">'+esc(t('importJournalDesc'))+'</p>'+
+      '<button class="btn btn-ghost btn-block" disabled>'+esc(t('importBtn'))+'</button>';
+  }
+  function exportAllBody(){
+    return '<p class="sub-intro">'+esc(t('exportAllDesc'))+'</p>'+
+      '<button class="btn btn-ghost btn-block" data-act="export">'+esc(t('exportBtn'))+'</button>';
+  }
+  function exportJournalBody(){
+    return '<p class="sub-intro">'+esc(t('exportJournalDesc'))+'</p>'+
+      '<button class="btn btn-ghost btn-block" disabled>'+esc(t('exportBtn'))+'</button>';
+  }
+  function legalLinksBody(){
+    function link(tab,key){ return '<button class="link-row" data-act="tab" data-v="'+tab+'"><span class="k">'+esc(t(key))+'</span><span class="sp"></span><span class="link-caret" aria-hidden="true">›</span></button>'; }
+    return '<div class="card">'+link('legal-mentions','legalMentionsTitle')+link('legal-cgu','legalCguTitle')+link('legal-cgv','legalCgvTitle')+'</div>';
   }
   function tabbarHtml(){
     var tabs=[['home','navHome'],['data','navData'],['corr','navCorr'],['corrman','navCorrMan'],['settings','navSettings']];

@@ -306,6 +306,8 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .ai-radio{display:inline-flex;cursor:pointer}
 .ai-radio input{width:20px;height:20px;accent-color:var(--c-600);cursor:pointer;margin:0}
 .ai-cur{display:inline-block;margin-top:5px;font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--c-700);background:var(--c-100);border-radius:999px;padding:1px 7px;white-space:nowrap}
+.ai-cell-na{color:#9a9092}
+.ai-na{color:#c2bcbe;font-weight:700}
 /* Tableau d'infos (texte) — même grille, défilable horizontalement sur mobile */
 .ai-matrix-info{table-layout:auto;min-width:560px}
 .ai-matrix-info th,.ai-matrix-info td{text-align:left;vertical-align:top;padding:10px 11px}
@@ -331,7 +333,10 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
   --muted:#71717a; --line:#e6e6e9;
 }
 /* En-têtes de section : petites capitales discrètes (style réglages « sérieux ») */
-.settings-screen h3.sec{font-family:var(--font-body);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--c-400);margin:34px 2px 12px}
+.settings-screen h3.sec{font-family:var(--font-body);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--c-400);margin:22px 2px 10px}
+/* Grande partie (niveau 1 : I–IV) — séparateur fort, plus prominent que les sous-groupes */
+.settings-screen .set-part{font-family:var(--font-display);font-weight:700;font-size:1.08rem;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin:36px 2px 4px;padding-top:22px;border-top:2px solid var(--c-200)}
+.settings-screen .set-part:first-of-type{border-top:none;padding-top:4px;margin-top:18px}
 /* Cartes : plates, bord net, coins un peu moins ronds — plus structuré */
 .settings-screen .card{box-shadow:none;border:1px solid var(--line);border-radius:14px}
 .settings-screen .page-title{margin-bottom:10px}
@@ -349,6 +354,61 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .settings-screen .prefs-card .seg{display:flex;width:100%}
 .settings-screen .prefs-card .seg button{flex:1;font-weight:500;font-size:.83rem}
 .settings-screen .prefs-card .seg button.on{font-weight:600}
+
+/* Réglages — parties structurées : sous-sections repliables */
+.settings-screen .grey-note{margin-top:16px;color:var(--muted);font-style:italic;font-size:.82rem}
+.settings-sub{border:1px solid var(--line);border-radius:14px;margin-top:10px;background:#fff}
+.settings-sub-sum{list-style:none;display:flex;align-items:center;gap:10px;cursor:pointer;padding:15px 16px;font-weight:600;color:var(--ink)}
+.settings-sub-sum::-webkit-details-marker{display:none}
+.settings-sub-title{flex:1;min-width:0}
+.settings-sub-caret{flex:none;color:var(--c-400);transition:transform .18s;font-size:.85rem}
+.settings-sub[open] .settings-sub-caret{transform:rotate(180deg)}
+.settings-sub-body{padding:2px 16px 16px}
+/* Inactif → grisé */
+.is-future{color:var(--muted)}
+.settings-sub.is-future, .pdp-card.is-future{opacity:.9}
+.settings-sub.is-future .settings-sub-sum{color:var(--muted)}
+/* Contenu de sous-section */
+.sub-intro{font-size:.9rem;line-height:1.5;margin:6px 0 10px}
+.sub-list{margin:8px 0 10px 18px;font-size:.88rem;line-height:1.5}
+.sub-list li{margin:3px 0}
+.sub-note{font-size:.84rem;color:var(--muted);margin:8px 0 0}
+/* Réglages → Corrélations → Sources médicales (cosmétique) */
+.ms-sub{margin-top:6px}
+.ms-sub + .ms-sub{margin-top:20px}
+.ms-subhead{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px}
+.ms-item{padding:10px 0;border-bottom:1px solid var(--line)}
+.ms-head{display:flex;align-items:center;gap:10px}
+.ms-head .sp{flex:1}
+.ms-name{font-weight:600;font-size:.9rem}
+.ms-field{margin-top:8px}
+.ms-import{margin-top:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ms-import-note{font-size:.74rem;color:var(--muted)}
+.ms-add{display:flex;gap:8px;margin-top:12px}
+.ms-tools{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:flex-start}
+.ms-tools .ms-add{margin-top:0;flex:1 1 240px}
+/* Applications à connecter */
+.app-list{margin:4px 0 6px}
+.app-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.app-row:last-child{border-bottom:none}
+.app-name{font-weight:600;font-size:.92rem}
+.app-info{margin:6px 0 0 16px;font-size:.84rem;line-height:1.5}
+.app-info li{margin:4px 0}
+/* Interrupteur (toggle) */
+.switch{position:relative;display:inline-block;width:42px;height:24px;flex:none}
+.switch input{position:absolute;opacity:0;width:0;height:0}
+.switch-track{position:absolute;inset:0;background:var(--c-200);border-radius:999px;transition:background .15s}
+.switch-track::before{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
+.switch input:checked + .switch-track{background:var(--c-500)}
+.switch input:checked + .switch-track::before{transform:translateX(18px)}
+/* Tags */
+.tag-chips{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 12px}
+.tag-chip{display:inline-flex;align-items:center;gap:5px;background:var(--c-50);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:5px 11px;font-size:.84rem;font-weight:600}
+.add-tag{display:flex;gap:8px;align-items:center}
+.add-tag .field.sm{flex:1}
+/* Segment illustratif (non interactif) */
+.seg-static{cursor:default}
+.seg-static button{pointer-events:none}
 
 /* Étiquette « prix » (forme d'étiquette de commerce, avec pointe + œillet) */
 .price-tag{position:relative;display:inline-flex;align-items:center;padding:5px 11px 5px 18px;background:var(--c-500);color:#fff;font-weight:800;font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;border-radius:0 5px 5px 0;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);white-space:nowrap}
