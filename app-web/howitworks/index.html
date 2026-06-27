@@ -182,10 +182,11 @@
 
     <p style="margin-top:10px">Deux outils permettent de <strong>filtrer pour trouver les entrées recherchées</strong> :</p>
     <ul class="steps" style="margin-top:10px">
-      <li><span class="num">🔍</span><span><strong>Recherche textuelle</strong> — filtre en temps réel sur le contenu des entrées et leurs tags.</span></li>
-      <li><span class="num">⚙️</span><span><strong>Panneau de filtres</strong> — permet de combiner une plage de dates, un tag spécifique (ex : afficher uniquement les entrées <em>Douleur</em>), et une tranche horaire (ex : uniquement les entrées du soir).</span></li>
+      <li><span class="num">🔍</span><span><strong>Recherche textuelle</strong> — filtre en temps réel sur le contenu des entrées et leurs catégories.</span></li>
+      <li><span class="num">⚙️</span><span><strong>Panneau de filtres</strong> — permet de combiner une plage de dates, une catégorie spécifique (ex : afficher uniquement les entrées <em>Douleur</em>), et une tranche horaire (ex : uniquement les entrées du soir).</span></li>
     </ul>
     <p style="margin-top:12px">Quand un ou plusieurs filtres sont actifs, l'icône filtre passe en surbrillance pour signaler que la vue est restreinte.</p>
+    <p style="margin-top:12px">Un picto <strong>œil</strong> à côté du titre « Ton journal » permet de <strong>masquer le contenu</strong> : le texte et les photos des entrées sont floutés (les catégories et valeurs restent visibles) — pratique pour montrer ses données à quelqu'un sans dévoiler le détail écrit.</p>
   </div>
 
 
@@ -205,8 +206,8 @@
       </div>
       <div class="card">
         <div class="card-icon">🗂️</div>
-        <h3>Par thème</h3>
-        <p>La liste complète des données regroupées par catégorie, un thème par ligne. Chaque bloc est dépliable et liste les valeurs extraites avec leur horodatage.</p>
+        <h3>Par catégorie</h3>
+        <p>La liste complète des données regroupées par catégorie, une catégorie par ligne. Chaque bloc est dépliable (<strong>replié par défaut</strong>) et liste les valeurs extraites avec leur horodatage.</p>
       </div>
     </div>
 
@@ -221,7 +222,7 @@
       <h2>L'écran Corrélations automatiques</h2>
     </div>
     <p>L'app repère seule des associations. Elle ne se met <strong>pas à jour automatiquement</strong> : l'utilisateur clique sur <em>Mettre à jour</em> pour lancer l'analyse.</p>
-    <p>Exemple de résultat : <em>« Tes douleurs/symptômes reviennent souvent les jours où tu notes : « fromage » »</em>, avec un indicateur de force (faible / modérée / forte), le nombre d'occurrences, et une ligne datée : <em>« Association observée le 25 juin, sur les données des 3 jours précédents. »</em></p>
+    <p>Exemple de résultat : <em>« Tes douleurs/symptômes reviennent souvent les jours où tu notes : « fromage » »</em>, avec un indicateur de force (faible / modérée / forte), le nombre d'occurrences, et une ligne datée : <em>« Corrélation observée le 25 juin, sur les données des 3 jours précédents. »</em></p>
     <ul class="steps" style="margin-top:12px">
       <li><span class="num">⏱️</span><span><strong>Fenêtre d'analyse</strong> — sous la tagline, un sélecteur <em>24 h / 3 jours / 1 semaine</em> définit le délai cause→effet recherché entre un facteur et un symptôme.</span></li>
       <li><span class="num">📌</span><span><strong>Épingler</strong> — une corrélation épinglée reste affichée en permanence (sans échéance), même si elle n'apparaît plus dans une analyse ultérieure.</span></li>
@@ -239,11 +240,11 @@
       <div class="section-icon">🔗</div>
       <h2>L'écran Corrélations manuelles</h2>
     </div>
-    <p>Ici, l'utilisateur génère <strong>à la demande</strong> ses propres analyses, en choisissant les facteurs à croiser.</p>
+    <p>Ici, l'utilisateur génère <strong>à la demande</strong> ses propres analyses, en choisissant les facteurs à croiser. Le sous-titre rappelle : <em>« Corrélation n'est pas causalité »</em>. Un <strong>facteur</strong> est soit une <strong>catégorie</strong> (ex : Alimentation), soit une <strong>valeur</strong> (ex : Sucre) — les deux types sont distingués dans les suggestions.</p>
     <ul class="steps" style="margin-top:12px">
       <li><span class="num">➕</span><span>Saisir <strong>2 facteurs ou plus</strong> en texte libre (ex : <em>heure du coucher</em>, <em>heure du dîner</em>, <em>qualité de la nuit</em>). Un <strong>méga-menu de suggestions</strong> s'ouvre sous le champ, en colonnes, alimenté par les entrées passées et des suggestions types.</span></li>
       <li><span class="num">▶︎</span><span>Cliquer sur <strong>Run</strong> pour lancer l'analyse.</span></li>
-      <li><span class="num">📊</span><span><strong>2 facteurs</strong> → un <strong>nuage de points</strong> + le verdict. <strong>3 facteurs et plus</strong> → un <strong>score global unique</strong> (et non la liste des paires) avec un graphique multi-courbes.</span></li>
+      <li><span class="num">📊</span><span><strong>2 facteurs</strong> → un <strong>nuage de points</strong> + la force. <strong>3 facteurs et plus</strong> → un <strong>score global unique</strong> (et non la liste des paires) avec un graphique multi-courbes.</span></li>
     </ul>
     <p style="margin-top:12px">Chaque résultat est <strong>toujours</strong> accompagné d'une note rédigée et d'une pastille :</p>
     <ul class="steps" style="margin-top:8px">
@@ -251,6 +252,7 @@
       <li><span class="num" style="background:#f0c34a">●</span><span><strong>Jaune</strong> — corrélation possible</span></li>
       <li><span class="num" style="background:#e05a4f">●</span><span><strong>Rouge</strong> — pas de corrélation claire (ou données insuffisantes)</span></li>
     </ul>
+    <p style="margin-top:12px">Chaque carte sauvegardée porte la même <strong>ligne de date</strong> que les corrélations automatiques : <em>« Corrélation observée le {date}, sur les données du … au … »</em> — date du calcul + plage des jours réellement analysés.</p>
   </div>
 
 
@@ -264,6 +266,7 @@
     <ul class="steps" style="margin-top:10px">
       <li><span class="num">🔑</span><span><strong>Identifiants</strong> — e-mail, mot de passe (affiché en clair), et bouton <em>Se déconnecter</em>.</span></li>
       <li><span class="num">📅</span><span><strong>Profil</strong> — date de création du compte, nombre total d'entrées au journal (hors éditions), <strong>sexe à la naissance</strong> (H / F / Autre, pour les standards du métabolisme) et <strong>date de naissance</strong>.</span></li>
+      <li><span class="num">❓</span><span><strong>Comment ça marche</strong> — un court texte d'onboarding résume le parcours : Journal → Entrées → Catégories &amp; Valeurs → Données → Corrélations.</span></li>
     </ul>
   </div>
 
@@ -280,9 +283,9 @@
       <li><span class="num">3</span><span><strong>Taille du texte</strong> — Normal ou Grand texte (+12 %).</span></li>
       <li><span class="num">4</span><span><strong>Récap des données</strong> — nombre de jours analysés : 7 (défaut) / 14 / 30.</span></li>
       <li><span class="num">5</span><span><strong>Boutons</strong> — affichage des boutons des corrélations en <em>Pictogrammes</em> ou <em>Pictogrammes et texte</em>.</span></li>
-      <li><span class="num">6</span><span><strong>Exporter mes données</strong> — télécharge un fichier JSON complet (nommé par compte) de tout le contenu : entrées, tags, réglages, corrélations.</span></li>
+      <li><span class="num">6</span><span><strong>Exporter mes données</strong> — télécharge un fichier JSON complet (nommé par compte) de tout le contenu : entrées, catégories, réglages, corrélations.</span></li>
       <li><span class="num">7</span><span><strong>Importer des données</strong> — restaure un export JSON dans le compte courant (les entrées, réglages et corrélations sont remis en place ; l'identité et le mot de passe du compte courant sont préservés).</span></li>
-      <li><span class="num">8</span><span><strong>Charger des exemples</strong> — injecte un jeu de données de démonstration.</span></li>
+      <li><span class="num">8</span><span><strong>Listes de catégories &amp; valeurs</strong> — la liste (figée) des catégories, et la <strong>Liste des valeurs</strong> détectées dans les entrées : éditer, supprimer, ajouter, et <strong>fusionner deux valeurs par glisser-déposer</strong> (la valeur reçue est conservée, re-tag rétroactif des entrées).</span></li>
     </ul>
     <p style="margin-top:10px; font-size:.9rem; color:var(--muted)">Note : le bloc <em>compte / mot de passe / déconnexion</em> a migré vers l'écran <strong>Mon compte</strong>.</p>
   </div>
