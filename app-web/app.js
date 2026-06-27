@@ -49,7 +49,7 @@
       mfMultiTpl: 'Schéma commun aux {k} facteurs : force {s}/100, sur {n} jours communs.',
       vStrong: 'Corrélation forte', vMaybe: 'Corrélation possible', vNone: 'Pas de corrélation claire',
       sugBedtime: 'heure du coucher', sugDinner: 'heure du dîner', sugWake: 'heure du réveil', sugNight: 'qualité de la nuit',
-      corrBtnLabel: 'Boutons des corrélations', corrBtnNote: 'Pour l’instant : épingler et masquer',
+      corrBtnLabel: 'Boutons',
       btnIcons: 'Pictogrammes', btnIconsText: 'Pictogrammes et texte',
       update: 'Mettre à jour', lastRun: 'Dernière analyse :', neverRun: 'Analyse jamais lancée',
       analysisDone: 'Analyse mise à jour ✓', insufficient: 'Informations entrées insuffisantes',
@@ -267,7 +267,7 @@
       mfMultiTpl: 'Shared pattern across {k} factors: strength {s}/100, over {n} shared days.',
       vStrong: 'Strong correlation', vMaybe: 'Possible correlation', vNone: 'No clear correlation',
       sugBedtime: 'bedtime', sugDinner: 'dinner time', sugWake: 'wake-up time', sugNight: 'night quality',
-      corrBtnLabel: 'Correlation buttons', corrBtnNote: 'For now: pin and hide',
+      corrBtnLabel: 'Buttons',
       btnIcons: 'Icons', btnIconsText: 'Icons and text',
       update: 'Update', lastRun: 'Last analysis:', neverRun: 'Analysis not run yet',
       analysisDone: 'Analysis updated ✓', insufficient: 'Not enough information entered',
@@ -1119,12 +1119,11 @@
         '<div class="row"><span class="k">'+esc(t('textSize'))+'</span><span class="sp"></span>'+ seg([['normal',t('tsNormal')],['large',t('tsLarge')]], S.textsize, 'textsize')+'</div>'+
         '<div class="row"><span class="k">'+esc(t('language'))+'</span><span class="sp"></span>'+ seg([['fr','Français'],['en','English']], S.lang, 'lang')+'</div>'+
         '<div class="row"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
-        '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('corrBtnLabel'))+'<small class="row-note">'+esc(t('corrBtnNote'))+'</small></span><span class="sp"></span>'+ seg([['icons',t('btnIcons')],['iconstext',t('btnIconsText')]], S.store.corrBtnStyle||'icons', 'corrbtnstyle')+'</div>'+
+        '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('corrBtnLabel'))+'</span><span class="sp"></span>'+ seg([['icons',t('btnIcons')],['iconstext',t('btnIconsText')]], S.store.corrBtnStyle||'icons', 'corrbtnstyle')+'</div>'+
       '</div>'+
 
       /* II. MOTEUR — la matrice « choix du moteur » éclatée en « Fonctions » par étape */
       partHeading(t('partMoteur'))+
-      '<p class="note grey-note">'+esc(t('greyNote'))+'</p>'+
       groupHeading(t('grpInputs'))+
         settingsSub({title:t('subAppsTitle'), body:appsBody(), future:true})+
       groupHeading(t('grpCapture'))+
@@ -1513,7 +1512,7 @@
     if(el.id==='capInput'){ S.draft=el.value; return; }
     if(el.id==='editInput'){ S.editDraft=el.value; return; }
     if(el.classList && el.classList.contains('mf-input')){ S.store.manual=S.store.manual||{factors:[]}; S.store.manual.factors[parseInt(el.getAttribute('data-idx'),10)]=el.value;
-      var mm=document.querySelector('.mf-megamenu'); if(mm && !mm.hidden && mm.getAttribute('data-idx')===el.getAttribute('data-idx')) renderMegaItems(mm, el.value); return; }
+      openMegaMenu(el); return; }  /* toujours afficher + filtrer pendant la saisie */
     if(el.id==='homeSearch'){ S.filters.q=el.value; render(); return; }
     if(el.classList && el.classList.contains('hour-slider')){
       var a=+( (document.getElementById('fHourStart')||{}).value )||0, b=+( (document.getElementById('fHourEnd')||{}).value ); if(isNaN(b)) b=24;
@@ -1524,15 +1523,21 @@
       doAuth(render._authMode, document.getElementById('f_email').value, p.value, function(m){ var er=document.getElementById('authErr'); if(er)er.textContent=m; }); } }
     if(ev.key==='Escape'){ hideMegaMenu(); }
   });
-  /* Méga-menu de suggestions sous le champ de facteur */
+  /* Méga-menu de suggestions sous le champ de facteur.
+     Règle : il reste AFFICHÉ tant que le curseur est dans un champ de facteur.
+     - ouverture : au focus, au clic et à la frappe ;
+     - fermeture : seulement quand le focus quitte TOUS les champs de facteur, ou à Échap ;
+     - sélectionner une suggestion remplit le champ, GARDE le focus ET garde le menu ouvert
+       (re-filtré sur la nouvelle valeur). */
+  function mfFocused(){ var a=document.activeElement; return !!(a && a.classList && a.classList.contains('mf-input')); }
   document.addEventListener('focusin', function(ev){ var el=ev.target; if(el && el.classList && el.classList.contains('mf-input')) openMegaMenu(el); });
-  document.addEventListener('focusout', function(ev){ var el=ev.target; if(el && el.classList && el.classList.contains('mf-input')) setTimeout(hideMegaMenu,150); });
+  document.addEventListener('click', function(ev){ var el=ev.target; if(el && el.classList && el.classList.contains('mf-input')) openMegaMenu(el); });
+  document.addEventListener('focusout', function(ev){ var el=ev.target; if(el && el.classList && el.classList.contains('mf-input')) setTimeout(function(){ if(!mfFocused()) hideMegaMenu(); },150); });
   document.addEventListener('mousedown', function(ev){
     var s=ev.target.closest ? ev.target.closest('.mf-sug') : null; if(!s) return;
     ev.preventDefault(); var menu=s.closest('.mf-megamenu'), idx=parseInt(menu.getAttribute('data-idx'),10);
     var input=document.querySelector('.mf-input[data-idx="'+idx+'"]');
-    if(input){ input.value=s.getAttribute('data-v'); S.store.manual=S.store.manual||{factors:[]}; S.store.manual.factors[idx]=input.value; }
-    hideMegaMenu();
+    if(input){ input.value=s.getAttribute('data-v'); S.store.manual=S.store.manual||{factors:[]}; S.store.manual.factors[idx]=input.value; openMegaMenu(input); }
   });
 
   /* ---------------- Boot ---------------- */

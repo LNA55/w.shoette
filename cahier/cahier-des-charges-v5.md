@@ -363,9 +363,16 @@ Génération **on demand** d'analyses choisies par l'utilisateur.
 - **N facteurs** (min 2) en **texte libre** ; boutons *+ Ajouter un facteur* / × retirer.
 - **Méga-menu de suggestions** : panneau **sous le champ** (pas à droite), pleine largeur,
   **4 colonnes** desktop / 2 mobile. Source : presets (heure du coucher, heure du dîner,
-  heure du réveil, qualité de la nuit) + noms de thèmes + valeurs/tags des entrées
-  passées. **Filtrage à la frappe**, **clic pour remplir**, fermeture à la sélection / au
-  blur / Échap.
+  heure du réveil, qualité de la nuit) + noms de thèmes + valeurs/tags des entrées passées.
+  - **Filtrage à la frappe** : à chaque caractère ajouté/retiré, la liste se restreint aux
+    suggestions contenant le texte saisi (sous-chaîne, insensible à la casse).
+  - **Reste affiché tant que le curseur est dans un champ de facteur** : ouverture au
+    **focus**, au **clic** et à la **frappe** ; **sélectionner une suggestion** remplit le
+    champ, **garde le focus ET le menu ouvert** (re-filtré sur la nouvelle valeur) ;
+    fermeture **uniquement** quand le focus quitte **tous** les champs de facteur, ou via
+    **Échap**. Passer d'un champ à l'autre **ne ferme pas** le menu (il se repositionne sous
+    le champ actif).
+  - **Clic sur une suggestion** = remplit le champ correspondant (`data-idx`).
 - Bouton **Run**.
 
 ### 10.2 Construction des séries `factorDaily(factor)`
@@ -538,9 +545,10 @@ en `'`/`'` et casse le JS → page blanche. Vérifier après chaque édition.)
       absentes » stylé ; panneau distinct des listes.
 - [ ] Corrélations auto : fenêtre 24 h/3 j/1 sem ; pin (sans échéance) ; masquer ;
       obsolètes en section dépliable ; ligne de date normée ; bannière stale.
-- [ ] Corrélations manuelles : N facteurs ; méga-menu colonnes sous le champ ; 2 facteurs →
-      nuage ; 3+ → score global unique (pas la liste des paires) + multi-courbes ; pastille
-      verte/jaune/rouge + note **toujours**.
+- [ ] Corrélations manuelles : N facteurs ; méga-menu colonnes sous le champ, **affiché tant
+      que le champ est focalisé** et **filtré à la frappe** (ne se ferme pas à la sélection) ;
+      2 facteurs → nuage ; 3+ → score global unique (pas la liste des paires) + multi-courbes ;
+      pastille verte/jaune/rouge + note **toujours**.
 - [ ] Mon compte accessible via le nom ; identité + profil (création, nb entrées hors
       éditions, sexe, naissance).
 - [ ] Réglages : langue, thème, taille texte, récap jours, style boutons, sample, export

@@ -332,8 +332,40 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
   --c-500:#3f3f46; --c-600:#27272a; --c-700:#3f3f46; --c-800:#27272a; --c-900:#18181b;
   --muted:#71717a; --line:#e6e6e9;
 }
-/* En-têtes de section : petites capitales discrètes (style réglages « sérieux ») */
-.settings-screen h3.sec{font-family:var(--font-body);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--c-400);margin:22px 2px 10px}
+
+/* ===================================================================
+   RÉGLAGES — composants FORKÉS (100% propres à cette page)
+   Copies scopées des atomes partagés (boutons, champs, cartes, listes,
+   segments, titre, notes). Modifier ICI n'affecte QUE la page Réglages ;
+   les versions globales (hors .settings-screen) restent inchangées.
+   Les overrides spécifiques de Réglages suivent plus bas et priment.
+   =================================================================== */
+.settings-screen .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:var(--radius-sm);padding:14px 18px;font-weight:700;font-size:1rem;background:var(--c-500);color:#fff;transition:transform .06s,background .15s;min-height:48px}
+.settings-screen .btn:active{transform:scale(.985)}
+.settings-screen .btn:hover{background:var(--c-600)}
+.settings-screen .btn-block{width:100%}
+.settings-screen .btn-ghost{background:#fff;color:var(--c-700);border:1.5px solid var(--c-200)}
+.settings-screen .btn-ghost:hover{background:var(--c-50)}
+.settings-screen .btn-sm{padding:9px 14px;min-height:40px;font-size:.9rem}
+.settings-screen .field{width:100%;border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;font-size:1rem;background:#fff;color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s}
+.settings-screen .field:focus{border-color:var(--c-400);box-shadow:0 0 0 4px var(--c-50)}
+.settings-screen .field.sm{padding:10px 12px;min-width:0;flex:1}
+.settings-screen .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-soft)}
+.settings-screen .list{margin-top:14px}
+.settings-screen .list .row{display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.settings-screen .list .row .k{font-weight:600}
+.settings-screen .list .row .sp{flex:1}
+.settings-screen .row-note{display:block;font-weight:500;font-size:.78rem;color:var(--muted);margin-top:3px}
+.settings-screen .seg{display:inline-flex;background:var(--c-50);border-radius:999px;padding:4px;gap:4px}
+.settings-screen .seg button{border:none;background:transparent;color:var(--c-600);font-weight:600;font-size:.88rem;padding:9px 14px;border-radius:999px;min-height:38px;transition:color .15s}
+.settings-screen .seg button.on{background:#fff;color:var(--c-700);font-weight:700;box-shadow:0 0 0 1px var(--c-200),0 4px 12px -6px rgba(0,0,0,.22)}
+.settings-screen .page-title{font-size:1.6rem;font-weight:700;margin:20px 0 4px}
+.settings-screen .note{color:var(--muted);font-size:.84rem;margin-top:16px;line-height:1.5}
+.settings-screen .swatch{width:20px;height:20px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:6px;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
+@media(min-width:760px){ .settings-screen .page-title{font-size:1.8rem} }
+
+/* En-têtes de section des réglages : titres nettement plus grands */
+.settings-screen h3.sec{font-family:var(--font-display);font-size:1.2rem;font-weight:700;text-transform:none;letter-spacing:-.01em;color:var(--c-800);margin:28px 2px 12px}
 /* Grande partie (niveau 1 : I–IV) — séparateur fort, plus prominent que les sous-groupes */
 .settings-screen .set-part{font-family:var(--font-display);font-weight:700;font-size:1.08rem;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin:36px 2px 4px;padding-top:22px;border-top:2px solid var(--c-200)}
 .settings-screen .set-part:first-of-type{border-top:none;padding-top:4px;margin-top:18px}
@@ -366,8 +398,9 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 .settings-sub-body{padding:2px 16px 16px}
 /* Inactif → grisé */
 .is-future{color:var(--muted)}
-.settings-sub.is-future, .pdp-card.is-future{opacity:.9}
-.settings-sub.is-future .settings-sub-sum{color:var(--muted)}
+/* Titres TOUJOURS en noir, même si la fonction dedans est inactive (le gris ne porte que sur le contenu) */
+.settings-sub.is-future .settings-sub-sum{color:var(--ink)}
+.pdp-card.is-future .pdp-title{color:var(--ink)}
 /* Contenu de sous-section */
 .sub-intro{font-size:.9rem;line-height:1.5;margin:6px 0 10px}
 .sub-list{margin:8px 0 10px 18px;font-size:.88rem;line-height:1.5}
