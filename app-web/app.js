@@ -16,6 +16,7 @@
       errExists: 'Ce compte existe déjà — connecte-toi.',
       errNouser: 'Aucun compte avec cet e-mail.', errBadpass: 'Mot de passe incorrect.',
       navHome: 'Journal', navData: 'Données', navCorr: 'Corrélations automatiques', navCorrMan: 'Corrélations manuelles', navSettings: 'Réglages',
+      footerMantra: 'Comparaison n’est pas raison. Test & Learn.',
       capturePh: 'Ex : Mal dormi, réveillée à 4h. Dîner fromage hier soir. Mains raides ce matin, temps humide…',
       add: 'Ajouter', listening: 'Écoute…', micOff: 'La dictée vocale arrivera dans l’app native.',
       saved: 'Entrée enregistrée ✓', photo: 'Photo',
@@ -33,8 +34,10 @@
       byCategory: 'Par catégorie', dataSeeMore: 'Voir plus', dataShowMore: 'Afficher plus',
       score1: 'Insuffisant', score2: 'Intermédiaire', score3: 'Suffisant',
       absent: 'informations absentes', climate: 'Climat',
-      freq_daily: 'quotidien', freq_often: 'fréquent', freq_occasional: 'occasionnel',
-      unitNight: 'h/nuit', unitMeals: 'prises/jour',
+      freq_daily: 'quotidien', freq_often: 'fréquent', freq_occasional: 'occasionnel', freq_none: 'non',
+      unitNight: 'h/nuit', unitMeals: 'prises/jour', unitTimes: 'fois',
+      engineSet: 'Moteur d’extraction mis à jour ✓', engineLLMnote: 'Moteur IA pas encore connecté — extraction locale conservée.',
+      reanalyzeBtn: 'Tout réanalyser', reanalyzeNote: 'Relance le moteur d’extraction sur toutes vos entrées passées (le texte de vos entrées n’est jamais modifié).', reanalyzeDone: '{n} entrées réanalysées ✓',
       corrTitle: 'Corrélations automatiques',
       corrSub: 'Ce que l’app commence à remarquer dans tes données. Attention, corrélation n’est pas causalité.',
       corrManualTitle: 'Corrélations manuelles', corrManualSoon: 'Bientôt — détails à venir.',
@@ -243,6 +246,7 @@
       errExists: 'This account already exists — sign in.',
       errNouser: 'No account with this email.', errBadpass: 'Wrong password.',
       navHome: 'Journal', navData: 'Data', navCorr: 'Automatic correlations', navCorrMan: 'Manual correlations', navSettings: 'Settings',
+      footerMantra: 'Comparison is not proof. Test & Learn.',
       capturePh: 'E.g. Slept badly, awake at 4am. Cheese for dinner. Stiff hands this morning, humid weather…',
       add: 'Add', listening: 'Listening…', micOff: 'Voice dictation is coming in the native app.',
       saved: 'Entry saved ✓', photo: 'Photo',
@@ -260,8 +264,10 @@
       byCategory: 'By category', dataSeeMore: 'See more', dataShowMore: 'Show more',
       score1: 'Insufficient', score2: 'Partial', score3: 'Sufficient',
       absent: 'no data', climate: 'Climate',
-      freq_daily: 'daily', freq_often: 'frequent', freq_occasional: 'occasional',
-      unitNight: 'h/night', unitMeals: 'meals/day',
+      freq_daily: 'daily', freq_often: 'frequent', freq_occasional: 'occasional', freq_none: 'none',
+      unitNight: 'h/night', unitMeals: 'meals/day', unitTimes: 'times',
+      engineSet: 'Extraction engine updated ✓', engineLLMnote: 'AI engine not connected yet — local extraction kept.',
+      reanalyzeBtn: 'Re-analyse everything', reanalyzeNote: 'Re-runs the extraction engine on all your past entries (your entry text is never changed).', reanalyzeDone: '{n} entries re-analysed ✓',
       corrTitle: 'Automatic correlations',
       corrSub: 'What the app is starting to notice in your data. Remember: correlation is not causation.',
       corrManualTitle: 'Manual correlations', corrManualSoon: 'Coming soon — details to follow.',
@@ -457,7 +463,7 @@
   var CAT_EMOJI = { sleep:'😴', food:'🍽️', mood:'🙂', energy:'⚡️', pain:'🩹', stress:'🌀',
     symptom:'🌡️', brain_fog:'🌫️', meds:'💊', activity:'🏃', social:'👥', measure:'📊', environment:'⛅️', other:'📝' };
   var CAT_ORDER = ['sleep','food','mood','energy','pain','stress','symptom','brain_fog','meds','activity','social','measure','environment','other'];
-  var RECAP_KEYS = ['sleep','food','mood','energy','pain','stress','brain_fog','environment'];
+  var RECAP_KEYS = ['sleep','food','activity','social','energy','pain','brain_fog','environment'];
   var CATS = [
     { key:'sleep', kw:['dormi','sommeil','nuit','réveil','réveillé','réveillée','insomnie','sieste','couché','endormi','slept','sleep','night','woke','awake','insomnia','nap','asleep'] },
     { key:'food', kw:['mangé','manger','repas','petit-déj','petit déjeuner','déjeuner','dîner','diner','café','thé','sucre','laitier','lait','fromage','gluten','snack','goûter','bu','ate','eat','meal','breakfast','lunch','dinner','coffee','tea','sugar','dairy','milk','cheese','snack','drank'] },
@@ -477,14 +483,37 @@
   var CAT_SEED_VALUES = { social: ['Quality Family Time', 'Network pro'] };
   function cap(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
   function snippet(s){ s=s.trim().replace(/\s+/g,' '); return s.length>46 ? s.slice(0,46)+'…' : s; }
+  /* Correspondance de MOT ENTIER : évite « bu » dans « bureau », « dos » dans « adossé », etc. */
+  function isLetterCh(ch){ return /[a-zà-ÿ]/.test(ch); }
+  function kwHit(lc, k){ var i=lc.indexOf(k); while(i>-1){ if(!isLetterCh(lc.charAt(i-1)) && !isLetterCh(lc.charAt(i+k.length))) return true; i=lc.indexOf(k,i+1); } return false; }
+  /* Heure d'horloge → minutes depuis minuit (« 22h », « 5h30 », « minuit », « midi »). */
+  function parseClock(s){ var m=String(s).match(/(\d{1,2})\s*h\s*(\d{2})?/); if(m){ var h=+m[1], mn=m[2]?+m[2]:0; if(h<=23&&mn<=59) return h*60+mn; } if(/minuit/.test(s)) return 0; if(/midi/.test(s)) return 12*60; return null; }
+  function fmtClock(mins){ var h=Math.floor(mins/60), m=mins%60; return h+'h'+(m?(m<10?'0':'')+m:''); }
+  /* SOMMEIL typé : rôle = durée / coucher / réveil (peut produire plusieurs signaux). */
+  function sleepSignals(lc){
+    var out=[];
+    var d=lc.match(/(\d{1,2})(?:[.,](\d))?\s*(?:h|heures?|hours?)\s*de\s+sommeil/) || lc.match(/(?:dormi|sommeil de|slept|sleep)[^.\n]{0,10}?(\d{1,2})(?:[.,](\d))?\s*(?:h|heures?|hours?)/);
+    if(d){ var hrs=+d[1]+(d[2]?(+d[2])/10:0), txt=d[1]+(d[2]?','+d[2]:''); out.push({role:'duration', mins:Math.round(hrs*60), text:txt+'h de sommeil', value:txt+' h'}); }
+    var c=lc.match(/(?:couché|couchée|couche|coucher|dodo|au lit|endormi|endormie)[^.\n]{0,12}?(\d{1,2}\s*h(?:\s*\d{2})?|minuit|midi)/);
+    if(c){ var cm=parseClock(c[1]); if(cm!=null) out.push({role:'coucher', clock:cm, text:'Coucher à '+fmtClock(cm)}); }
+    var r=lc.match(/(?:réveil|reveil|levé|levée|leve|debout|réveillé|réveillée|woke|awake)[^.\n]{0,12}?(\d{1,2}\s*h(?:\s*\d{2})?)/);
+    if(r){ var rm=parseClock(r[1]); if(rm!=null) out.push({role:'reveil', clock:rm, text:'Réveil à '+fmtClock(rm)}); }
+    return out;
+  }
+  /* ÉNERGIE → niveau 1 (épuisé) à 5 (pleine forme). */
+  var ENERGY_KW={ '1':['épuisé','épuisée','crevé','crevée','vidé','vidée','à plat','lessivé','lessivée','exhausted','drained'],
+    '2':['fatigué','fatiguée','fatigue','mou','molle','tired'],
+    '4':['plutôt en forme','en forme','bonne énergie','energetic'],
+    '5':['pleine forme','vitalité','au top','énergique','great energy'] };
+  var ENERGY_LABEL={'1':'énergie : épuisée','2':'énergie : fatiguée','3':'énergie : correcte','4':'énergie : en forme','5':'énergie : pleine forme'};
+  function energyLevel(lc, neg){ var lv; for(lv in ENERGY_KW){ for(var i=0;i<ENERGY_KW[lv].length;i++){ if(kwHit(lc,ENERGY_KW[lv][i])){ var n=+lv; return (neg && n>=3) ? 2 : n; } } } return neg?2:3; }
   function extractValue(key, lc){
     var m;
-    if (key==='sleep'){ m=lc.match(/(\d{1,2})(?:[.,](\d))?\s*(h\b|heures?|hours?|hrs?)/); if(m) return m[1]+(m[2]?','+m[2]:'')+' h'; }
     if (key==='measure'){
-      if (m=lc.match(/(\d{2,3})\s*\/\s*(\d{2,3})/)) return m[1]+'/'+m[2]+' mmHg';
-      if (m=lc.match(/(\d+(?:[.,]\d+)?)\s*(mg\/dl|g\/l)/)) return m[1]+' '+m[2];
-      if (m=lc.match(/(\d{2,3}(?:[.,]\d)?)\s*kg/)) return m[1]+' kg';
-      if (m=lc.match(/(\d{2,3})\s*bpm/)) return m[1]+' bpm';
+      if (m=lc.match(/(\d{2,3})\s*\/\s*(\d{2,3})/)) return {text:'Tension '+m[1]+'/'+m[2], value:m[1]+'/'+m[2]+' mmHg'};
+      if (m=lc.match(/(\d+(?:[.,]\d+)?)\s*(mg\/dl|g\/l)/)) return {text:'Glycémie '+m[1].replace('.',',')+' '+m[2], value:m[1]+' '+m[2]};
+      if (m=lc.match(/(\d{2,3}(?:[.,]\d)?)\s*kg/)) return {text:'Poids '+m[1].replace('.',',')+' kg', value:m[1]+' kg'};
+      if (m=lc.match(/(\d{2,3})\s*bpm/)) return {text:'Pouls '+m[1]+' bpm', value:m[1]+' bpm'};
     }
     return null;
   }
@@ -493,22 +522,37 @@
     var lc=' '+raw.toLowerCase().replace(/\s+/g,' ')+' ';
     var neg=/\b(pas|mal|peu|mauvais|mauvaise|sans|aucun|aucune|not|no|bad|poorly|hardly|barely)\b/.test(lc);
     var found=[], seen={};
+    /* Sommeil typé d'abord (coucher / réveil / durée) */
+    var sl=sleepSignals(lc);
+    if(sl.length){ seen.sleep=true; sl.forEach(function(s){ found.push({category:'sleep', role:s.role, mins:s.mins, clock:s.clock, text:s.text, label:s.text, value:s.value||null, confidence:0.82}); }); }
     CATS.forEach(function(c){
       if (seen[c.key]) return;
       var hit=null;
-      for (var i=0;i<c.kw.length;i++){ var k=c.kw[i]; if (lc.indexOf(' '+k)>-1 || lc.indexOf(k+' ')>-1){ hit=k; break; } }
+      for (var i=0;i<c.kw.length;i++){ if (kwHit(lc, c.kw[i])){ hit=c.kw[i]; break; } }
       if (!hit) return;
       seen[c.key]=true;
-      var value=extractValue(c.key, lc);
-      if (!value && (c.key==='sleep'||c.key==='mood'||c.key==='energy')) value = neg ? t('q_bad') : t('q_ok');
-      found.push({ category:c.key, label: value || cap(hit), value: value||null, confidence:0.74 });
+      if (c.key==='energy'){ var lv=energyLevel(lc, neg), el=ENERGY_LABEL[''+lv]; found.push({category:'energy', level:lv, text:el, label:el, value:null, confidence:0.7}); return; }
+      if (c.key==='sleep'){ var sv=neg?t('q_bad'):t('q_ok'); found.push({category:'sleep', text:sv, label:sv, value:null, confidence:0.6}); return; }
+      var ev=extractValue(c.key, lc);
+      if (ev){ found.push({category:c.key, text:ev.text, label:ev.text, value:ev.value, confidence:0.78}); return; }
+      var disp=(c.key==='mood') ? (neg?t('q_bad'):t('q_ok')) : cap(hit);
+      found.push({ category:c.key, label: disp, value: null, text: disp, confidence:0.74 });
     });
-    if (!found.length) found.push({ category:'other', label:snippet(raw), value:null, confidence:0.5 });
-    /* Normalisation par la base de valeurs groupées (alias) : une valeur taguée est ramenée
-       à sa valeur principale (ex. « Sucré » → « Sucre »). Cf. Réglages → Liste des valeurs. */
-    found.forEach(function(sig){ var v=sig.value||sig.label; if(!v) return; var L=resolveValue(sig.category, v); if(L && L!==v){ if(sig.value) sig.value=L; sig.label=L; } });
+    if (!found.length) found.push({ category:'other', label:snippet(raw), value:null, text:snippet(raw), confidence:0.5 });
+    /* Normalisation par la base de valeurs groupées (alias). Cf. Réglages → Liste des valeurs. */
+    found.forEach(function(sig){ if(sig.role) return; var v=sig.value||sig.text||sig.label; if(!v) return; var L=resolveValue(sig.category, v); if(L && L!==v){ if(sig.value) sig.value=L; sig.label=L; sig.text=L; } });
     return found;
   }
+
+  /* Aiguilleur d'extraction selon le réglage « Choix du moteur » (fn2). Local = structureEntry ;
+     IA/LLM = pas encore branché → repli local ; manuel = aucune extraction auto. */
+  var ENGINE_BUILD = 1;
+  function extractEntry(text){ var eng=(S.store&&S.store.extractEngine)||'local'; if(eng==='manual') return []; return structureEntry(text); }
+  /* Archive les signaux actuels puis réexécute le moteur sur TOUTES les entrées (texte intact). */
+  function reanalyzeAll(){ var n=0; S.store.entries.forEach(function(e){ if(e.text){ if(!e._sigBak) e._sigBak=e.signals||[]; e.signals=extractEntry(e.text); n++; } });
+    if(S.store) S.store.engineBuild=ENGINE_BUILD; persistStore(); render(); toast(t('reanalyzeDone').replace('{n}',n)); }
+  /* Réanalyse automatique unique quand le moteur a évolué (réversible via _sigBak). */
+  function maybeMigrate(){ if(!S.store||(S.store.engineBuild||0)>=ENGINE_BUILD) return; S.store.entries.forEach(function(e){ if(e.text){ if(!e._sigBak) e._sigBak=e.signals||[]; e.signals=extractEntry(e.text); } }); S.store.engineBuild=ENGINE_BUILD; persistStore(); }
 
   /* ---------------- État ---------------- */
   var S = { lang:'fr', theme:'turquoise', textsize:'normal', token:null, email:null,
@@ -532,7 +576,7 @@
   function lsStoreKey(id){ return 'wwfm_store_'+id; }
   function lsGet(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
   function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
-  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; if(!s.manual) s.manual={factors:[]}; s.manual.saved=s.manual.saved||[]; if(!s.valueAliases)s.valueAliases={}; if(!s.valuesExtra)s.valuesExtra={};
+  function normStore(s){ s=s||{}; s.profile=s.profile||{}; s.entries=s.entries||[]; s.insights=s.insights||[]; if(!('lastAnalysisAt' in s)) s.lastAnalysisAt=null; s.correlations=s.correlations||{}; if(!('corrWindow' in s)) s.corrWindow=3; if(!('recapDays' in s)) s.recapDays=7; if(!('corrBtnStyle' in s)) s.corrBtnStyle='icons'; if(!s.manual) s.manual={factors:[]}; s.manual.saved=s.manual.saved||[]; if(!s.valueAliases)s.valueAliases={}; if(!s.valuesExtra)s.valuesExtra={}; if(!s.extractEngine)s.extractEngine='local'; if(!('engineBuild' in s))s.engineBuild=0;
     if(!s.profile.createdAt){ s.profile.createdAt = s.entries.length ? s.entries.reduce(function(m,e){return e.createdAt<m?e.createdAt:m;}, s.entries[0].createdAt) : Date.now(); }
     return s; }
   function api(action, payload){
@@ -564,7 +608,7 @@
     lsSet(lsStoreKey(res.token),S.store); applyTheme(); applyTextsize(); S.tab='home'; if(pass){ persistStore(); } render(); }
   function logout(){ localStorage.removeItem(LS_SESSION); S.token=null; S.email=null; S.store=normStore({}); render(); }
   function loadStoreFromServer(){ if(!S.token) return;
-    api('load',{token:S.token}).then(function(res){ if(res.ok && res.store){ S.store=normStore(res.store); lsSet(lsStoreKey(S.token),S.store);
+    api('load',{token:S.token}).then(function(res){ if(res.ok && res.store){ S.store=normStore(res.store); maybeMigrate(); lsSet(lsStoreKey(S.token),S.store);
       applyProfile(); applyTheme(); applyTextsize(); render(); } }); }
 
   /* ---------------- Thème / langue / accessibilité ---------------- */
@@ -578,7 +622,7 @@
 
   /* ---------------- Entrées / photo ---------------- */
   function addEntry(text, photo){ text=(text||'').trim(); if(!text && !photo) return;
-    S.store.entries.unshift({ id:'e_'+Date.now().toString(36), createdAt:Date.now(), text:text, photo:photo||null, signals:structureEntry(text) });
+    S.store.entries.unshift({ id:'e_'+Date.now().toString(36), createdAt:Date.now(), text:text, photo:photo||null, signals:extractEntry(text) });
     S.draft=''; S.draftPhoto=null; persistStore(); toast(t('saved')); render(); }
   function handlePhoto(file){
     if(!file) return; var reader=new FileReader();
@@ -651,23 +695,49 @@
   }
 
   /* ---------------- Récap (Données) ---------------- */
-  function freqLabel(d,win){ var w=win||7; return d>=Math.ceil(w*0.8)?t('freq_daily'):(d>=Math.ceil(w*0.4)?t('freq_often'):t('freq_occasional')); }
+  function dayKey(ts){ var d=new Date(ts); return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate(); }
+  function ceil1(x){ return (Math.ceil(x*10)/10).toFixed(1).replace('.',','); }   /* 1 décimale, arrondi VERS LE HAUT */
+  function fmtHM(mins){ mins=Math.round(mins); var h=Math.floor(mins/60), m=mins%60; return h+'h'+(m<10?'0':'')+m; }
+  /* non / occasionnel / fréquent / quotidien sur la fenêtre (0 · 1-2 · 3-5 · 6-7 pour 7 j). */
+  function freqLabel(d,win){ var w=win||7; if(d===0) return t('freq_none'); return d>=Math.ceil(w*0.8)?t('freq_daily'):(d>=Math.ceil(w*0.4)?t('freq_often'):t('freq_occasional')); }
+  /* Durées de nuit (minutes) : déclarées d'abord ; sinon coucher (veille) apparié au réveil (matin). */
+  function sleepNightMinutes(sigs){
+    var byDay={};
+    sigs.forEach(function(o){ if(o.s.role==='duration' && o.s.mins){ if(byDay[o.dk]==null) byDay[o.dk]=o.s.mins; } });
+    var couchers=sigs.filter(function(o){return o.s.role==='coucher';});
+    var reveils=sigs.filter(function(o){return o.s.role==='reveil';}).sort(function(a,b){return a.t-b.t;});
+    reveils.forEach(function(rv){ var best=null;
+      couchers.forEach(function(co){ if(co.t<=rv.t && rv.t-co.t<=16*3600e3 && (!best||co.t>best.t)) best=co; });
+      if(best){ var dur=(rv.s.clock-best.s.clock+1440)%1440; var dk=dayKey(rv.t); if(dur>0 && byDay[dk]==null) byDay[dk]=dur; } });
+    return Object.keys(byDay).map(function(k){return byDay[k];});
+  }
+  function energyDailyAvg(sigs){ var byDay={}; sigs.forEach(function(o){ if(o.s.level){ (byDay[o.dk]=byDay[o.dk]||[]).push(o.s.level); } });
+    var days=Object.keys(byDay); if(!days.length) return null;
+    var sum=0; days.forEach(function(k){ var a=byDay[k]; sum+=a.reduce(function(x,y){return x+y;},0)/a.length; }); return sum/days.length; }
+  function climateValue(c){ var temps=[],hums=[];
+    c.sigs.forEach(function(o){ var raw=String(o.s.value||o.s.text||o.s.label||''); var tm=raw.match(/(-?\d{1,2})\s*°/); if(tm)temps.push(+tm[1]); var hm=raw.match(/(\d{1,3})\s*%/); if(hm)hums.push(+hm[1]); });
+    var parts=[]; if(temps.length)parts.push(Math.round(temps.reduce(function(a,b){return a+b;},0)/temps.length)+'°'); if(hums.length)parts.push(Math.round(hums.reduce(function(a,b){return a+b;},0)/hums.length)+'%');
+    if(parts.length) return parts.join(' · ');
+    var f={},best='',bn=0; c.vals.forEach(function(v){ var x=String(v).toLowerCase(); f[x]=(f[x]||0)+1; if(f[x]>bn){bn=f[x];best=x;} });
+    return best?cap(best)+(c.days>1?' ('+bn+'/'+c.days+' j)':''):t('absent'); }
   function computeRecap(){
     var win=S.store.recapDays||7;
     var since=Date.now()-win*864e5, recent=S.store.entries.filter(function(e){return e.createdAt>=since;});
-    var by={}; RECAP_KEYS.forEach(function(k){ by[k]={days:{},count:0,vals:[]}; });
-    recent.forEach(function(e){ var dk=new Date(e.createdAt); dk=dk.getFullYear()+'-'+dk.getMonth()+'-'+dk.getDate();
-      (e.signals||[]).forEach(function(s){ if(by[s.category]){ by[s.category].days[dk]=1; by[s.category].count++; by[s.category].vals.push(s.value||s.label); } }); });
+    var by={}; RECAP_KEYS.forEach(function(k){ by[k]={days:{},count:0,vals:[],sigs:[]}; });
+    recent.forEach(function(e){ var dk=dayKey(e.createdAt);
+      (e.signals||[]).forEach(function(s){ if(by[s.category]){ by[s.category].days[dk]=1; by[s.category].count++; by[s.category].vals.push(sigDisp(s)||s.label); by[s.category].sigs.push({s:s,dk:dk,t:e.createdAt}); } }); });
     var s3=Math.ceil(win*0.7), s2=Math.ceil(win*0.35);
-    return RECAP_KEYS.map(function(k){ var c=by[k], d=Object.keys(c.days).length;
-      return { key:k, label:(k==='environment'?t('climate'):catName(k)), days:d, score:(d>=s3?3:(d>=s2?2:1)), value:recapValue(k,c,d,win), absent:(d===0) }; });
+    return RECAP_KEYS.map(function(k){ var c=by[k], d=Object.keys(c.days).length, isFreq=(k==='pain'||k==='brain_fog');
+      return { key:k, label:(k==='environment'?t('climate'):catName(k)), days:d, score:(d>=s3?3:(d>=s2?2:1)), value:recapValue(k,c,d,win), absent:(d===0 && !isFreq) }; });
   }
   function recapValue(key,c,d,win){
+    if(key==='pain'||key==='brain_fog') return freqLabel(d,win);
     if(d===0) return t('absent');
-    if(key==='sleep'){ var nums=c.vals.map(function(v){ var m=String(v).replace(',','.').match(/([\d.]+)\s*h/); return m?parseFloat(m[1]):null; }).filter(function(x){return x!=null;});
-      if(nums.length){ var a=nums.reduce(function(x,y){return x+y;},0)/nums.length; return (Math.round(a*10)/10)+' '+t('unitNight'); } return freqLabel(d,win); }
-    if(key==='food'){ return Math.max(1,Math.round(c.count/d))+' '+t('unitMeals'); }
-    if(key==='environment'){ var f={},best='',bn=0; c.vals.forEach(function(v){ var x=String(v).toLowerCase(); f[x]=(f[x]||0)+1; if(f[x]>bn){bn=f[x];best=x;} }); return best?cap(best):t('absent'); }
+    if(key==='sleep'){ var mins=sleepNightMinutes(c.sigs); if(mins.length){ return fmtHM(mins.reduce(function(a,b){return a+b;},0)/mins.length); } return t('absent'); }
+    if(key==='food'){ return ceil1(c.count/d)+' '+t('unitMeals'); }
+    if(key==='activity'||key==='social'){ return c.count+' '+t('unitTimes'); }
+    if(key==='energy'){ var sc=energyDailyAvg(c.sigs); return sc==null?t('absent'):ceil1(sc)+' / 5'; }
+    if(key==='environment'){ return climateValue(c); }
     return freqLabel(d,win);
   }
 
@@ -685,7 +755,8 @@
       camera:'<path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.2-2h6.6L16.5 7h2A1.5 1.5 0 0 1 20 8.5v9A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.2"/>' };
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(p[name]||'')+'</svg>';
   }
-  function chip(s){ return '<span class="chip"><span class="em">'+CAT_EMOJI[s.category]+'</span>'+esc(catName(s.category))+(s.value?' · '+esc(s.value):'')+'</span>'; }
+  function sigDisp(s){ return s.text||s.value||''; }
+  function chip(s){ var dd=sigDisp(s); return '<span class="chip"><span class="em">'+CAT_EMOJI[s.category]+'</span>'+esc(catName(s.category))+(dd?' · '+esc(dd):'')+'</span>'; }
   function entryCard(e){
     var editBtn='<button class="iconbtn xs edit-btn" data-act="edit-open" data-v="'+esc(e.id)+'" aria-label="'+esc(t('editTitle'))+'">'+
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>';
@@ -701,7 +772,8 @@
     var entry=S.store.entries.find(function(e){return e.id===S.editingId;}); if(!entry) return '';
     var usedCats=S.editSigs.map(function(s){return s.category;});
     var catsHtml=S.editSigs.length ? S.editSigs.map(function(sig,idx){
-      return '<span class="chip edit-chip"><span class="em">'+(CAT_EMOJI[sig.category]||'')+'</span>'+esc(catName(sig.category))+(sig.value?' · '+esc(sig.value):'')+
+      var ed=sigDisp(sig);
+      return '<span class="chip edit-chip"><span class="em">'+(CAT_EMOJI[sig.category]||'')+'</span>'+esc(catName(sig.category))+(ed?' · '+esc(ed):'')+
         '<button class="rm-cat" data-act="edit-rm-category" data-v="'+idx+'">×</button></span>';
     }).join('') : '<span class="hint-sm">'+esc(t('noCategories'))+'</span>';
     var addable=CAT_ORDER.filter(function(k){return usedCats.indexOf(k)<0;});
@@ -880,7 +952,7 @@
     var recapCard='<div class="card recap"><div class="recap-head">'+recapHead+
       seg([['values',t('viewValues')],['score',t('viewScore')]], view, 'dataview')+'</div><div class="recap-table">'+rows+'</div></div>';
     var byCat={};
-    S.store.entries.forEach(function(e){ (e.signals||[]).forEach(function(s){ (byCat[s.category]=byCat[s.category]||[]).push({v:s.value||s.label, t:e.createdAt}); }); });
+    S.store.entries.forEach(function(e){ (e.signals||[]).forEach(function(s){ (byCat[s.category]=byCat[s.category]||[]).push({v:sigDisp(s)||s.label, t:e.createdAt}); }); });
     var cards='';
     CAT_ORDER.forEach(function(key){ var items=byCat[key]; if(!items||!items.length) return;
       var total=items.length, shown=Math.min(S.dataShow[key]||40, total);
@@ -1257,7 +1329,7 @@
      actuelle (cosmétique, sans effet). « Plus d'informations » déplie la même grille en texte. */
   function aiFns(){ return [
     {key:'fn1', title:t('aiFn1'), real:'local'},
-    {key:'fn2', title:t('aiFn2'), real:'local'},
+    {key:'fn2', title:t('aiFn2'), real:(S.store&&S.store.extractEngine)||'local', live:true},
     {key:'fn3', title:t('aiFn3'), real:'manual'},
     {key:'fn4', title:t('aiFn4'), real:'local'},
     {key:'fn5', title:t('aiFn5'), real:'local'},
@@ -1276,7 +1348,8 @@
             return '<td class="ai-cell ai-cell-na"><span class="ai-na" title="'+esc(t('aiUnavailable'))+'" aria-label="'+esc(t('aiUnavailable'))+'">—</span></td>';
           }
           var on=f.real===m;
-          return '<td class="ai-cell'+(on?' is-current':'')+'"><label class="ai-radio"><input type="radio" name="ai_'+f.key+'"'+(on?' checked':'')+' aria-label="'+esc(t(head[m]))+'"></label></td>';
+          var act=f.live?(' data-act="set-engine" data-v="'+m+'"'):'';
+          return '<td class="ai-cell'+(on?' is-current':'')+(f.live?' ai-cell-live':'')+'"><label class="ai-radio"><input type="radio" name="ai_'+f.key+'"'+(on?' checked':'')+act+' aria-label="'+esc(t(head[m]))+'"></label></td>';
         }).join('')+'</tr>';
       }).join('');
       return '<div class="ai-matrix-wrap"><table class="ai-matrix">'+thead()+'<tbody>'+rows+'</tbody></table></div>';
@@ -1344,7 +1417,9 @@
     return '<p class="sub-intro">'+esc(t('transformIntro'))+'</p>'+
       '<ul class="sub-list"><li>'+esc(t('transformP1'))+'</li><li>'+esc(t('transformP2'))+'</li><li>'+esc(t('transformP3'))+'</li></ul>'+
       '<p class="sub-note">'+esc(t('transformActive'))+'</p>'+
-      '<p class="sub-note is-future">'+esc(t('transformFuture'))+'</p>';
+      '<p class="sub-note is-future">'+esc(t('transformFuture'))+'</p>'+
+      '<p class="sub-note">'+esc(t('reanalyzeNote'))+'</p>'+
+      '<button class="btn btn-soft btn-sm" data-act="reanalyze">'+esc(t('reanalyzeBtn'))+'</button>';
   }
   function categoriesBody(){
     var chips=CAT_ORDER.map(function(k){ return '<span class="cat-chip">'+CAT_EMOJI[k]+' '+esc(catName(k))+'</span>'; }).join('');
@@ -1522,7 +1597,7 @@
   function tabbarHtml(){
     var tabs=[['home','navHome'],['data','navData'],['corr','navCorr'],['corrman','navCorrMan'],['settings','navSettings']];
     return '<nav class="tabbar"><div class="inner">'+tabs.map(function(x){
-      return '<button class="tab '+(S.tab===x[0]?'on':'')+'" data-act="tab" data-v="'+x[0]+'">'+navIcon(x[0])+'<span>'+esc(t(x[1]))+'</span></button>'; }).join('')+'</div></nav>';
+      return '<button class="tab '+(S.tab===x[0]?'on':'')+'" data-act="tab" data-v="'+x[0]+'">'+navIcon(x[0])+'<span>'+esc(t(x[1]))+'</span></button>'; }).join('')+'</div><p class="tabbar-mantra">'+esc(t('footerMantra'))+'</p></nav>';
   }
 
   /* ---------------- Échantillons / export / voix ---------------- */
@@ -1609,6 +1684,8 @@
     if(act==='mf-del'){ syncManualInputs(); S.store.manual.factors.splice(parseInt(v,10),1); render(); return; }
     if(act==='mf-run'){ runManual(); return; }
     if(act==='set-dataview'){ S.dataView=v; render(); return; }
+    if(act==='set-engine'){ S.store.extractEngine=v; persistStore(); render(); toast(v==='llm'?t('engineLLMnote'):t('engineSet')); return; }
+    if(act==='reanalyze'){ reanalyzeAll(); return; }
     if(act==='data-more'){ var pu=document.querySelector('.cat-ul[data-cat="'+v+'"]'); var ps=pu?pu.scrollTop:0; S.dataShow[v]=(S.dataShow[v]||40)+20; render(); var nu=document.querySelector('.cat-ul[data-cat="'+v+'"]'); if(nu) nu.scrollTop=ps; return; }
     if(act==='set-lang'){ setLang(v); return; }
     if(act==='set-theme'){ setTheme(v); return; }
@@ -1623,7 +1700,7 @@
     if(act==='edit-cancel'){ S.editingId=null; S.editDraft=''; S.editSigs=[]; S.editSigsDirty=false; render(); return; }
     if(act==='edit-save'){
       var e2=S.store.entries.find(function(e){return e.id===S.editingId;});
-      if(e2){ e2.text=S.editDraft; e2.signals=S.editSigsDirty && S.editSigs.length ? S.editSigs : structureEntry(S.editDraft); e2.editedAt=Date.now(); persistStore(); }
+      if(e2){ e2.text=S.editDraft; e2.signals=S.editSigsDirty && S.editSigs.length ? S.editSigs : extractEntry(S.editDraft); e2.editedAt=Date.now(); persistStore(); }
       S.editingId=null; S.editDraft=''; S.editSigs=[]; S.editSigsDirty=false; render(); return; }
     if(act==='edit-delete'){
       S.store.entries=S.store.entries.filter(function(e){return e.id!==S.editingId;});
@@ -1713,7 +1790,7 @@
   (function init(){
     var sess=lsGet(LS_SESSION,null);
     if(sess){ S.token=sess.token; S.email=sess.email; if(sess.lang)S.lang=sess.lang; if(sess.theme)S.theme=sess.theme; if(sess.textsize)S.textsize=sess.textsize;
-      var local=lsGet(lsStoreKey(sess.token),null); if(local) S.store=normStore(local); }
+      var local=lsGet(lsStoreKey(sess.token),null); if(local){ S.store=normStore(local); maybeMigrate(); } }
     applyTheme(); applyTextsize(); render(); if(S.token) loadStoreFromServer();
   })();
 })();

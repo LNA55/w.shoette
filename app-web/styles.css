@@ -10,7 +10,7 @@ html[data-textsize="large"]{font-size:18px}            /* Accessibilité : Grand
   --chart-bg:#ebedf0; --chart-axis:#d1d5db; --chart-ink:#374151; --chart-muted:#6b7280;
   --radius:20px; --radius-sm:14px;
   --shadow:0 14px 34px -20px rgba(0,0,0,.38); --shadow-soft:0 8px 20px -16px rgba(0,0,0,.30);
-  --maxw:720px; --tabbar-h:74px;
+  --maxw:720px; --tabbar-row:74px; --tabbar-h:96px;
 }
 body[data-theme="turquoise"]{--c-50:#E8F3F4;--c-100:#C5E3E5;--c-200:#93C9CD;--c-300:#5FAFB5;--c-400:#2F9AA1;--c-500:#118996;--c-600:#0E6E78;--c-700:#0B545C;--c-800:#073A40;--c-900:#042227;--journal-bg:#CDE7E8;}
 body[data-theme="coral"]{--c-50:#FDECEC;--c-100:#FBCFCE;--c-200:#F7A6A4;--c-300:#F47F7D;--c-400:#F26967;--c-500:#F1514F;--c-600:#CE3F3D;--c-700:#9E302E;--c-800:#6F2120;--c-900:#431312;--journal-bg:#FAD8D8;}
@@ -477,8 +477,9 @@ label.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--muted);marg
 
 /* Bottom nav */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-.tabbar .inner{max-width:var(--maxw);margin:0 auto;height:var(--tabbar-h);display:flex}
-.tab{flex:1;position:relative;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:7px;background:none;border:none;color:var(--muted);font-size:.72rem;font-weight:600;line-height:1.18;padding:8px 6px;min-height:var(--tabbar-h)}
+.tabbar .inner{max-width:var(--maxw);margin:0 auto;height:var(--tabbar-row);display:flex}
+.tabbar-mantra{max-width:var(--maxw);margin:0 auto;text-align:center;color:var(--muted);font-size:.66rem;font-weight:600;letter-spacing:.01em;line-height:1.25;padding:0 16px 6px}
+.tab{flex:1;position:relative;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:7px;background:none;border:none;color:var(--muted);font-size:.72rem;font-weight:600;line-height:1.18;padding:8px 6px;min-height:var(--tabbar-row)}
 .tab svg{width:22px;height:22px;flex:none}
 .tab span{white-space:normal;text-align:left}
 .tab:not(:last-child)::after{content:'';position:absolute;right:0;top:22%;bottom:22%;width:1px;background:var(--line)}
