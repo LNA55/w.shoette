@@ -119,10 +119,25 @@ Terminer les messages de commit par la ligne `Co-Authored-By: …` habituelle.
 une ligne d'index dans `MEMORY.md` : décisions, gotchas, URLs, écrans, structure. Mettre à
 jour / purger l'obsolète. (Ne pas dupliquer ce que le code/Git documente déjà.)
 
-### 10. Fils en suspens
+### 10. Fils en suspens — backlog + miroir Notes
 Lister, pour ne rien oublier une fois la session froide : **tâches planifiées** encore
 actives (scheduled tasks / cron), items **[ROADMAP]** ouverts, chips `spawn_task` non
 traités, TODO/FIXME introduits.
+- **Backlog global** : consigner dans `~/.claude/backlog.md` (sous le `##` du projet) tout
+  sujet **discuté mais non codé** de la session ; retirer ce qui a été traité.
+- **Synchroniser le miroir Apple Notes** (SYSTÉMATIQUE à chaque mise au net) :
+  `bash ~/.claude/backlog-to-notes.sh` — reflète le `.md` dans la note « Backlog Claude »
+  (sens unique, idempotent). Source canonique = le `.md`.
+- **Transcript des sessions** : désormais **automatique** — le hook global `Stop`
+  (`~/.claude/transcript-hook.py`) re-synchronise la session à **chaque échange** dans
+  `~/Documents/CODE TECH/Transcripts/transcript-<sous-domaine>.shoette.com.md`. **Rien à faire ici.**
+  (Reconstruction complète si besoin : `python3 ~/.claude/transcript-populate.py`.)
+- **Contexte (base de connaissance)** (SYSTÉMATIQUE) : rafraîchir
+  `~/Documents/CODE TECH/Contexts/contexte-<sous-domaine>.shoette.com.md` — distiller la
+  **session courante** (1 sous-agent qui lit son transcript et renvoie objectif/décisions/
+  construit-changé/état/gotchas/fils ouverts/vocabulaire), **ajouter sa section au Journal**,
+  puis **réconcilier l'« État consolidé courant »** (la décision la plus récente gagne). C'est
+  une tâche **modèle** (distillation), donc faite ici à la main, pas par hook. Backup avant écriture.
 
 ### 11. Note d'état de session
 Écrire un récap **Fait / Décidé / À faire / Points de vigilance** dans un fichier mémoire
@@ -133,8 +148,8 @@ Stopper les serveurs preview ; purger les temporaires (`/tmp/wwfm`, scratchpad).
 
 ### 13. Rapport final
 Présenter à Elena un rapport à cases cochées : version créée (label + URL), pages
-déployées (3) + vérifs sha256, état Git (poussé), mémoire mise à jour, fils en suspens.
-Conclure par **« Session au net ✓ »** (sans archiver).
+déployées (3) + vérifs sha256, état Git (poussé), mémoire mise à jour, fils en suspens
+(**backlog + miroir Notes synchronisés**). Conclure par **« Session au net ✓ »** (sans archiver).
 
 ## Points de vigilance
 - **Push d'office** : c'est la seule action sortante automatique assumée par cette skill
