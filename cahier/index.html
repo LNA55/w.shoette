@@ -96,9 +96,28 @@
 
     <article class="doc">
       <div class="doc__head">
+        <span class="doc__v">Version 7</span>
+        <span class="doc__date">2 juillet 2026 à 16h19</span>
+        <span class="doc__badge">Version actuelle</span>
+      </div>
+      <p class="doc__desc">Mise au net de session. Écran Réglages : les 4 parties racine (I. Design · II. Moteur · III. Gestion des données personnelles · IV. Informations légales) deviennent repliables et fermées par défaut (l'écran s'ouvre en vue compacte). L'état ouvert/fermé de chaque partie est conservé le temps de la session pour survivre aux re-renders, mais repart replié au prochain lancement. Détail en §12.</p>
+      <div class="doc__actions">
+        <a class="btn btn--red" href="/cahier/view.html?doc=cahier-des-charges-v7.md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Lire en ligne
+        </a>
+        <a class="btn btn--ghost" href="/cahier/cahier-des-charges-v7.md" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Télécharger (.md)
+        </a>
+      </div>
+    </article>
+
+    <article class="doc">
+      <div class="doc__head">
         <span class="doc__v">Version 6</span>
         <span class="doc__date">30 juin 2026 à 11h05</span>
-        <span class="doc__badge">Version actuelle</span>
+        <span class="doc__badge archive">Archivée</span>
       </div>
       <p class="doc__desc">Mise au net de session. Mantra projet en pied de la barre d'onglets (« Comparaison n'est pas raison. Test & Learn. »). Moteur d'extraction commutable (Réglages → Moteur → « Choix du moteur ») : local (défaut) ou IA/LLM (conçu, pas encore branché). Moteur local enrichi : correspondance mot-entier (corrige les faux positifs), rôles sommeil (coucher/réveil/durée), énergie notée 1→5, libellés contextuels (« Coucher à 22h », « Glycémie 110 mg/dl »). Bouton « Tout réanalyser » (le texte des entrées n'est jamais modifié). Refonte du Récap (Données) : nouvel ordre, Humeur & Stress retirés, sommeil en h:mm, énergie /5, douleur & brouillard en fréquence, climat en tendance. Nouvelle section §18 : modèle cible « valeurs plates » & extraction IA (validé en conception).</p>
       <div class="doc__actions">

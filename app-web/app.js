@@ -561,7 +561,7 @@
             searchOpen:false, filterOpen:false, journalMasked:false, windowHours:24,
             filters:{ q:'', dateFrom:'', dateTo:'', category:'', hourStart:0, hourEnd:24 },
             editingId:null, editDraft:'', editSigs:[], editSigsDirty:false,
-            pullDismissed:{}, dataShow:{}, editingValue:null };
+            pullDismissed:{}, dataShow:{}, editingValue:null, partsOpen:{} };
 
   function t(k){ var d=I18N[S.lang]||I18N.fr; return (k in d)?d[k]:(I18N.fr[k]!==undefined?I18N.fr[k]:k); }
   function catName(key){ return t('cat_'+key); }
@@ -1234,16 +1234,16 @@
       '<h1 class="page-title">'+esc(t('settingsTitle'))+'</h1>'+
 
       /* I. DESIGN — le tableau des 4 préférences */
-      partHeading(t('partDesign'))+
+      partBlock('design', t('partDesign'),
       '<div class="card list prefs-card">'+
         '<div class="row"><span class="k">'+esc(t('textSize'))+'</span><span class="sp"></span>'+ seg([['normal',t('tsNormal')],['large',t('tsLarge')]], S.textsize, 'textsize')+'</div>'+
         '<div class="row"><span class="k">'+esc(t('language'))+'</span><span class="sp"></span>'+ seg([['fr','Français'],['en','English']], S.lang, 'lang')+'</div>'+
         '<div class="row"><span class="k">'+esc(t('theme'))+'</span><span class="sp"></span>'+ seg([['turquoise','<span class="swatch" style="background:#118996"></span>'+t('themeTurq')],['coral','<span class="swatch" style="background:#F1514F"></span>'+t('themeCoral')]], S.theme, 'theme')+'</div>'+
         '<div class="row" style="border-bottom:none"><span class="k">'+esc(t('corrBtnLabel'))+'</span><span class="sp"></span>'+ seg([['icons',t('btnIcons')],['iconstext',t('btnIconsText')]], S.store.corrBtnStyle||'icons', 'corrbtnstyle')+'</div>'+
-      '</div>'+
+      '</div>')+
 
       /* II. MOTEUR — la matrice « choix du moteur » éclatée en « Fonctions » par étape */
-      partHeading(t('partMoteur'))+
+      partBlock('moteur', t('partMoteur'),
       groupHeading(t('grpInputs'))+
         settingsSub({title:t('subAppsTitle'), body:appsBody(), future:true})+
       groupHeading(t('grpCapture'))+
@@ -1258,10 +1258,10 @@
         settingsSub({title:t('subScopeTitle'), body:scopeBody(), future:true})+
       groupHeading(t('corrPartTitle'))+
         settingsSub({title:t('grpFonctions'), body:aiMatrixFor(['fn5'])})+
-        settingsSub({title:t('medSrcTitle'), body:medSourcesBody(), future:true})+
+        settingsSub({title:t('medSrcTitle'), body:medSourcesBody(), future:true}))+
 
       /* III. GESTION DES DONNÉES PERSONNELLES */
-      partHeading(t('partGestion'))+
+      partBlock('gestion', t('partGestion'),
       groupHeading(t('grpImport'))+
         settingsSub({title:t('importJournalTitle'), body:importJournalBody(), future:true})+
         settingsSub({title:t('importData'), body:importJsonBody()})+
@@ -1269,11 +1269,10 @@
         settingsSub({title:t('exportJournalTitle'), body:exportJournalBody(), future:true})+
         settingsSub({title:t('exportAllTitle'), body:exportAllBody()})+
         settingsSub({title:t('subDoctorTitle'), body:doctorBody(), future:true})+
-      pdpSectionHtml()+
+      pdpSectionHtml())+
 
       /* IV. INFORMATIONS LÉGALES */
-      partHeading(t('partLegal'))+
-      legalLinksBody()+
+      partBlock('legal', t('partLegal'), legalLinksBody())+
 
       '<p class="note">'+esc(t('backupNote'))+'</p><p class="note">'+esc(t('legal'))+'</p>'+
       '</div>';
@@ -1570,8 +1569,15 @@
     return '<h3 class="sec">'+esc(t('corrPartTitle'))+'</h3>'+
       settingsSub({title:t('medSrcTitle'), body:medSourcesBody(), future:true, open:true});
   }
-  /* ---- Réglages réorganisés : en-têtes de partie (I–IV) + sous-groupes, import/export, légal ---- */
-  function partHeading(txt){ return '<h2 class="set-part">'+esc(txt)+'</h2>'; }
+  /* ---- Réglages réorganisés : parties racine (I–IV) repliables + sous-groupes, import/export, légal ---- */
+  /* Chaque partie racine est un <details> replié par défaut ; l'état ouvert/fermé est conservé
+     en session (S.partsOpen) pour survivre aux re-renders déclenchés par les réglages internes. */
+  function partBlock(key, txt, body){
+    return '<details class="set-part-block" data-part="'+key+'"'+(S.partsOpen[key]?' open':'')+'>'+
+      '<summary class="set-part">'+esc(txt)+'<span class="set-part-caret" aria-hidden="true">▾</span></summary>'+
+      '<div class="set-part-body">'+ body +'</div>'+
+    '</details>';
+  }
   function groupHeading(txt){ return '<h3 class="sec">'+esc(txt)+'</h3>'; }
   function importJsonBody(){
     return '<p class="sub-intro">'+esc(t('importJsonDesc'))+'</p>'+
@@ -1712,6 +1718,10 @@
         S.editSigs.push({category:v,label:catName(v),value:null,confidence:1.0}); S.editSigsDirty=true; }
       render(); return; }
   });
+  /* Mémorise (en session) l'état ouvert/fermé des parties racine de Réglages — l'événement
+     'toggle' ne remonte pas, d'où l'écoute en phase capture. */
+  document.addEventListener('toggle', function(ev){ var el=ev.target;
+    if(el && el.classList && el.classList.contains('set-part-block')){ var k=el.getAttribute('data-part'); if(k) S.partsOpen[k]=el.open; } }, true);
   document.addEventListener('change', function(ev){ var el=ev.target;
     if(el && el.id==='photoInput' && el.files && el.files[0]){ handlePhoto(el.files[0]); el.value=''; return; }
     if(el && el.id==='importInput' && el.files && el.files[0]){ var fr=new FileReader(); fr.onload=function(e){ importData(e.target.result); }; fr.readAsText(el.files[0]); el.value=''; return; }
